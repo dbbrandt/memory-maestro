@@ -14,7 +14,7 @@ class App extends Component {
       this.props.loading ? (
         <AppSpinner className="spinner"/>
       ) : (
-        <div>This is the app: {this.props.appData}</div>
+        <div>This is the app: {this.props.appData[0].title}</div>
       )
     )
   }
