@@ -1,8 +1,8 @@
-import { RECEIVE_DATA } from '../actions/share';
+import { FETCH_GOALS } from '../actions/goals';
 
 export default function loading(state = true, action) {
   switch (action.type) {
-    case RECEIVE_DATA:
+    case FETCH_GOALS:
       return false;
     default:
       return state;

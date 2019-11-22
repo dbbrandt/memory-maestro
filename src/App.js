@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Route, BrowserRouter as Router } from "react-router-dom";
 import './App.css';
 import { connect } from "react-redux";
-import { handleReceiveData} from "./actions/share";
+import { handleReceiveData} from "./actions/goals";
 import AppSpinner from "./components/Spinner";
 import Goals from './components/Goals'
+import Interactions from "./components/Interactions";
 
 class App extends Component {
   componentDidMount() {
@@ -15,7 +17,10 @@ class App extends Component {
       this.props.loading ? (
         <AppSpinner className="spinner"/>
       ) : (
-        <Goals/>
+        <Router>
+          <Route exact path = '/' component={Goals}/>
+          <Route path='/interactions' component={Interactions}/>
+        </Router>
       )
     )
   }

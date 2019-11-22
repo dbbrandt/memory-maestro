@@ -4,15 +4,22 @@ const headers = {
   Accept: "application/json"
 };
 
-let API = {}
+let Api = {}
 
-API.fetchGoals = () => {
+Api.fetchGoals = () => {
   return fetch(baseURL + "goals", { headers })
     .then(res => res.json())
     .catch(error => {
       console.log("Error fetching Goals: ", error);
-      return [{ title: "Error Fetching Goals", error: error }];
     });
 };
 
-export default API
+Api.fetchInteractionss = (id) => {
+  return fetch(`${baseURL}/${id}/goals`, { headers })
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error fetching Interactions: ", error);
+    });
+};
+
+export default Api

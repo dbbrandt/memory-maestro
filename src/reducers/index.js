@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import appData from "./appData";
+import goals from "./goals";
 import loading from "./loading";
 
-export default combineReducers({ appData, loading });
+export default combineReducers({ goals, loading });
