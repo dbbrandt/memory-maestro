@@ -3,6 +3,7 @@ import './App.css';
 import { connect } from "react-redux";
 import { handleReceiveData} from "./actions/share";
 import AppSpinner from "./components/Spinner";
+import Goals from './components/Goals'
 
 class App extends Component {
   componentDidMount() {
@@ -14,7 +15,7 @@ class App extends Component {
       this.props.loading ? (
         <AppSpinner className="spinner"/>
       ) : (
-        <div>This is the app: {this.props.appData[0].title}</div>
+        <Goals/>
       )
     )
   }

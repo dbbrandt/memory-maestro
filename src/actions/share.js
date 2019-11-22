@@ -5,18 +5,6 @@ import API from "./Api";
 
 export const RECEIVE_DATA = "RECEIVE_DATA";
 
-const baseURL = "http://localhost/api/";
-const headers = {
-  'Accept': 'application/json'
-}
-// "mode": "no-cors"
-
-const fetchGoals = () => {
-  return fetch(baseURL + 'goals', { headers } )
-    .then(res => res.json())
-    .catch(error => alert(error))
-};
-
 function receiveData(appData) {
   return {
     type: RECEIVE_DATA,
@@ -26,8 +14,8 @@ function receiveData(appData) {
 
 export function handleReceiveData() {
   return dispatch => {
-    return fetchGoals().then(data => dispatch(receiveData(data)))
-  }
+    return API.fetchGoals().then(data => dispatch(receiveData(data)));
+  };
   // return Promise.all(
   // Code to retrieve data and pass to action
   // [
