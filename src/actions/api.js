@@ -14,8 +14,8 @@ Api.fetchGoals = () => {
     });
 };
 
-Api.fetchInteractionss = (id) => {
-  return fetch(`${baseURL}/${id}/goals`, { headers })
+Api.fetchInteractions = (id) => {
+  return fetch(`${baseURL}/goals/${id}/interactions`, { headers })
     .then(res => res.json())
     .catch(error => {
       console.log("Error fetching Interactions: ", error);

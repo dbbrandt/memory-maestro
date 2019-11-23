@@ -1,6 +1,5 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import './Goals.css'
 
 const Goals = props => {
   return (
@@ -18,11 +17,26 @@ const Goals = props => {
         <tbody>
           {props.goals.map(goal => (
             <tr key={goal.id}>
-              <td><button onClick={() => props.history.push('/interactions')}>{goal.title}</button></td>
+              <td>
+                <button
+                  className="goal-button"
+                  onClick={() => props.history.push(`/interactions/${goal.id}`)}
+                >
+                  {goal.title}
+                </button>
+              </td>
               <td>{goal.description}</td>
               <td>{goal.instructions}</td>
-              <td>{goal.created_at.slice(0,10)}</td>
-              <td>{goal.updated_at.slice(0,10)}</td>
+              <td>
+                {new Intl.DateTimeFormat("en-US").format(
+                  new Date(goal.created_at)
+                )}
+              </td>
+              <td>
+                {new Intl.DateTimeFormat("en-US").format(
+                  new Date(goal.updated_at)
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

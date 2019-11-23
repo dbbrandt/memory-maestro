@@ -5,20 +5,15 @@ import Api from "./api";
 
 export const FETCH_GOALS = "FETCH_GOALS";
 
-function receiveData(goals) {
+function fetchGoals(goals) {
   return {
     type: FETCH_GOALS,
     goals
   };
 }
 
-export function handleReceiveData() {
+export function handleFetchGoals() {
   return dispatch => {
-    return Api.fetchGoals().then(goals => dispatch(receiveData(goals)));
+    return Api.fetchGoals().then(goals => dispatch(fetchGoals(goals)));
   };
-  // return Promise.all(
-  // Code to retrieve data and pass to action
-  // [
-  // API.fetchData()]).then(([appData]) => {   // one or multiple objects returned from one or multiple API calls.
-  //    dispatch(receiveData(appData))};
 }

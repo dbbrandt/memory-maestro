@@ -10,7 +10,9 @@ const fetchInteractions = interactions => {
 };
 
 export const handleFetchInteractions = id => {
-  API.fetchInteractionss(id)
-    .then(interactions => dispatch(fetchInteractions(interactions)))
-    .catch(error => alert("Fetch Interactions Failed: ", error));
+  return dispatch => {
+    API.fetchInteractions(id)
+      .then(interactions => dispatch(fetchInteractions(interactions)))
+      .catch(error => alert("Fetch Interactions Failed: ", error));
+  };
 };

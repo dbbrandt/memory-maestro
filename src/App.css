@@ -2,3 +2,37 @@
     margin-left: 45%;
     margin-top: 200px;
 }
+
+table {
+    width: 100%;
+    overflow: hidden;
+    background-color: white;
+    padding: 20px;
+}
+
+td, th {
+    position: relative;
+    color: #2c3e50;
+    padding: 10px;
+}
+
+th {
+    font-weight: bold;
+}
+
+table tr:nth-child(odd) td{
+    background-color: #f2faff;
+}
+
+.goal-button {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    color: #069;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.interaction th {
+    text-align: left;
+}
