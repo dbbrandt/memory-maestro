@@ -30,9 +30,19 @@ table tr:nth-child(odd) td{
     padding: 0!important;
     color: #069;
     text-decoration: underline;
+    text-align: left;
     cursor: pointer;
 }
 
 .interaction th {
     text-align: left;
+}
+
+.stimulus_thumbnail  {
+    height: 100px;
+}
+
+.stimulus_img {
+    padding-top: 40px;
+    width: 300px;
 }

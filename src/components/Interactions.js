@@ -18,9 +18,9 @@ class Interactions extends Component {
             <tr className="interaction">
               <th>Title</th>
               <th>Answer Type</th>
+              <th>Image</th>
               <th>Created</th>
               <th>Updated</th>
-              <th>Import Row</th>
             </tr>
           </thead>
           <tbody>
@@ -28,6 +28,7 @@ class Interactions extends Component {
               <tr key={interaction.id}>
                 <td>{interaction.title}</td>
                 <td>{interaction.answer_type}</td>
+                <td><img src={interaction.prompt.stimulus_url} className='stimulus_thumbnail'></img></td>
                 <td>
                   {new Intl.DateTimeFormat("en-US").format(
                     new Date(interaction.created_at)
@@ -38,7 +39,6 @@ class Interactions extends Component {
                     new Date(interaction.updated_at)
                   )}
                 </td>
-                <td>{interaction.import_row}</td>
               </tr>
             ))}
           </tbody>
