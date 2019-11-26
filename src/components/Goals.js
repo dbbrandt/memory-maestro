@@ -1,50 +1,65 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
+import Spinner from "./Spinner";
+import { handleFetchGoals } from "../actions/goals";
 
-const Goals = props => {
-  return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Instructions</th>
-            <th>Created</th>
-            <th>Modified</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.goals.map(goal => (
-            <tr key={goal.id}>
-              <td>
-                <button
-                  className="goal-button"
-                  onClick={() => props.history.push(`/interactions/${goal.id}`)}
-                >
-                  {goal.title}
-                </button>
-              </td>
-              <td>{goal.description}</td>
-              <td>{goal.instructions}</td>
-              <td>
-                {new Intl.DateTimeFormat("en-US").format(
-                  new Date(goal.created_at)
-                )}
-              </td>
-              <td>
-                {new Intl.DateTimeFormat("en-US").format(
-                  new Date(goal.updated_at)
-                )}
-              </td>
+class Goals extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(handleFetchGoals());
+  }
+
+  render() {
+    const { loading, goals, history } =  this.props;
+    return loading ? (
+      <Spinner />
+    ) : (
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Instructions</th>
+              <th>Created</th>
+              <th>Modified</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+          </thead>
+          <tbody>
+            {goals.map(goal => (
+              <tr key={goal.id}>
+                <td>
+                  <button
+                    className="goal-button"
+                    onClick={() =>
+                      history.push(`/interactions/${goal.id}`)
+                    }
+                  >
+                    {goal.title}
+                  </button>
+                </td>
+                <td>{goal.description}</td>
+                <td>{goal.instructions}</td>
+                <td>
+                  {new Intl.DateTimeFormat("en-US").format(
+                    new Date(goal.created_at)
+                  )}
+                </td>
+                <td>
+                  {new Intl.DateTimeFormat("en-US").format(
+                    new Date(goal.updated_at)
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
 
 export default connect(state => ({
-  goals: state.goals
+  goals: state.goals,
+  loading: state.loading
 }))(Goals);
