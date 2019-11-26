@@ -37,6 +37,11 @@ table tr:nth-child(odd) td{
 .interaction th {
     text-align: left;
 }
+.interaction td {
+    text-align: left;
+    vertical-align: middle;
+}
+
 
 .stimulus_thumbnail  {
     height: 100px;

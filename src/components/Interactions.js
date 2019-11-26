@@ -48,7 +48,7 @@ class Interactions extends Component {
             </thead>
             <tbody>
               {this.props.interactions.map(interaction => (
-                <tr key={interaction.id}>
+                <tr key={interaction.id} className='interaction'>
                   <td>{interaction.title}</td>
                   <td>{interaction.answer_type}</td>
                   <td>
