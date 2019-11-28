@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { handleFetchInteractions } from "../actions/interactions";
 import { setLoading } from "../actions/loading";
-import Spinner from "./Spinner";
+import { showLoading, hideLoading } from "react-redux-loading-bar";
+import LoadingBar from "react-redux-loading-bar";
+
 
 class Interactions extends Component {
   constructor(props) {
@@ -16,6 +18,7 @@ class Interactions extends Component {
       match: { params }
     } = this.props;
     const { dispatch } = this.props;
+    dispatch(showLoading());
     dispatch(handleFetchInteractions(params.goalId));
     dispatch(setLoading(true));
   }
@@ -23,6 +26,7 @@ class Interactions extends Component {
   setImageLoaded = () => {
     this.imgCount--;
     if (this.imgCount === 0) {
+      this.props.dispatch(hideLoading());
       this.props.dispatch(setLoading(false));
     }
   };
@@ -33,15 +37,15 @@ class Interactions extends Component {
     return (
       <div>
         <div style={{ display: loading ? "block" : "none" }}>
-          <Spinner />
+          <LoadingBar/>
         </div>
         <div style={{ display: loading ? "none" : "block" }}>
           <table>
             <thead>
               <tr className="interaction">
                 <th>Title</th>
-                <th>Answer Type</th>
                 <th>Image</th>
+                <th>Answer Type</th>
                 <th>Created</th>
                 <th>Updated</th>
               </tr>
@@ -50,7 +54,6 @@ class Interactions extends Component {
               {this.props.interactions.map(interaction => (
                 <tr key={interaction.id} className='interaction'>
                   <td>{interaction.title}</td>
-                  <td>{interaction.answer_type}</td>
                   <td>
                     <img
                       alt={interaction.title}
@@ -59,6 +62,7 @@ class Interactions extends Component {
                       onLoad={this.setImageLoaded}
                     />
                   </td>
+                  <td>{interaction.answer_type}</td>
                   <td>
                     {new Intl.DateTimeFormat("en-US").format(
                       new Date(interaction.created_at)
@@ -81,5 +85,6 @@ class Interactions extends Component {
 
 export default connect(state => ({
   interactions: state.interactions,
-  loading: state.loading
+  loading: state.loading,
+  loadingBar: state.loadingBar
 }))(Interactions);

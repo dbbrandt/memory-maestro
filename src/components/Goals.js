@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Spinner from "./Spinner";
 import { handleFetchGoals } from "../actions/goals";
+import LoadingBar from "react-redux-loading-bar";
 
 class Goals extends Component {
   componentDidMount() {
@@ -12,7 +12,7 @@ class Goals extends Component {
   render() {
     const { loading, goals, history } =  this.props;
     return loading ? (
-      <Spinner />
+      <LoadingBar />
     ) : (
       <div>
         <table>
@@ -61,5 +61,6 @@ class Goals extends Component {
 
 export default connect(state => ({
   goals: state.goals,
-  loading: state.loading
+  loading: state.loading,
+  loadingBar: state.loadingBar
 }))(Goals);
