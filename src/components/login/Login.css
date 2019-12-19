@@ -1,0 +1,30 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login .avatar {
+    height: 250px;
+}
+.login img {
+    margin: 20px;
+    height: 200px;
+}
+
+.select-user label {
+    padding: 20px;
+}
+
+.select-user select {
+    font-size: 16px;
+}
+
+.select-user .btn {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.select-user button {
+    border: 2px outset;
+}

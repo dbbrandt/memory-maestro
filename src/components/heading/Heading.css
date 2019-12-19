@@ -1,0 +1,33 @@
+.loading-bar {
+    background-color: blue;
+    position: absolute;
+    height: 2px;
+}
+
+header h3 {
+    color: midnightblue;
+}
+
+header img {
+    height: 85px;
+}
+
+header .user-imag e {
+    align-items: end;
+    padding-top: 0;
+    align-self: end;
+}
+
+header .user-name {
+    margin-left: auto;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    font-size: 16px;
+    align-self: flex-end;
+}
+
+header .image {
+    width: 100%;
+    height: 85px;
+}
+
