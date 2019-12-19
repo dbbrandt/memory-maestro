@@ -14,11 +14,13 @@ class Interactions extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, goalId } = this.props;
-    dispatch(showLoading());
-    dispatch(setLoading(true));
-    dispatch(fetchInteractions([]));
-    dispatch(handleFetchInteractions(goalId));
+    const { dispatch, goalId, selections } = this.props;
+    if (selections.goal != goalId) {
+      dispatch(showLoading());
+      dispatch(setLoading(true));
+      dispatch(fetchInteractions([]));
+      dispatch(handleFetchInteractions(goalId));
+    }
   }
 
   setStimulusLoaded = () => {
@@ -87,9 +89,10 @@ class Interactions extends Component {
   }
 }
 
-const mapStateToProps = ({ interactions, loading }, { match }) => ({
+const mapStateToProps = ({ interactions, loading, selections }, { match }) => ({
   interactions,
   loading,
+  selections,
   goalId: match.params.goalId
 });
 
