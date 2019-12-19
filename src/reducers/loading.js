@@ -1,15 +1,11 @@
-import { FETCH_GOALS } from '../actions/goals';
-import { SET_LOADING} from "../actions/loading";
+import { fetchGoals } from '../actions/goals';
+import { setLoading } from "../actions/loading";
+import {createReducer} from "@reduxjs/toolkit";
 
 
-export default function loading(state = true, action) {
-  switch (action.type) {
-    case FETCH_GOALS:
-      return false;
-    case SET_LOADING:
-      return action.loading;
-    default:
-      return state;
-  }
-}
+const loading = createReducer(true, {
+  [fetchGoals]: (state, action) => false,
+  [setLoading]: (state, action) => action.payload
+});
 
+export default loading;

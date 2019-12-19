@@ -1,7 +1,16 @@
 import { combineReducers } from "redux";
+import { loadingBarReducer } from "react-redux-loading-bar";
 import goals from "./goals";
 import interactions from "./interactions";
 import loading from "./loading";
-import { loadingBarReducer } from "react-redux-loading-bar";
+import authedUser from "./authedUser";
 
-export default combineReducers({ goals, interactions, loading, loadingBar: loadingBarReducer });
+const reducer =  combineReducers({
+  authedUser,
+  goals,
+  interactions,
+  loading,
+  loadingBar: loadingBarReducer
+});
+
+export default reducer;

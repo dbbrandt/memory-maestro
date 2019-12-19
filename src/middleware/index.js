@@ -1,5 +1,7 @@
-import { applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import { getDefaultMiddleware } from "@reduxjs/toolkit";
+import { loadingBarMiddleware } from "react-redux-loading-bar";
 import logger from "./logger";
 
-export default applyMiddleware(thunk, logger);
+const middleware = [loadingBarMiddleware(), ...getDefaultMiddleware(), logger];
+
+export default middleware;

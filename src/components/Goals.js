@@ -1,66 +1,63 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { hideLoading, showLoading } from "react-redux-loading-bar";
 import { handleFetchGoals } from "../actions/goals";
-import LoadingBar from "react-redux-loading-bar";
 
 class Goals extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
+    dispatch(showLoading());
     dispatch(handleFetchGoals());
+    dispatch(hideLoading());
   }
 
   render() {
-    const { loading, goals, history } =  this.props;
-    return loading ? (
-      <LoadingBar />
-    ) : (
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Instructions</th>
-              <th>Created</th>
-              <th>Modified</th>
-            </tr>
-          </thead>
-          <tbody>
-            {goals.map(goal => (
-              <tr key={goal.id}>
-                <td>
-                  <button
-                    className="goal-button"
-                    onClick={() =>
-                      history.push(`/interactions/${goal.id}`)
-                    }
-                  >
-                    {goal.title}
-                  </button>
-                </td>
-                <td>{goal.description}</td>
-                <td>{goal.instructions}</td>
-                <td>
-                  {new Intl.DateTimeFormat("en-US").format(
-                    new Date(goal.created_at)
-                  )}
-                </td>
-                <td>
-                  {new Intl.DateTimeFormat("en-US").format(
-                    new Date(goal.updated_at)
-                  )}
-                </td>
+    const { loading, goals, history } = this.props;
+    return (
+        <div style={{ display: loading ? "none" : "block" }}>
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Instructions</th>
+                <th>Created</th>
+                <th>Modified</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {goals.map(goal => (
+                <tr key={goal.id}>
+                  <td>
+                    <button
+                      className="goal-button"
+                      onClick={() => history.push(`/interactions/${goal.id}`)}
+                    >
+                      {goal.title}
+                    </button>
+                  </td>
+                  <td>{goal.description}</td>
+                  <td>{goal.instructions}</td>
+                  <td>
+                    {new Intl.DateTimeFormat("en-US").format(
+                      new Date(goal.created_at)
+                    )}
+                  </td>
+                  <td>
+                    {new Intl.DateTimeFormat("en-US").format(
+                      new Date(goal.updated_at)
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
     );
   }
 }
 
-export default connect(state => ({
-  goals: state.goals,
-  loading: state.loading,
-  loadingBar: state.loadingBar
+export default connect(({ goals, loading }) => ({
+  goals,
+  loading
 }))(Goals);

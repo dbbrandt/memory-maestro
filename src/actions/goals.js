@@ -1,24 +1,15 @@
-// Replace my-api with the desired api
-// Add whatever the various data objects returned to the action
-// Add whatever API fetches to the action function and related data objects for the action object.
-import Api from "./api";
-import { showLoading, hideLoading } from "react-redux-loading-bar";
+import { createAction } from "@reduxjs/toolkit";
+import Api from "../utils/api";
+import { setLoading } from "./loading";
 
-export const FETCH_GOALS = "FETCH_GOALS";
-
-function fetchGoals(goals) {
-  return {
-    type: FETCH_GOALS,
-    goals
-  };
-}
+export const fetchGoals = createAction("FETCH_GOALS");
 
 export function handleFetchGoals() {
   return dispatch => {
     return Api.fetchGoals().then(goals => {
-      dispatch(showLoading());
+      dispatch(setLoading(true));
       dispatch(fetchGoals(goals));
-      dispatch(hideLoading());
+      dispatch(setLoading(false));
     });
   };
 }

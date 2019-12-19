@@ -1,10 +1,8 @@
-import { FETCH_GOALS} from "../actions/goals";
+import { fetchGoals } from "../actions/goals";
+import {createReducer} from "@reduxjs/toolkit";
 
-export default function goals(state = [], action) {
-  switch (action.type) {
-    case FETCH_GOALS:
-      return action.goals;
-    default:
-      return state;
-  }
-}
+const goals = createReducer([], {
+  [fetchGoals]: (state, action) => action.payload
+});
+
+export default goals;

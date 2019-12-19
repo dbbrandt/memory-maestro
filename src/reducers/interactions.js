@@ -1,10 +1,8 @@
-import { FETCH_INTERACTIONS } from "../actions/interactions";
+import {createReducer} from "@reduxjs/toolkit";
+import { fetchInteractions } from "../actions/interactions";
 
-export default function interactions(state = [], action) {
-  switch (action.type) {
-    case FETCH_INTERACTIONS:
-      return action.interactions;
-    default:
-      return state;
-  }
-}
+const interactions = createReducer([], {
+  [fetchInteractions]: (state, action) => action.payload
+});
+
+export default interactions;

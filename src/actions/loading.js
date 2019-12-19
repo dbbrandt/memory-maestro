@@ -1,7 +1,4 @@
-export const SET_LOADING  =  'SET_LOADING';
+import { createAction } from "@reduxjs/toolkit";
 
-export const setLoading = (loading) => ({
-  type:  SET_LOADING,
-  loading
-});
+export const setLoading = createAction('SET_LOADING');
 

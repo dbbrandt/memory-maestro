@@ -1,21 +1,17 @@
-import API from "./api";
-import { showLoading } from "react-redux-loading-bar";
+import { createAction } from "@reduxjs/toolkit";
+import API from "../utils/api";
+import {setLoading} from "./loading";
 
-export const FETCH_INTERACTIONS = "FETCH_INTERACTIONS";
-
-const fetchInteractions = interactions => {
-  return {
-    type: FETCH_INTERACTIONS,
-    interactions
-  };
-};
+export const fetchInteractions = createAction("FETCH_INTERACTIONS");
 
 export const handleFetchInteractions = id => {
   return dispatch => {
     API.fetchInteractions(id)
       .then(interactions => {
-        dispatch(fetchInteractions(interactions))
+        dispatch(setLoading(true));
+        dispatch(fetchInteractions(interactions));
+        dispatch(setLoading(false));
       })
-      .catch(error => alert("Fetch Interactions Failed: ", error));
+      .catch(error => alert("Fetch Interactions Failed: " + error));
   };
 };

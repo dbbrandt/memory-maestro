@@ -1,6 +1,6 @@
-const baseURL = "http://dev.memorymaestro.com";
+// const baseURL = "http://dev.memorymaestro.com";
+const baseURL = "http://localhost";
 const apiURL = baseURL + "/api/";
-// const baseURL = "http://localhost/api";
 const headers = {
   Accept: "application/json"
 };
