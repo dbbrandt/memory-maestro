@@ -99,11 +99,11 @@ button[disabled]{
   .container-grid.main {
     background-color: #fff;
     flex-direction: column;
-    -webkit-box-pack: start;
-    -webkit-justify-content: flex-start;
-    -moz-box-pack: start;
-    justify-content: start;
-    align-items: flex-start;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    justify-content: flex-start;
+    align-items: center;
     grid-area: main;
   }
 
@@ -144,7 +144,6 @@ button[disabled]{
   @supports (display: grid) {
     /* Layout Elements */
 
-
     .container-grid.layout-section.main {
       min-height: 100px;
       grid-area: main;
@@ -163,7 +162,12 @@ button[disabled]{
     }
 
     .container-grid.layout-section.navigation {
-      padding-left: 15px;
+      flex-direction: column;
+      -ms-flex-pack: start;
+      -webkit-box-pack: start;
+      -webkit-justify-content: flex-start;
+      -moz-box-pack: start;
+      justify-content: start;
       grid-area: navigation;
     }
 

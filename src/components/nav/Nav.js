@@ -29,9 +29,6 @@ class Nav extends Component {
               </NavLink>
             </div>
           </div>
-          <div className="instructions">
-            Get points by answering question and adding new ones!
-          </div>
         </div>
       </nav>
     );

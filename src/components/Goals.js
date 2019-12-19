@@ -1,16 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { hideLoading, showLoading } from "react-redux-loading-bar";
-import { handleFetchGoals } from "../actions/goals";
 
 class Goals extends Component {
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(showLoading());
-    dispatch(handleFetchGoals());
-    dispatch(hideLoading());
-  }
-
   render() {
     const { loading, goals, history } = this.props;
     return (

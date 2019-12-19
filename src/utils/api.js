@@ -1,3 +1,6 @@
+// Temporary dummy user data
+import { _getUsers } from './_DATA.js'
+
 // const baseURL = "http://dev.memorymaestro.com";
 const baseURL = "http://localhost";
 const apiURL = baseURL + "/api/";
@@ -32,6 +35,12 @@ Api.fetchInteractions = id => {
     .catch(error => {
       console.log("Error fetching Interactions: ", error);
     });
+};
+
+// Temporary user api
+Api.getUsers = () => {
+  return _getUsers()
+    .then((users) => users)
 };
 
 export default Api;

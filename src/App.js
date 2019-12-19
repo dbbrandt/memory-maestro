@@ -7,12 +7,21 @@ import Heading from "./components/heading/Heading";
 import Nav from "./components/nav/Nav";
 import Footer from "./components/footer/Footer";
 import Login from "./components/login/Login";
+import Logout from "./components/login/Logout";
 import Interactions from "./components/Interactions";
+import NotFound from "./components/login/NotFound";
+import { handleFetchGoals } from "./actions/goals";
+import { handleFetchUsers } from "./actions/users";
 
 class App extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(handleFetchUsers());
+    dispatch(handleFetchGoals());
+  }
+
   render() {
-    const { loading } = this.props;
-    const authedUser = 1;
+    const { loading, authedUser } = this.props;
     return (
       <div className="container-grid main-layout">
         <Router>
@@ -22,7 +31,10 @@ class App extends Component {
             {loading ? null : !!authedUser ? (
               <Switch>
                 <Route exact path="/" component={Goals} />
+                <Route path="/login" component={Login} />
+                <Route path="/logout" component={Logout} />
                 <Route path="/interactions/:goalId" component={Interactions} />
+                <Route path="*" component={NotFound} />
               </Switch>
             ) : (
               <Route path="/" component={Login} />
@@ -34,4 +46,4 @@ class App extends Component {
     );
   }
 }
-export default connect(({loading}) => ({loading}))(App);
+export default connect(({ loading, authedUser }) => ({ loading, authedUser }))(App);
