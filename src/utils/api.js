@@ -22,7 +22,8 @@ Api.fetchGoals = () => {
 const fixupImageUrl = interactions => {
   console.log(interactions);
   interactions.forEach(interaction => {
-    interaction.prompt.stimulus_url = baseURL + interaction.prompt.stimulus_url;
+    const { stimulus_url } = interaction.prompt;
+    interaction.prompt.stimulus_url = !!stimulus_url ? baseURL + stimulus_url : '';
   });
   return interactions;
 };

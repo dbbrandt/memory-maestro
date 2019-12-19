@@ -5,9 +5,11 @@ import interactions from "./interactions";
 import loading from "./loading";
 import authedUser from "./authedUser";
 import users from "./users";
+import selections from "./selections";
 
 const reducer =  combineReducers({
   authedUser,
+  selections,
   users,
   goals,
   interactions,

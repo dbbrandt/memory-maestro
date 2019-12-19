@@ -35,7 +35,7 @@ class Nav extends Component {
   }
 }
 
-export default withRouter(connect(({ authedUser }) => ({
+export default withRouter(connect(({ authedUser, selections }) => ({
     loginLink: !!authedUser ? "Logout" : "Login",
-    goalId: 1
+    goalId: selections.goal
 }))(Nav));
