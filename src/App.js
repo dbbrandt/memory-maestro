@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment} from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import "./App.css";
 import { connect } from "react-redux";
@@ -10,40 +10,45 @@ import Login from "./components/login/Login";
 import Logout from "./components/login/Logout";
 import Interactions from "./components/Interactions";
 import NotFound from "./components/login/NotFound";
-import { handleFetchGoals } from "./actions/goals";
-import { handleFetchUsers } from "./actions/users";
+import { handleInititalData } from "./actions/shared";
+import LoadingBar from "react-redux-loading-bar";
 
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(handleFetchUsers());
-    dispatch(handleFetchGoals());
+    dispatch(handleInititalData());
   }
 
   render() {
-    const { loading, authedUser } = this.props;
+    const { authedUser } = this.props;
     return (
-      <div className="container-grid main-layout">
-        <Router>
-          <Heading />
-          <Nav />
-          <main className="container-grid layout-section main">
-            {loading ? null : !!authedUser ? (
-              <Switch>
-                <Route exact path="/" component={Goals} />
-                <Route path="/login" component={Login} />
-                <Route path="/logout" component={Logout} />
-                <Route path="/interactions/:goalId" component={Interactions} />
-                <Route path="*" component={NotFound} />
-              </Switch>
-            ) : (
-              <Route path="/" component={Login} />
-            )}
-          </main>
-          <Footer />
-        </Router>
-      </div>
+      <Fragment>
+        <LoadingBar className="loading-bar" />
+        <div className="container-grid main-layout">
+          <Router>
+            <Heading />
+            <Nav />
+            <main className="container-grid layout-section main">
+              {!!authedUser ? (
+                <Switch>
+                  <Route exact path="/" component={Goals} />
+                  <Route path="/login" component={Login} />
+                  <Route path="/logout" component={Logout} />
+                  <Route
+                    path="/interactions/:goalId"
+                    component={Interactions}
+                  />
+                  <Route path="*" component={NotFound} />
+                </Switch>
+              ) : (
+                <Route path="/" component={Login} />
+              )}
+            </main>
+            <Footer />
+          </Router>
+        </div>
+      </Fragment>
     );
   }
 }
-export default connect(({ loading, authedUser }) => ({ loading, authedUser }))(App);
+export default connect(({ authedUser }) => ({ authedUser }))(App);

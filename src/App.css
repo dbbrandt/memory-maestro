@@ -18,10 +18,23 @@ td, th {
 
 th {
     font-weight: bold;
+    text-align: left;
 }
 
 table tr:nth-child(odd) td{
     background-color: #f2faff;
+}
+
+@media screen and (max-width: 63rem) {
+    th:nth-child(n+4), td:nth-child(n+4) {
+        display: none
+    }
+}
+
+@media screen and (min-width: 64rem) {
+    th:nth-child(n+4), td:nth-child(n+4) {
+        display: flow
+    }
 }
 
 .goal-button {
@@ -33,15 +46,6 @@ table tr:nth-child(odd) td{
     text-align: left;
     cursor: pointer;
 }
-
-.interaction th {
-    text-align: left;
-}
-.interaction td {
-    text-align: left;
-    vertical-align: middle;
-}
-
 
 .stimulus_thumbnail  {
     height: 100px;

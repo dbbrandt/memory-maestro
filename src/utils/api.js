@@ -2,8 +2,9 @@
 import { _getUsers } from './_DATA.js'
 
 // const baseURL = "http://dev.memorymaestro.com";
-const baseURL = "http://localhost";
-const apiURL = baseURL + "/api/";
+const baseURL = "http://localhost:80";
+const apiURL = baseURL + "/api";
+// const apiURL = "/api";
 const headers = {
   Accept: "application/json"
 };
@@ -41,6 +42,16 @@ Api.fetchInteractions = id => {
 Api.getUsers = () => {
   return _getUsers()
     .then((users) => users)
+};
+
+Api.getInitialData = () => {
+  return Promise.all([
+    _getUsers(),
+    Api.fetchGoals(),
+  ]).then(([users, goals]) => ({
+    users,
+    goals,
+  }))
 };
 
 export default Api;

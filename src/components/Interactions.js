@@ -11,14 +11,13 @@ class Interactions extends Component {
   }
 
   componentDidMount() {
-    console.log("ComponentDidMount; ", this.props);
     const {
       match: { params }
     } = this.props;
     const { dispatch } = this.props;
     dispatch(showLoading());
-    dispatch(handleFetchInteractions(params.goalId));
     dispatch(setLoading(true));
+    dispatch(handleFetchInteractions(params.goalId));
   }
 
   setImageLoaded = () => {
@@ -31,6 +30,7 @@ class Interactions extends Component {
 
   render() {
     const { loading, interactions } = this.props;
+    console.log('Render Interactions - loading: ', loading);
     this.imgCount = interactions.length;
     return (
       <div style={{ display: loading ? "none" : "block" }}>
@@ -54,6 +54,7 @@ class Interactions extends Component {
                     src={interaction.prompt.stimulus_url}
                     className="stimulus_thumbnail"
                     onLoad={this.setImageLoaded}
+                    onError={this.setImageLoaded}
                   />
                 </td>
                 <td>{interaction.answer_type}</td>
@@ -76,8 +77,4 @@ class Interactions extends Component {
   }
 }
 
-export default connect(state => ({
-  interactions: state.interactions,
-  loading: state.loading,
-  loadingBar: state.loadingBar
-}))(Interactions);
+export default connect(({interactions, loading }) => ({ interactions, loading }))(Interactions);

@@ -29,10 +29,10 @@ class Login extends Component {
   };
 
   render() {
-    const { users } = this.props;
+    const { users, loading } = this.props;
     const selectedUser = users[this.state.userId];
     return (
-      <div className="login">
+      <div className="login" style={{ display: loading ? "none" : "block" }}>
         <div className='avatar'>
           {!!selectedUser && (
             <img
@@ -67,7 +67,8 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ users, authedUser }, { logout }) => ({
+const mapStateToProps = ({ loading, users, authedUser }, { logout }) => ({
+  loading,
   users,
   authedUser,
   logout: !!logout
