@@ -5,7 +5,9 @@ class Goals extends Component {
   render() {
     const { loading, goals, history } = this.props;
     return (
-        <div style={{ display: loading ? "none" : "block" }}>
+      <div className="goal" style={{ display: loading ? "none" : "block" }}>
+        <div className="header-box">Total goals: {goals.length}</div>
+        <div className="box">
           <table>
             <thead>
               <tr>
@@ -44,6 +46,7 @@ class Goals extends Component {
             </tbody>
           </table>
         </div>
+      </div>
     );
   }
 }

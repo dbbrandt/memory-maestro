@@ -2,13 +2,13 @@ import React, { Component, Fragment} from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import "./App.css";
 import { connect } from "react-redux";
-import Goals from "./components/Goals";
+import Goals from "./components/goal/Goals";
 import Heading from "./components/heading/Heading";
 import Nav from "./components/nav/Nav";
 import Footer from "./components/footer/Footer";
 import Login from "./components/login/Login";
 import Logout from "./components/login/Logout";
-import Interactions from "./components/Interactions";
+import InteractionList from "./components/interaction/InteractionList";
 import NotFound from "./components/login/NotFound";
 import { handleInititalData } from "./actions/shared";
 import LoadingBar from "react-redux-loading-bar";
@@ -36,7 +36,7 @@ class App extends Component {
                   <Route path="/logout" component={Logout} />
                   <Route
                     path="/interactions/:goalId"
-                    component={Interactions}
+                    component={InteractionList}
                   />
                   <Route path="*" component={NotFound} />
                 </Switch>
