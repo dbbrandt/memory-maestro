@@ -16,6 +16,11 @@ class Nav extends Component {
               </NavLink>
             </div>
             <div>
+              <NavLink exact to="/goal-add" activeClassName="nav-active">
+                Add Goal
+              </NavLink>
+            </div>
+            <div>
               <NavLink to={"/interactions/"+goalId} activeClassName="nav-active">
                 Interactions
               </NavLink>

@@ -1,0 +1,31 @@
+.goal-form  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    background-color: #caefff3a;
+}
+
+.goal-form div {
+    margin: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.goal-text {
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.goal-form div .btn {
+    margin: auto;
+}
+
+.hero-image-input {
+    max-width: 150px;
+    height: 150px;
+    background-color: white;
+    border: 1px solid lightgrey;
+}
