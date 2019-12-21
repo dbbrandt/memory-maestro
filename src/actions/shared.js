@@ -14,6 +14,10 @@ export const handleInititalData = () => {
       dispatch(fetchGoals(goals));
       dispatch(hideLoading());
       dispatch(setLoading(false));
-    });
+    })
+    .catch((error) => (
+        alert('Failed to download initial data '+error)
+      )
+    )
   };
 };

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import "./goal.css";
 import ImageInput from "../shared/ImageInput";
+import {handleAddGoal} from "../../actions/goals";
 
 class GoalAdd extends Component {
   constructor(props) {
@@ -23,7 +25,7 @@ class GoalAdd extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    // save data
+    this.props.dispatch(handleAddGoal(this.state));
     this.setState(this.initState);
     this.props.history.push("/");
   };
@@ -108,4 +110,4 @@ class GoalAdd extends Component {
   }
 }
 
-export default withRouter(GoalAdd);
+export default withRouter(connect()(GoalAdd));

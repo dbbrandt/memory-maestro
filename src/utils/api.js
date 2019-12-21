@@ -7,8 +7,18 @@ import { _getUsers } from './_DATA.js'
 const  baseURL="";
 const apiURL = "/api";
 const headers = {
-  Accept: "application/json"
+  'Accept': 'application/json',
+  'Content-Type': 'application/json'
 };
+
+const fixupImageUrl = interactions => {
+  interactions.forEach(interaction => {
+    const { stimulus_url } = interaction.prompt;
+    interaction.prompt.stimulus_url = !!stimulus_url ? baseURL + stimulus_url : '';
+  });
+  return interactions;
+};
+
 
 let Api = {};
 
@@ -20,13 +30,16 @@ Api.fetchGoals = () => {
     });
 };
 
-const fixupImageUrl = interactions => {
-  console.log(interactions);
-  interactions.forEach(interaction => {
-    const { stimulus_url } = interaction.prompt;
-    interaction.prompt.stimulus_url = !!stimulus_url ? baseURL + stimulus_url : '';
-  });
-  return interactions;
+Api.addGoal = goal => {
+  return fetch(apiURL + "/goals", {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(goal)
+  })
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error saving goal: ", error);
+    });
 };
 
 Api.fetchInteractions = id => {
