@@ -13,8 +13,12 @@ class GoalAdd extends Component {
     title: "",
     description: "",
     instructions: "",
-    heroImage: "",
+    imgURL: "",
     imgAltText: ""
+  };
+
+  handleImageChange = (url) => {
+    this.setState({imgURL: url});
   };
 
   handleSubmit = event => {
@@ -33,7 +37,6 @@ class GoalAdd extends Component {
       title,
       description,
       instructions,
-      heroImage,
       imgAltText
     } = this.state;
     return (
@@ -79,9 +82,8 @@ class GoalAdd extends Component {
           <div>
             <label>Goal Image:</label>
             <ImageInput
-              name="heroImage"
+              handleFileChange={this.handleImageChange}
               className='hero-image-input'
-              value={heroImage}
               maxHeight={80}
               onChange={this.handleChange}
             />

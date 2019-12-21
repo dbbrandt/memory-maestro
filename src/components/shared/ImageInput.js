@@ -43,12 +43,17 @@ const resizeImage = (imageURL, canvas, maxHeight) =>
 class ImageInput extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    name: PropTypes.string,
-    maxHeight: PropTypes.number
+    maxHeight: PropTypes.number,
+    handleFileChange: PropTypes.func
   };
 
   state = {
     value: ""
+  };
+
+  handleValueChange = value => {
+    this.setState({ value: value });
+    this.props.handleFileChange(value);
   };
 
   handleFileChange = event => {
@@ -58,17 +63,17 @@ class ImageInput extends React.Component {
       readFileAsDataURL(file).then(originalURL => {
         resizeImage(originalURL, this.canvas, this.props.maxHeight).then(
           url => {
-            this.setState({ value: url });
+            this.handleValueChange(url);
           }
         );
       });
     } else {
-      this.setState({ value: "" });
+      this.handleValueChange("");
     }
   };
 
   handleFormReset = () => {
-    this.setState({ value: "" });
+    this.handleValueChange("");
   };
 
   componentDidMount() {
@@ -81,7 +86,7 @@ class ImageInput extends React.Component {
   }
 
   render() {
-    const { className, name } = this.props;
+    const { className } = this.props;
     const { value } = this.state;
 
     const style = {
@@ -97,7 +102,6 @@ class ImageInput extends React.Component {
 
     return (
       <div className={className} style={style}>
-        <input type="hidden" name={name} value={value} />
         <input
           ref={node => (this.fileInput = node)}
           type="file"

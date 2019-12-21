@@ -1,10 +1,11 @@
 // Temporary dummy user data
 import { _getUsers } from './_DATA.js'
 
-const baseURL = "http://dev.memorymaestro.com";
+// const baseURL = "http://www.memorymaestro.com";
 // const baseURL = "http://localhost:80";
-const apiURL = baseURL + "/api";
-// const apiURL = "/api";
+// const apiURL = baseURL + "/api";
+const  baseURL="";
+const apiURL = "/api";
 const headers = {
   Accept: "application/json"
 };
