@@ -12,11 +12,13 @@ export const handleFetchInteractions = id => {
       .then(interactions => {
         dispatch(setGoal(id));
         dispatch(fetchInteractions(interactions));
-        if (interactions.length === 0) {
+        if (!interactions || interactions.length === 0) {
           dispatch(setLoading(false));
           dispatch(hideLoading());
         }
       })
-      .catch(error => alert("Fetch Interactions Failed: " + error));
+      .catch(error => {
+        alert("Fetch Interactions Failed: " + error);
+      });
   };
 };

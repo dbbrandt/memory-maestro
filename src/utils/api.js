@@ -54,6 +54,16 @@ Api.updateGoal = goal => {
     });
 };
 
+Api.deleteGoal = id => {
+  return fetch(apiURL + "/goals/" + id, {
+    method: 'DELETE',
+    headers,
+  })
+    .catch(error => {
+      console.log("Error saving goal: ", error);
+    });
+};
+
 Api.fetchInteractions = id => {
   return fetch(`${apiURL}/goals/${id}/interactions?deep=true`, { headers })
     .then(res => res.json())

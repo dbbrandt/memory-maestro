@@ -20,6 +20,10 @@ table tr:nth-child(odd) td{
     background-color: #f2faff;
 }
 
+.icon img {
+    height: 20px;
+}
+
 @media screen and (max-width: 63rem) {
     th:nth-child(n+4), td:nth-child(n+4) {
         display: none

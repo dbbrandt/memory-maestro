@@ -1,7 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter, Link } from 'react-router-dom';
+import deleteIcon from '../../assets/delete.png';
+import editIcon from '../../assets/edit.png';
+import {handleDeleteGoal} from "../../actions/goals";
 
 class Goals extends Component {
+  handleDelete = (id) => {
+    const { dispatch } = this.props;
+    let ok = window.confirm('Are you sure you want to delete this goal?');
+    if (ok) dispatch(handleDeleteGoal(id));
+  };
+
   render() {
     const { loading, goals, history } = this.props;
     return (
@@ -41,6 +51,12 @@ class Goals extends Component {
                       new Date(goal.updated_at)
                     )}
                   </td>
+                  <td className='icon'>
+                    <Link to={`/goal-edit/${goal.id}`}><img alt='edit' src={editIcon}/></Link>
+                  </td>
+                  <td className='icon'>
+                    <img onClick={() =>this.handleDelete(goal.id)} alt='delete' src={deleteIcon}/>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -51,7 +67,7 @@ class Goals extends Component {
   }
 }
 
-export default connect(({ goals, loading }) => ({
+export default withRouter(connect(({ goals, loading }) => ({
   goals,
   loading
-}))(Goals);
+}))(Goals));

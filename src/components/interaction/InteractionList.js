@@ -19,6 +19,7 @@ class InteractionList extends Component {
     if (selections.goal !== goalId) {
       dispatch(showLoading());
       dispatch(setLoading(true));
+      // Clear out current interactions to remove old data flash.
       dispatch(fetchInteractions([]));
       dispatch(handleFetchInteractions(goalId));
     }

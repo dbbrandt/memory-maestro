@@ -1,4 +1,4 @@
-import { addGoal, fetchGoals, updateGoal } from "../actions/goals";
+import {addGoal, deleteGoal, fetchGoals, updateGoal} from "../actions/goals";
 import { createReducer } from "@reduxjs/toolkit";
 
 const goals = createReducer(
@@ -13,6 +13,9 @@ const goals = createReducer(
     },
     [updateGoal]: (state, action) => {
       state[action.payload.id] = action.payload;
+    },
+    [deleteGoal]: (state, action) => {
+      delete state[action.payload];
     }
   }
 );

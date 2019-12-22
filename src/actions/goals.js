@@ -4,6 +4,7 @@ import Api from "../utils/api";
 export const fetchGoals = createAction("FETCH_GOALS");
 export const addGoal = createAction("ADD_GOAL");
 export const updateGoal = createAction("UPDATE_GOAL");
+export const deleteGoal = createAction("DELETE_GOAL");
 
 export const handleFetchGoals = () => {
   return dispatch => {
@@ -36,6 +37,17 @@ export const handleUpdateGoal = goal => {
       .catch(error => {
         alert("Failed to save goal. Try again.");
         console.log("Failed to save goal:", error);
+      });
+  };
+};
+
+export const handleDeleteGoal = id => {
+  return dispatch => {
+    Api.deleteGoal(id)
+      .then(dispatch(deleteGoal(id)))
+      .catch(error => {
+        alert("Failed to delete goal. Try again.");
+        console.log("Failed to delete goal:", error);
       });
   };
 };
