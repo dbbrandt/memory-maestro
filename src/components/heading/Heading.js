@@ -22,7 +22,7 @@ class Heading extends Component {
             <div className="goal-heading">
               <div>Goal:</div>
               <div>{title}</div>
-              <div>
+              <div className='btn'>
                 <button onClick={this.handleClick}>{buttonText}</button>
               </div>
             </div>

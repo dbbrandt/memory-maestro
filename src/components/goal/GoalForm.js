@@ -37,6 +37,14 @@ class GoalForm extends Component {
     this.setState(this.initState);
   };
 
+  handleDelete = (event) => {
+    event.preventDefault();
+    const { handleDelete } = this.props;
+    const { id } = this.state;
+    let ok = window.confirm('Are you sure you want to delete this goal?');
+    if (!!id && ok) handleDelete(id);
+  };
+
   handleImageChange = url => {
     this.setState({ imgURL: url });
   };
@@ -45,8 +53,16 @@ class GoalForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  btnBar = ({
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: '20px'
+  });
+
   render() {
-    const { title, description, instructions, imgAltText } = this.state;
+    const { id, title, description, instructions, imgAltText } = this.state;
+    const { handleCancel, handleDelete } = this.props;
     return (
       <form className="goal-form box" onSubmit={this.handleSubmit}>
         <div>
@@ -105,10 +121,20 @@ class GoalForm extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <div>
+        <div style={this.btnBar}>
           <button className="btn" type="submit">
             Save
           </button>
+          {!!handleCancel &&
+            < button className="btn" >
+              Cancel
+            </button>
+          }
+          {!!handleDelete && !!id &&
+            <button className="btn" onClick={this.handleDelete}>
+              Delete
+            </button>
+          }
         </div>
       </form>
     );
@@ -117,6 +143,8 @@ class GoalForm extends Component {
 
 GoalForm.propType = {
   handleSubmit: PropTypes.func.isRequired,
+  handleCancel: PropTypes.func,
+  handleDelete: PropTypes.func,
   initForm: PropTypes.object
 };
 

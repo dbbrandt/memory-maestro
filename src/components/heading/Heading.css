@@ -43,4 +43,7 @@ header .goal-heading div {
     padding: 5px;
 }
 
+header .goal-heading .btn {
+    padding-right: 30px;
+}
 

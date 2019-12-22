@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import "./goal.css";
-import { handleUpdateGoal } from "../../actions/goals";
+import { handleDeleteGoal, handleUpdateGoal } from "../../actions/goals";
 import GoalForm from "./GoalForm";
 
 class GoalEdit extends Component {
@@ -12,15 +12,31 @@ class GoalEdit extends Component {
     history.push("/");
   };
 
+  handleDelete = id => {
+    const { dispatch, history } = this.props;
+    dispatch(handleDeleteGoal(id));
+    history.push("/");
+  };
+
+  handleCancel = () => {
+    const { history } = this.props;
+    history.push("/");
+  };
+
   render() {
     const { goalId, goal } = this.props;
-    return (
-      goalId ?
-        <div className="goal">
-          <div className="header-box">Edit Goal</div>
-          <GoalForm handleSubmit={this.handleSubmit} initForm={goal} />
-        </div>
-        : <div>No goal selected.</div>
+    return goalId ? (
+      <div className="goal">
+        <div className="header-box">Edit Goal</div>
+        <GoalForm
+          handleSubmit={this.handleSubmit}
+          handleCancel={this.handleCancel}
+          handleDelete={this.handleDelete}
+          initForm={goal}
+        />
+      </div>
+    ) : (
+      <div>No goal selected.</div>
     );
   }
 }
