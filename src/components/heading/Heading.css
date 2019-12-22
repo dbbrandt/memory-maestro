@@ -31,3 +31,16 @@ header .image {
     height: 85px;
 }
 
+header .goal-heading {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    align-self: flex-end;
+    margin-left: 10px;
+}
+
+header .goal-heading div {
+    padding: 5px;
+}
+
+

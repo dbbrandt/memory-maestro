@@ -5,7 +5,9 @@ import headerImage from "../../assets/Precidix_Logo_300x300.png";
 
 class Heading extends Component {
   render() {
-    const { currentUser } = this.props;
+    const { currentUser, goal} = this.props;
+    console.log('Heading goal: ', goal);
+    const { id,  title } =  goal;
     return (
       <header className="container-grid layout-section header">
         <div>
@@ -13,6 +15,11 @@ class Heading extends Component {
         </div>
         {!!currentUser && (
           <Fragment>
+            <div className='goal-heading'>
+              <div>Goal:</div>
+              <div>{id}</div>
+              <div>{title}</div>
+            </div>
             <div className="user-name">
               <div>Hi {currentUser.name}!</div>
             </div>
@@ -25,9 +32,20 @@ class Heading extends Component {
     );
   }
 }
-const mapStateToProps = ({ users, authedUser }) => {
+const mapStateToProps = ({ users, authedUser, selections, goals }) => {
+  const goalId = selections.goal;
+  console.log('Heading MapStateToProps: goalId:', goalId);
+  debugger;
+  const goal = goalId ?
+    goals.filter(goal => goal.id === goalId)[0]
+    : {
+      id: 'None Selected',
+      title: ''
+    };
+  console.log('Heading mapStatetoProp  goal:',goal);
   return {
-    currentUser: !!users ? users[authedUser] : {}
+    currentUser: !!users ? users[authedUser] : {},
+    goal
   };
 };
 
