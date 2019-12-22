@@ -43,7 +43,6 @@ Api.addGoal = goal => {
 };
 
 Api.updateGoal = goal => {
-  debugger;
   return fetch(apiURL + "/goals/" + goal.id, {
     method: 'PUT',
     headers,

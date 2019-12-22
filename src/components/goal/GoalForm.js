@@ -3,12 +3,24 @@ import PropTypes from "prop-types";
 import ImageInput from "../shared/ImageInput";
 import "./goal.css";
 
+const initState = () => ({
+  id: 0,
+  title: "",
+  description: "",
+  instructions: "",
+  imgURL: "",
+  imgAltText: ""
+});
+
 class GoalForm extends Component {
   constructor(props) {
     super(props);
-    const { initForm } = this.props;
-    this.state = initForm ? initForm : this.initState;
+    this.state = this.props.initForm;
   }
+
+  static defaultProps = {
+    initForm: initState()
+  };
 
   initState = () => ({
     id: 0,
