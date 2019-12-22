@@ -19,7 +19,7 @@ class Goals extends Component {
               </tr>
             </thead>
             <tbody>
-              {goals.map(goal => (
+              {Object.values(goals).map(goal => (
                 <tr key={goal.id}>
                   <td>
                     <button

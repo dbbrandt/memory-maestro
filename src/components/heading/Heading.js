@@ -39,7 +39,7 @@ class Heading extends Component {
 }
 const mapStateToProps = ({ users, authedUser, selections, goals }) => {
   const goalId = selections.goal;
-  const title = goalId ? goals.filter(goal => goal.id === goalId)[0].title : 'None Selected';
+  const title = goalId ? goals[goalId].title : 'None Selected';
   return {
     currentUser: !!users ? users[authedUser] : {},
     buttonText: goalId ? 'Edit'  : 'Add',

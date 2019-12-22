@@ -27,7 +27,7 @@ class GoalEdit extends Component {
 
 const mapStateToProps = ({ goals }, { match }) => {
   const goalId = Number(match.params.id);
-  const goal = goals.filter(goal => goal.id === goalId)[0];
+  const goal = goals[goalId];
   return { goalId, goal };
 };
 
