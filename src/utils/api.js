@@ -42,6 +42,19 @@ Api.addGoal = goal => {
     });
 };
 
+Api.updateGoal = goal => {
+  debugger;
+  return fetch(apiURL + "/goals/" + goal.id, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(goal)
+  })
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error saving goal: ", error);
+    });
+};
+
 Api.fetchInteractions = id => {
   return fetch(`${apiURL}/goals/${id}/interactions?deep=true`, { headers })
     .then(res => res.json())

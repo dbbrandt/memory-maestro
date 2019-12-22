@@ -1,13 +1,18 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom';
 import "./Heading.css";
 import headerImage from "../../assets/Precidix_Logo_300x300.png";
 
 class Heading extends Component {
+  handleClick = () => {
+    const {goalId, history} = this.props;
+    const route = goalId ? '/goal-edit/' : '/goal-add/';
+    history.push(route + goalId)
+  };
+
   render() {
-    const { currentUser, goal} = this.props;
-    console.log('Heading goal: ', goal);
-    const { id,  title } =  goal;
+    const { currentUser, title, buttonText} = this.props;
     return (
       <header className="container-grid layout-section header">
         <div>
@@ -17,8 +22,8 @@ class Heading extends Component {
           <Fragment>
             <div className='goal-heading'>
               <div>Goal:</div>
-              <div>{id}</div>
               <div>{title}</div>
+              <div><button onClick={this.handleClick}>{buttonText}</button></div>
             </div>
             <div className="user-name">
               <div>Hi {currentUser.name}!</div>
@@ -34,19 +39,13 @@ class Heading extends Component {
 }
 const mapStateToProps = ({ users, authedUser, selections, goals }) => {
   const goalId = selections.goal;
-  console.log('Heading MapStateToProps: goalId:', goalId);
-  debugger;
-  const goal = goalId ?
-    goals.filter(goal => goal.id === goalId)[0]
-    : {
-      id: 'None Selected',
-      title: ''
-    };
-  console.log('Heading mapStatetoProp  goal:',goal);
+  const title = goalId ? goals.filter(goal => goal.id === goalId)[0].title : 'None Selected';
   return {
     currentUser: !!users ? users[authedUser] : {},
-    goal
+    buttonText: goalId ? 'Edit'  : 'Add',
+    goalId,
+    title
   };
 };
 
-export default connect(mapStateToProps)(Heading);
+export default withRouter(connect(mapStateToProps)(Heading));

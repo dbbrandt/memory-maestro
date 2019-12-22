@@ -13,6 +13,7 @@ import NotFound from "./components/login/NotFound";
 import { handleInititalData } from "./actions/shared";
 import LoadingBar from "react-redux-loading-bar";
 import GoalAdd from "./components/goal/GoalAdd";
+import GoalEdit from "./components/goal/GoalEdit";
 
 class App extends Component {
   componentDidMount() {
@@ -36,6 +37,7 @@ class App extends Component {
                   <Route path="/login" component={Login} />
                   <Route path="/logout" component={Logout} />
                   <Route path="/goal-add" component={GoalAdd}/>
+                  <Route path="/goal-edit/:id" component={GoalEdit}/>
                   <Route
                     path="/interactions/:goalId"
                     component={InteractionList}

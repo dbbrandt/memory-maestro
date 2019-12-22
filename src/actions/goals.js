@@ -2,7 +2,8 @@ import { createAction } from "@reduxjs/toolkit";
 import Api from "../utils/api";
 
 export const fetchGoals = createAction("FETCH_GOALS");
-export const addGoal = createAction('ADD_GOAL');
+export const addGoal = createAction("ADD_GOAL");
+export const updateGoal = createAction("UPDATE_GOAL");
 
 export const handleFetchGoals = () => {
   return dispatch => {
@@ -12,19 +13,29 @@ export const handleFetchGoals = () => {
   };
 };
 
-export const handleAddGoal = (goal) => {
+export const handleAddGoal = goal => {
   return dispatch => {
-    console.log('HandleAddGoal goal: ', goal);
+    console.log("HandleAddGoal goal: ", goal);
     Api.addGoal(goal)
       .then(res => {
-        res["message"] ?
-          alert(res["message"])
-          : dispatch(addGoal(res))
+        res["message"] ? alert(res["message"]) : dispatch(addGoal(res));
       })
       .catch(error => {
-        alert('Failed to save goal. Try again.');
-        console.log('Failed to save goal:', error);
-        }
-      )
-  }
+        alert("Failed to save goal. Try again.");
+        console.log("Failed to save goal:", error);
+      });
+  };
+};
+
+export const handleUpdateGoal = goal => {
+  return dispatch => {
+    Api.updateGoal(goal)
+      .then(res => {
+        res["message"] ? alert(res["message"]) : dispatch(updateGoal(res));
+      })
+      .catch(error => {
+        alert("Failed to save goal. Try again.");
+        console.log("Failed to save goal:", error);
+      });
+  };
 };
