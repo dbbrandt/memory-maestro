@@ -75,6 +75,19 @@ Api.fetchInteractions = id => {
     });
 };
 
+Api.updateInteraction = interaction => {
+  const { goal_id, id } = interation;
+  return fetch(`${apiURL}/goals/${goal_id}/interactions/${id}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(interaction)
+  })
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error saving interaction: ", error);
+    });
+};
+
 // Temporary user api
 Api.getUsers = () => {
   return _getUsers()
