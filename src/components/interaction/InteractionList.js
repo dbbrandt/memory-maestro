@@ -16,7 +16,7 @@ class InteractionList extends Component {
 
   componentDidMount() {
     const { dispatch, goalId, selections } = this.props;
-    if (selections.goal !== goalId) {
+    if (selections.goal !== Number(goalId)) {
       dispatch(showLoading());
       dispatch(setLoading(true));
       // Clear out current interactions to remove old data flash.
