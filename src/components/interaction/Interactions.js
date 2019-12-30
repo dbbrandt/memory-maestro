@@ -1,34 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  fetchInteractions,
-  handleFetchInteractions
-} from "../../actions/interactions"
-import { setLoading } from "../../actions/loading";
+import { Link } from "react-router-dom";
+import {clearInteractions, handleFetchInteractions} from "../../actions/interactions"
 import { showLoading, hideLoading } from "react-redux-loading-bar";
+import { setLoading } from "../../actions/loading";
 import './interaction.css';
 
-class InteractionList extends Component {
+class Interactions extends Component {
   constructor(props) {
     super(props);
-    this.interactionCount = 0;
+    this.loadCount = 0;
+    ;
   }
 
   componentDidMount() {
     const { dispatch, goalId, selections } = this.props;
     if (selections.goal !== Number(goalId)) {
-      dispatch(showLoading());
       dispatch(setLoading(true));
-      // Clear out current interactions to remove old data flash.
-      dispatch(fetchInteractions([]));
+      dispatch(showLoading());
+      dispatch(clearInteractions());
       dispatch(handleFetchInteractions(goalId));
     }
   }
 
   setStimulusLoaded = () => {
     const { dispatch } = this.props;
-    this.interactionCount--;
-    if (this.interactionCount <= 0) {
+    this.loadCount--;
+    if (this.loadCount === 0) {
       dispatch(hideLoading());
       dispatch(setLoading(false));
     }
@@ -53,12 +51,12 @@ class InteractionList extends Component {
   };
 
   render() {
-    const { loading, interactions } = this.props;
-    this.interactionCount = interactions.length;
+    const { interactions, loading, interactionCount } = this.props;
+    this.loadCount = interactionCount;
     return (
-      <div className='interaction' style={{ display: loading  ? "none" : "block" }}>
+      <div className='interaction' style={{ display: loading ? 'none' : 'block'}}>
         <div className='header-box'>
-          Total interactions: {this.interactionCount}
+          Total interactions: {interactionCount}
         </div>
         <div className='box'>
           <table>
@@ -72,9 +70,9 @@ class InteractionList extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.interactions.map(interaction => (
+              {Object.values(interactions).map(interaction => (
                 <tr key={interaction.id} className="interaction">
-                  <td>{interaction.title}</td>
+                  <td><Link to={`/interaction-edit/${interaction.id}`}>{interaction.title}</Link></td>
                   <td>{this.getStimulus(interaction)}</td>
                   <td>{interaction.answer_type}</td>
                   <td>
@@ -97,11 +95,11 @@ class InteractionList extends Component {
   }
 }
 
-const mapStateToProps = ({ interactions, loading, selections }, { match }) => ({
+const mapStateToProps = ({ interactions, selections }, { match }) => ({
   interactions,
-  loading,
   selections,
-  goalId: match.params.goalId
+  goalId: match.params.goalId,
+  interactionCount: Object.keys(interactions).length
 });
 
-export default connect(mapStateToProps)(InteractionList);
+export default connect(mapStateToProps)(Interactions);

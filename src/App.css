@@ -66,3 +66,52 @@ table tr:nth-child(odd) td{
     background-color: #caefffbb;
     padding: 5px;
 }
+
+.form  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    background-color: #caefff3a;
+}
+
+.form div {
+    margin: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form .button-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.form div .btn {
+    margin: 5px;
+}
+
+.form .form-separator-box {
+    border: 2px #7f7f8060 solid;
+    align-items: center;
+    background-color: #caefffbb;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.form-text {
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.image-input {
+    max-width: 150px;
+    height: 150px;
+    background-color: white;
+    border: 1px solid lightgrey;
+}
+
+

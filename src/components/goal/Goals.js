@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import deleteIcon from '../../assets/delete.png';
 import editIcon from '../../assets/edit.png';
 import {handleDeleteGoal} from "../../actions/goals";
@@ -13,7 +13,7 @@ class Goals extends Component {
   };
 
   render() {
-    const { loading, goals, history } = this.props;
+    const { loading, goals } = this.props;
     return (
       <div className="goal" style={{ display: loading ? "none" : "block" }}>
         <div className="header-box">Total goals: {goals.length}</div>
@@ -32,12 +32,7 @@ class Goals extends Component {
               {Object.values(goals).map(goal => (
                 <tr key={goal.id}>
                   <td>
-                    <button
-                      className="goal-button"
-                      onClick={() => history.push(`/interactions/${goal.id}`)}
-                    >
-                      {goal.title}
-                    </button>
+                    <Link to={`/interactions/${goal.id}`}>{goal.title}</Link>
                   </td>
                   <td>{goal.description}</td>
                   <td>{goal.instructions}</td>
@@ -67,7 +62,7 @@ class Goals extends Component {
   }
 }
 
-export default withRouter(connect(({ goals, loading }) => ({
+export default connect(({ goals, loading }) => ({
   goals,
   loading
-}))(Goals));
+}))(Goals);

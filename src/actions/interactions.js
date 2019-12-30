@@ -1,33 +1,40 @@
 import { createAction } from "@reduxjs/toolkit";
 import API from "../utils/api";
-import { setGoal, setInteraction } from "./selections";
 import { setLoading } from "./loading";
-import { hideLoading } from "react-redux-loading-bar";
+import {hideLoading, showLoading} from "react-redux-loading-bar";
+import {setGoal} from "./selections";
 
 export const fetchInteractions = createAction("FETCH_INTERACTIONS");
+export const clearInteractions = createAction("CLEAR_INTERACTIONS");
+export const addInteraction = createAction("ADD_INTERACTION");
 export const updateInteraction = createAction("UPDATE_INTERACTION");
+export const deleteInteraction = createAction("DELETE_INTERACTION");
 
 export const handleFetchInteractions = id => {
   return dispatch => {
-    API.fetchInteractions(id)
-      .then(interactions => {
-        dispatch(setGoal(id));
-        dispatch(fetchInteractions(interactions));
-        if (!interactions || interactions.length === 0) {
-          dispatch(setLoading(false));
-          dispatch(hideLoading());
-        }
-      })
-      .catch(error => {
-        alert("Fetch Interactions Failed: " + error);
-      });
+      API.fetchInteractions(id)
+        .then(interactions => {
+          dispatch(setGoal(id));
+          dispatch(fetchInteractions(interactions));
+          if (interactions.length === 0) {
+            dispatch(hideLoading());
+            dispatch(setLoading(false));
+          }
+        })
+        .catch(error => {
+          alert("Fetch Interactions Failed: " + error);
+        });
   };
+};
+
+export const handleAddInteraction = interaction => {
+  return dispatch => {
+  }
 };
 
 export const handleUpdateInteraction = interaction => {
   return dispatch => {
-    dispatch(setInteraction(interaction.id));
-    Api.updateInteraction(interaction)
+    API.updateInteraction(interaction)
       .then(res => {
         res["message"]
           ? alert(res["message"])
@@ -38,4 +45,9 @@ export const handleUpdateInteraction = interaction => {
         console.log("Failed to save interaction:", error);
       });
   };
+};
+
+export const handleDeleteInteraction = (id) => {
+  return dispatch => {
+  }
 };

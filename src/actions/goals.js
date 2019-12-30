@@ -16,7 +16,6 @@ export const handleFetchGoals = () => {
 
 export const handleAddGoal = goal => {
   return dispatch => {
-    console.log("HandleAddGoal goal: ", goal);
     Api.addGoal(goal)
       .then(res => {
         res["message"] ? alert(res["message"]) : dispatch(addGoal(res));

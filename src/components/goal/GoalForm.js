@@ -18,24 +18,17 @@ class GoalForm extends Component {
     this.state = this.props.initForm;
   }
 
-  static defaultProps = {
-    initForm: initState()
-  };
-
-  initState = () => ({
-    id: 0,
-    title: "",
-    description: "",
-    instructions: "",
-    imgURL: "",
-    imgAltText: ""
-  });
-
   handleSubmit = event => {
     event.preventDefault();
     this.props.handleSubmit(this.state);
-    this.setState(this.initState);
+    this.setState(initState);
   };
+
+  handleCancel =  event => {
+    event.preventDefault();
+    this.props.handleCancel(this.state);
+  };
+
 
   handleDelete = (event) => {
     event.preventDefault();
@@ -53,25 +46,18 @@ class GoalForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  btnBar = ({
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: '20px'
-  });
-
   render() {
-    const { id, title, description, instructions, imgAltText } = this.state;
+    const { id, title, description, instructions, imgUrl, imgAltText } = this.state;
     const { handleCancel, handleDelete } = this.props;
     return (
-      <form className="goal-form box" onSubmit={this.handleSubmit}>
+      <form className="form box" onSubmit={this.handleSubmit}>
         <div>
           <label>Title:</label>
           <textarea
             maxLength={80}
             rows={2}
             cols={31}
-            className="goal-text"
+            className="form-text"
             name="title"
             value={title}
             onChange={this.handleChange}
@@ -80,7 +66,7 @@ class GoalForm extends Component {
         <div>
           <label>Description:</label>
           <textarea
-            className="goal-text"
+            className="form-text"
             maxLength={160}
             rows={2}
             cols={31}
@@ -96,7 +82,7 @@ class GoalForm extends Component {
             rows={4}
             cols={31}
             name="instructions"
-            className="goal-text"
+            className="form-text"
             value={instructions}
             onChange={this.handleChange}
           />
@@ -105,8 +91,9 @@ class GoalForm extends Component {
           <label>Goal Image:</label>
           <ImageInput
             handleFileChange={this.handleImageChange}
-            className="hero-image-input"
+            className="image-input"
             maxHeight={80}
+            value={imgUrl}
             onChange={this.handleChange}
           />
         </div>
@@ -115,18 +102,18 @@ class GoalForm extends Component {
           <input
             size={40}
             maxLength={40}
-            className="goal-text"
+            className="form-text"
             name="imgAltText"
             value={imgAltText}
             onChange={this.handleChange}
           />
         </div>
-        <div style={this.btnBar}>
+        <div className='button-bar'>
           <button className="btn" type="submit">
             Save
           </button>
           {!!handleCancel &&
-            < button className="btn" >
+            < button className="btn" onClick={this.handleCancel}>
               Cancel
             </button>
           }
@@ -140,6 +127,11 @@ class GoalForm extends Component {
     );
   }
 }
+
+
+GoalForm.defaultProps = {
+  initForm: initState()
+};
 
 GoalForm.propType = {
   handleSubmit: PropTypes.func.isRequired,

@@ -48,7 +48,7 @@ Api.updateGoal = goal => {
     headers,
     body: JSON.stringify(goal)
   })
-    .then(res => res.json())
+    .then(res=> res.json())
     .catch(error => {
       console.log("Error saving goal: ", error);
     });
@@ -66,7 +66,7 @@ Api.deleteGoal = id => {
 
 Api.fetchInteractions = id => {
   return fetch(`${apiURL}/goals/${id}/interactions?deep=true`, { headers })
-    .then(res => res.json())
+    .then(interaction => interaction.json())
     .then(data =>
       fixupImageUrl(data).sort((a, b) => (a.title > b.title ? 1 : -1))
     )
@@ -75,9 +75,21 @@ Api.fetchInteractions = id => {
     });
 };
 
+Api.addInteraction = interaction => {
+  return fetch(apiURL + "/interactions", {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(interaction)
+  })
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error saving interaction: ", error);
+    });
+};
+
 Api.updateInteraction = interaction => {
-  const { goal_id, id } = interation;
-  return fetch(`${apiURL}/goals/${goal_id}/interactions/${id}`, {
+  const { goal_id, id } = interaction;
+  return fetch(`${apiURL}/goals/${goal_id}/interactions/${id}?deep=true`, {
     method: 'PUT',
     headers,
     body: JSON.stringify(interaction)
