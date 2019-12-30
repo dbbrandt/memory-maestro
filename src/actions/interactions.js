@@ -1,8 +1,8 @@
 import { createAction } from "@reduxjs/toolkit";
 import API from "../utils/api";
 import { setLoading } from "./loading";
-import {hideLoading, showLoading} from "react-redux-loading-bar";
-import {setGoal} from "./selections";
+import { hideLoading } from "react-redux-loading-bar";
+import { setGoal } from "./selections";
 
 export const fetchInteractions = createAction("FETCH_INTERACTIONS");
 export const clearInteractions = createAction("CLEAR_INTERACTIONS");
@@ -12,24 +12,23 @@ export const deleteInteraction = createAction("DELETE_INTERACTION");
 
 export const handleFetchInteractions = id => {
   return dispatch => {
-      API.fetchInteractions(id)
-        .then(interactions => {
-          dispatch(setGoal(id));
-          dispatch(fetchInteractions(interactions));
-          if (interactions.length === 0) {
-            dispatch(hideLoading());
-            dispatch(setLoading(false));
-          }
-        })
-        .catch(error => {
-          alert("Fetch Interactions Failed: " + error);
-        });
+    API.fetchInteractions(id)
+      .then(interactions => {
+        dispatch(setGoal(id));
+        dispatch(fetchInteractions(interactions));
+        if (interactions.length === 0) {
+          dispatch(hideLoading());
+          dispatch(setLoading(false));
+        }
+      })
+      .catch(error => {
+        alert("Fetch Interactions Failed: " + error);
+      });
   };
 };
 
 export const handleAddInteraction = interaction => {
-  return dispatch => {
-  }
+  return dispatch => {};
 };
 
 export const handleUpdateInteraction = interaction => {
@@ -47,7 +46,6 @@ export const handleUpdateInteraction = interaction => {
   };
 };
 
-export const handleDeleteInteraction = (id) => {
-  return dispatch => {
-  }
+export const handleDeleteInteraction = id => {
+  return dispatch => {};
 };
