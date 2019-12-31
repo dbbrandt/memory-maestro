@@ -7,11 +7,12 @@ import PropTypes from "prop-types";
 const initState = () => ({
   id: 0,
   title: "",
-  answer_type: "ShortAnswer",
+  answerType: "ShortAnswer",
   prompt: {
     title: "",
     copy: "",
     stimulus_url: "",
+    imageInputClass: 'image-hide'
   },
   criterion: [{
     title: "",
@@ -25,30 +26,52 @@ const initState = () => ({
 class InteractionForm extends Component {
   constructor(props) {
     super(props);
-    this.state = this.getFormData(this.props.initForm);
+    this.state = this.setFormData(this.props.initForm);
   }
 
-  getFormData = (interaction) => {
+  setFormData = (interaction) => {
     const { id, title, prompt, criterion } = interaction;
     const criterion1 = criterion.length > 0 ? criterion[0] : {};
     return ({
       id: id,
       title: title,
-      answer_type: "ShortAnswer",
-      prompt_title: prompt.title,
-      prompt_copy: prompt.copy,
-      prompt_stimulus_url: prompt.stimulus_url,
-      criterion_title: criterion1.title,
-      criterion_description: criterion1.description,
-      criterion_copy: criterion1.copy,
-      criterion_descriptor: criterion1.descriptor,
-      criterion_score: criterion1.score
+      answerType: "ShortAnswer",
+      promptTitle: prompt.title,
+      promptCopy: prompt.copy,
+      promptStimulusUrl: prompt.stimulus_url,
+      imageInputClass: 'image-hide',
+      criterionTitle: criterion1.title,
+      criterionDescription: criterion1.description,
+      criterionCopy: criterion1.copy,
+      criterionDescriptor: criterion1.descriptor,
+      criterionScore: criterion1.score
+    })
+  };
+
+  getFormData = () => {
+    const s = this.state;
+    return ({
+      id: s.id,
+      title: s.title,
+      answerType: s.answerType,
+      prompt: {
+        title: s.promptTitle,
+        copy: s.promptCopy,
+        stimulus_url: s.promptStimulusUrl,
+      },
+      criterion: [{
+        title: s.criterionTitle,
+        description: s.criterionDescription,
+        copy: s.criterionCopy,
+        descriptor: s.criterionDescriptor,
+        score: s.criterionScore
+      }]
     })
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.handleSubmit(this.state);
+    this.props.handleSubmit(this.getFormData());
     this.setState(initState);
   };
 
@@ -77,10 +100,11 @@ class InteractionForm extends Component {
     const {
       id,
       title,
-      prompt_copy,
-      prompt_stimulus_url,
-      criterion_copy,
-      criterion_descriptor
+      promptCopy,
+      promptStimulusUrl,
+      imageInputClass,
+      criterionCopy,
+      criterionDescriptor
     } = this.state;
 
     const { handleCancel, handleDelete } = this.props;
@@ -107,18 +131,18 @@ class InteractionForm extends Component {
             rows={4}
             cols={60}
             className="form-text"
-            name="prompt_copy"
-            value={prompt_copy}
+            name="promptCopy"
+            value={promptCopy}
             onChange={this.handleChange}
           />
         </div>
         <div>
-          <label>Stimulus Image:</label>
+          <label><button onClick={this.toggleImageInput}>Stimulus Image:</button> </label>
           <ImageInput
             handleFileChange={this.handleImageChange}
-            className="image-input"
+            className={imageInputClass}
             maxHeight={80}
-            value={prompt_stimulus_url}
+            value={promptStimulusUrl}
             onChange={this.handleChange}
           />
         </div>
@@ -131,8 +155,8 @@ class InteractionForm extends Component {
             rows={2}
             cols={60}
             className="form-text"
-            name="criterion_descriptor"
-            value={criterion_descriptor}
+            name="criterionDescriptor"
+            value={criterionDescriptor}
             onChange={this.handleChange}
           />
         </div>
@@ -142,8 +166,8 @@ class InteractionForm extends Component {
             rows={4}
             cols={60}
             className="form-text"
-            name="criterion_copy"
-            value={criterion_copy}
+            name="criterionCopy"
+            value={criterionCopy}
             onChange={this.handleChange}
           />
         </div>

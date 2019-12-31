@@ -114,4 +114,8 @@ table tr:nth-child(odd) td{
     border: 1px solid lightgrey;
 }
 
+.image-hide {
+    display: none;
+}
+
 
