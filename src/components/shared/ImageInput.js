@@ -1,6 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+const toDataURL = url =>
+  fetch(url)
+    .then(response => {
+      return response.blob()
+    })
+    .then(
+      blob =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        })
+    );
+
 const readFileAsDataURL = file =>
   new Promise(resolve => {
     const reader = new FileReader();
@@ -44,7 +59,7 @@ class ImageInput extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     maxHeight: PropTypes.number,
-    handleFileChange: PropTypes.func
+    handleFileChange: PropTypes.func,
   };
 
   state = {
@@ -79,6 +94,16 @@ class ImageInput extends React.Component {
   componentDidMount() {
     this.canvas = document.createElement("canvas");
     this.fileInput.form.addEventListener("reset", this.handleFormReset);
+    // Added feature to convert any URL passed in to a dataURL for preloading the canvas.
+    toDataURL(this.props.value)
+      .then(dataUrl => {
+        this.setState({ value: dataUrl });
+        resizeImage(dataUrl, this.canvas, this.props.maxHeight).then(
+          url => {
+            this.setState({ value: url });
+          }
+        );
+      });
   }
 
   componentWillUnmount() {

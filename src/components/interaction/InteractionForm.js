@@ -7,48 +7,73 @@ import PropTypes from "prop-types";
 const initState = () => ({
   id: 0,
   title: "",
-  answer_type: "ShortAnswer",
-  prompt: {
-    title: "",
-    copy: "",
-    stimulus_url: "",
-  },
-  criterion: [{
-    title: "",
-    description: "",
-    copy: "",
-    descriptor: "",
-    score: 1.0
-  }]
+  answerType: "ShortAnswer",
+  promptTitle: "",
+  promptCopy: "",
+  promptStimulusUrl: "",
+  imageInputClass: "image-input",
+  imageInputButton: "Hide",
+  criterionTitle: "",
+  criterionDescription: "",
+  criterionCopy: "",
+  criterionDescriptor: "",
+  criterionScore: 0
 });
 
 class InteractionForm extends Component {
   constructor(props) {
     super(props);
-    this.state = this.getFormData(this.props.initForm);
+    this.state = this.setFormData(this.props.initForm);
+    // The maximum height of stimulus images. Images will be resized to this.
+    // TODO: Determine how best to configure this.
+    this.maxHeight = 250;
   }
 
-  getFormData = (interaction) => {
+  setFormData = (interaction) => {
     const { id, title, prompt, criterion } = interaction;
     const criterion1 = criterion.length > 0 ? criterion[0] : {};
+    const host = prompt.stimulus_url.includes('http') ? "" : "http://localhost";
     return ({
       id: id,
       title: title,
-      answer_type: "ShortAnswer",
-      prompt_title: prompt.title,
-      prompt_copy: prompt.copy,
-      prompt_stimulus_url: prompt.stimulus_url,
-      criterion_title: criterion1.title,
-      criterion_description: criterion1.description,
-      criterion_copy: criterion1.copy,
-      criterion_descriptor: criterion1.descriptor,
-      criterion_score: criterion1.score
+      answerType: "ShortAnswer",
+      promptTitle: prompt.title,
+      promptCopy: prompt.copy,
+      promptStimulusUrl: host + prompt.stimulus_url,
+      imageInputClass: 'image-input',
+      imageInputButton: 'Hide',
+      criterionTitle: criterion1.title,
+      criterionDescription: criterion1.description,
+      criterionCopy: criterion1.copy,
+      criterionDescriptor: criterion1.descriptor,
+      criterionScore: criterion1.score
+    })
+  };
+
+  getFormData = () => {
+    const s = this.state;
+    return ({
+      id: s.id,
+      title: s.title,
+      answerType: s.answerType,
+      prompt: {
+        title: s.promptTitle,
+        copy: s.promptCopy,
+        stimulus_url: s.promptStimulusUrl,
+      },
+      criterion: [{
+        title: s.criterionTitle,
+        description: s.criterionDescription,
+        copy: s.criterionCopy,
+        descriptor: s.criterionDescriptor,
+        score: s.criterionScore
+      }]
     })
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.handleSubmit(this.state);
+    this.props.handleSubmit(this.getFormData());
     this.setState(initState);
   };
 
@@ -66,21 +91,32 @@ class InteractionForm extends Component {
   };
 
   handleImageChange = url => {
-    this.setState({ imgURL: url });
+    this.setState({ promptStimulusUrl: url });
   };
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  toggleImageInput = event => {
+    event.preventDefault();
+    const hide = this.state.imageInputClass === 'image-hide' ;
+    const newClass = hide ? 'image-input' : 'image-hide';
+    const newButton = hide ? 'Hide' : 'Show';
+    this.setState({ imageInputClass: newClass, imageInputButton: newButton })
+
+  };
+
   render() {
     const {
       id,
       title,
-      prompt_copy,
-      prompt_stimulus_url,
-      criterion_copy,
-      criterion_descriptor
+      promptCopy,
+      promptStimulusUrl,
+      imageInputClass,
+      imageInputButton,
+      criterionCopy,
+      criterionDescriptor
     } = this.state;
 
     const { handleCancel, handleDelete } = this.props;
@@ -107,18 +143,22 @@ class InteractionForm extends Component {
             rows={4}
             cols={60}
             className="form-text"
-            name="prompt_copy"
-            value={prompt_copy}
+            name="promptCopy"
+            value={promptCopy}
             onChange={this.handleChange}
           />
         </div>
         <div>
-          <label>Stimulus Image:</label>
+          <label>Stimulus Image:
+            <button  className='button-link' onClick={this.toggleImageInput}>
+              {imageInputButton}
+            </button>
+          </label>
           <ImageInput
             handleFileChange={this.handleImageChange}
-            className="image-input"
-            maxHeight={80}
-            value={prompt_stimulus_url}
+            className={imageInputClass}
+            maxHeight={this.maxHeight}
+            value={promptStimulusUrl}
             onChange={this.handleChange}
           />
         </div>
@@ -131,8 +171,8 @@ class InteractionForm extends Component {
             rows={2}
             cols={60}
             className="form-text"
-            name="criterion_descriptor"
-            value={criterion_descriptor}
+            name="criterionDescriptor"
+            value={criterionDescriptor}
             onChange={this.handleChange}
           />
         </div>
@@ -142,8 +182,8 @@ class InteractionForm extends Component {
             rows={4}
             cols={60}
             className="form-text"
-            name="criterion_copy"
-            value={criterion_copy}
+            name="criterionCopy"
+            value={criterionCopy}
             onChange={this.handleChange}
           />
         </div>
@@ -174,7 +214,8 @@ InteractionForm.propType = {
   handleSubmit: PropTypes.func.isRequired,
   handleCancel: PropTypes.func,
   handleDelete: PropTypes.func,
-  initForm: PropTypes.object
+  goalId: PropTypes.number.isRequired,
+  initForm: PropTypes.object,
 };
 
 export default connect()(InteractionForm);
