@@ -60,7 +60,7 @@ Api.deleteGoal = id => {
     headers,
   })
     .catch(error => {
-      console.log("Error saving goal: ", error);
+      console.log("Error deleting goal: ", error);
     });
 };
 
@@ -75,8 +75,8 @@ Api.fetchInteractions = id => {
     });
 };
 
-Api.addInteraction = interaction => {
-  return fetch(apiURL + "/interactions", {
+Api.addInteraction = (interaction, goalId) => {
+  return fetch(`${apiURL}/goals/${goalId}/interactions`, {
     method: 'POST',
     headers,
     body: JSON.stringify(interaction)
@@ -87,9 +87,9 @@ Api.addInteraction = interaction => {
     });
 };
 
-Api.updateInteraction = interaction => {
-  const { goal_id, id } = interaction;
-  return fetch(`${apiURL}/goals/${goal_id}/interactions/${id}?deep=true`, {
+Api.updateInteraction = (interaction, goalId) => {
+  const { id } = interaction;
+  return fetch(`${apiURL}/goals/${goalId}/interactions/${id}?deep=true`, {
     method: 'PUT',
     headers,
     body: JSON.stringify(interaction)
@@ -99,6 +99,18 @@ Api.updateInteraction = interaction => {
       console.log("Error saving interaction: ", error);
     });
 };
+
+Api.deleteInteraction = id => {
+  return fetch(apiURL + "/interactions/" + id, {
+    method: 'DELETE',
+    headers,
+  })
+    .catch(error => {
+      console.log("Error deleting interaction: ", error);
+    });
+};
+
+
 
 // Temporary user api
 Api.getUsers = () => {

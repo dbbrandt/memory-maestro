@@ -31,9 +31,9 @@ export const handleAddInteraction = interaction => {
   return dispatch => {};
 };
 
-export const handleUpdateInteraction = interaction => {
+export const handleUpdateInteraction = (interaction, goalId) => {
   return dispatch => {
-    API.updateInteraction(interaction)
+    API.updateInteraction(interaction, goalId)
       .then(res => {
         res["message"]
           ? alert(res["message"])

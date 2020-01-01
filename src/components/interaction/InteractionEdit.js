@@ -5,8 +5,8 @@ import {handleDeleteInteraction, handleUpdateInteraction} from "../../actions/in
 
 class InteractionEdit extends Component {
   handleSubmit = interaction => {
-    const { dispatch, history } = this.props;
-    dispatch(handleUpdateInteraction(interaction));
+    const { dispatch, history, goalId } = this.props;
+    dispatch(handleUpdateInteraction(interaction, goalId));
     history.push("/");
   };
 

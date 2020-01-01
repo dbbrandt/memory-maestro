@@ -8,38 +8,40 @@ const initState = () => ({
   id: 0,
   title: "",
   answerType: "ShortAnswer",
-  prompt: {
-    title: "",
-    copy: "",
-    stimulus_url: "",
-    imageInputClass: 'image-hide'
-  },
-  criterion: [{
-    title: "",
-    description: "",
-    copy: "",
-    descriptor: "",
-    score: 1.0
-  }]
+  promptTitle: "",
+  promptCopy: "",
+  promptStimulusUrl: "",
+  imageInputClass: "image-input",
+  imageInputButton: "Hide",
+  criterionTitle: "",
+  criterionDescription: "",
+  criterionCopy: "",
+  criterionDescriptor: "",
+  criterionScore: 0
 });
 
 class InteractionForm extends Component {
   constructor(props) {
     super(props);
     this.state = this.setFormData(this.props.initForm);
+    // The maximum height of stimulus images. Images will be resized to this.
+    // TODO: Determine how best to configure this.
+    this.maxHeight = 250;
   }
 
   setFormData = (interaction) => {
     const { id, title, prompt, criterion } = interaction;
     const criterion1 = criterion.length > 0 ? criterion[0] : {};
+    const host = prompt.stimulus_url.includes('http') ? "" : "http://localhost";
     return ({
       id: id,
       title: title,
       answerType: "ShortAnswer",
       promptTitle: prompt.title,
       promptCopy: prompt.copy,
-      promptStimulusUrl: prompt.stimulus_url,
-      imageInputClass: 'image-hide',
+      promptStimulusUrl: host + prompt.stimulus_url,
+      imageInputClass: 'image-input',
+      imageInputButton: 'Hide',
       criterionTitle: criterion1.title,
       criterionDescription: criterion1.description,
       criterionCopy: criterion1.copy,
@@ -89,11 +91,20 @@ class InteractionForm extends Component {
   };
 
   handleImageChange = url => {
-    this.setState({ imgURL: url });
+    this.setState({ promptStimulusUrl: url });
   };
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  toggleImageInput = event => {
+    event.preventDefault();
+    const hide = this.state.imageInputClass === 'image-hide' ;
+    const newClass = hide ? 'image-input' : 'image-hide';
+    const newButton = hide ? 'Hide' : 'Show';
+    this.setState({ imageInputClass: newClass, imageInputButton: newButton })
+
   };
 
   render() {
@@ -103,6 +114,7 @@ class InteractionForm extends Component {
       promptCopy,
       promptStimulusUrl,
       imageInputClass,
+      imageInputButton,
       criterionCopy,
       criterionDescriptor
     } = this.state;
@@ -137,11 +149,15 @@ class InteractionForm extends Component {
           />
         </div>
         <div>
-          <label><button onClick={this.toggleImageInput}>Stimulus Image:</button> </label>
+          <label>Stimulus Image:
+            <button  className='button-link' onClick={this.toggleImageInput}>
+              {imageInputButton}
+            </button>
+          </label>
           <ImageInput
             handleFileChange={this.handleImageChange}
             className={imageInputClass}
-            maxHeight={80}
+            maxHeight={this.maxHeight}
             value={promptStimulusUrl}
             onChange={this.handleChange}
           />
@@ -198,7 +214,8 @@ InteractionForm.propType = {
   handleSubmit: PropTypes.func.isRequired,
   handleCancel: PropTypes.func,
   handleDelete: PropTypes.func,
-  initForm: PropTypes.object
+  goalId: PropTypes.number.isRequired,
+  initForm: PropTypes.object,
 };
 
 export default connect()(InteractionForm);
