@@ -1,43 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  clearInteractions,
-  handleFetchInteractions
-} from "../../actions/interactions";
-import { showLoading, hideLoading } from "react-redux-loading-bar";
-import { setLoading } from "../../actions/loading";
+import {handleFetchInteractions} from "../../actions/interactions";
 import "./interaction.css";
+import {showLoading} from "react-redux-loading-bar";
+import {setLoading} from "../../actions/loading";
 
 class Interactions extends Component {
-  constructor(props) {
-    super(props);
-    this.loadCount = 0;
-  }
 
   componentDidMount() {
     const { dispatch, goalId, selections } = this.props;
     if (selections.goal !== Number(goalId)) {
-      dispatch(setLoading(true));
       dispatch(showLoading());
-      dispatch(clearInteractions());
+      dispatch(setLoading(true));
       dispatch(handleFetchInteractions(goalId));
     }
   }
 
-  setStimulusLoaded = () => {
-    const { dispatch } = this.props;
-    this.loadCount--;
-    if (this.loadCount === 0) {
-      dispatch(hideLoading());
-      dispatch(setLoading(false));
-    }
-  };
-
   getStimulus = interaction => {
     const { title, prompt } = interaction;
     if (prompt.stimulus_url === "") {
-      this.setStimulusLoaded();
       return <span>{prompt.copy}</span>;
     } else {
       return (
@@ -45,22 +27,20 @@ class Interactions extends Component {
           alt={title}
           src={prompt.stimulus_url}
           className="image-thumbnail"
-          onLoad={() => this.setStimulusLoaded()}
-          onError={() => this.setStimulusLoaded()}
         />
       );
     }
   };
 
   render() {
-    const { interactions, loading, interactionCount } = this.props;
-    this.loadCount = interactionCount;
+    debugger;
+    const { interactions, loading } = this.props;
     return (
       <div
         className="interaction"
         style={{ display: loading ? "none" : "block" }}
       >
-        <div className="header-box">Total interactions: {interactionCount}</div>
+        <div className="header-box">Total interactions: {interactions.length}</div>
         <div className="box">
           <table>
             <thead>
@@ -102,15 +82,11 @@ class Interactions extends Component {
   }
 }
 
-const mapStateToProps = ({ interactions, selections, loading }, { match }) => {
-  const interactionArray = Object.values(interactions);
-  return ({
+const mapStateToProps = ({ interactions, selections, loading }, { match }) => ({
     loading,
-    interactions: interactionArray.sort((a, b) => a.title > b.title ? 1 : -1),
     selections,
     goalId: match.params.goalId,
-    interactionCount: interactionArray.length
-  })
-};
+    interactions: Object.values(interactions).sort((a, b) => a.title > b.title ? 1 : -1)
+});
 
 export default connect(mapStateToProps)(Interactions);
