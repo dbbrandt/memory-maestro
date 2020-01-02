@@ -46,15 +46,9 @@ table tr:nth-child(odd) td{
     cursor: pointer;
 }
 
-.stimulus_thumbnail  {
+.image-thumbnail  {
     height: 100px;
 }
-
-.stimulus_img {
-    padding-top: 40px;
-    width: 300px;
-}
-
 
 .box {
     border: 3px #7f7f8060 ridge;
@@ -105,6 +99,13 @@ table tr:nth-child(odd) td{
 .form-text {
     font-size: 16px;
     text-decoration: none;
+}
+
+.goal-image-input {
+    max-width: 150px;
+    height: 150px;
+    background-color: white;
+    border: 2px solid lightgrey;
 }
 
 .image-input {

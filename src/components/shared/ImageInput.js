@@ -60,6 +60,7 @@ class ImageInput extends React.Component {
     className: PropTypes.string,
     maxHeight: PropTypes.number,
     handleFileChange: PropTypes.func,
+    value: PropTypes.string
   };
 
   state = {

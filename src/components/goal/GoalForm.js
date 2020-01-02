@@ -8,14 +8,14 @@ const initState = () => ({
   title: "",
   description: "",
   instructions: "",
-  imgURL: "",
-  imgAltText: ""
+  image_url: "",
 });
 
 class GoalForm extends Component {
   constructor(props) {
     super(props);
     this.state = this.props.initForm;
+    this.maxHeight = 250;
   }
 
   handleSubmit = event => {
@@ -39,7 +39,7 @@ class GoalForm extends Component {
   };
 
   handleImageChange = url => {
-    this.setState({ imgURL: url });
+    this.setState({ image_url: url });
   };
 
   handleChange = event => {
@@ -47,7 +47,7 @@ class GoalForm extends Component {
   };
 
   render() {
-    const { id, title, description, instructions, imgUrl, imgAltText } = this.state;
+    const { id, title, description, instructions, image_url, imgAltText } = this.state;
     const { handleCancel, handleDelete } = this.props;
     return (
       <form className="form box" onSubmit={this.handleSubmit}>
@@ -91,9 +91,9 @@ class GoalForm extends Component {
           <label>Goal Image:</label>
           <ImageInput
             handleFileChange={this.handleImageChange}
-            className="image-input"
-            maxHeight={80}
-            value={imgUrl}
+            className="goal-image-input"
+            maxHeight={this.maxHeight}
+            value={image_url}
             onChange={this.handleChange}
           />
         </div>

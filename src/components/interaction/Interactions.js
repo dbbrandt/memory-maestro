@@ -44,7 +44,7 @@ class Interactions extends Component {
         <img
           alt={title}
           src={prompt.stimulus_url}
-          className="stimulus_thumbnail"
+          className="image-thumbnail"
           onLoad={() => this.setStimulusLoaded()}
           onError={() => this.setStimulusLoaded()}
         />
@@ -102,12 +102,15 @@ class Interactions extends Component {
   }
 }
 
-const mapStateToProps = ({ interactions, selections, loading }, { match }) => ({
-  loading,
-  interactions,
-  selections,
-  goalId: match.params.goalId,
-  interactionCount: Object.keys(interactions).length
-});
+const mapStateToProps = ({ interactions, selections, loading }, { match }) => {
+  const interactionArray = Object.values(interactions);
+  return ({
+    loading,
+    interactions: interactionArray.sort((a, b) => a.title > b.title ? 1 : -1),
+    selections,
+    goalId: match.params.goalId,
+    interactionCount: interactionArray.length
+  })
+};
 
 export default connect(mapStateToProps)(Interactions);

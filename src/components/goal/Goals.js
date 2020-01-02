@@ -22,8 +22,8 @@ class Goals extends Component {
             <thead>
               <tr>
                 <th>Title</th>
+                <th>Image</th>
                 <th>Description</th>
-                <th>Instructions</th>
                 <th>Created</th>
                 <th>Modified</th>
               </tr>
@@ -34,8 +34,14 @@ class Goals extends Component {
                   <td>
                     <Link to={`/interactions/${goal.id}`}>{goal.title}</Link>
                   </td>
+                  <td>
+                    <img
+                      alt={goal.description}
+                      src={goal.image_url}
+                      className="image-thumbnail"
+                    />
+                  </td>
                   <td>{goal.description}</td>
-                  <td>{goal.instructions}</td>
                   <td>
                     {new Intl.DateTimeFormat("en-US").format(
                       new Date(goal.created_at)
