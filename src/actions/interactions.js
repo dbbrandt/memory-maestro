@@ -21,6 +21,11 @@ export const handleFetchInteractions = id => {
           dispatch(setLoading(false));
         }
       })
+      .then(() => {
+        dispatch(hideLoading());
+        dispatch(setLoading(false));
+        }
+      )
       .catch(error => {
         alert("Fetch Interactions Failed: " + error);
       });

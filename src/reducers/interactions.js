@@ -8,9 +8,11 @@ import {
 
 const interactions = createReducer({}, {
   [fetchInteractions]: (state, action) => {
+    const interactions = {};
     action.payload.forEach(interaction => {
-      state[interaction.id] = interaction;
+      interactions[interaction.id] = interaction;
     });
+    return interactions;
   },
   [clearInteractions]: (state, action) => ({}),
   [addInteraction]: (state, action) => {
