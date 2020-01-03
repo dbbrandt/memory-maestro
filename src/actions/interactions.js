@@ -34,6 +34,7 @@ export const handleFetchInteractions = id => {
 
 export const handleAddInteraction = (interaction, goalId) => {
   return dispatch => {
+    delete interaction.id;
     API.addInteraction(interaction, goalId)
       .then(res => {
         res["message"]

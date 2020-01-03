@@ -20,7 +20,7 @@ const initState = () => ({
     description: "",
     copy: "",
     descriptor: "",
-    score: 0
+    score: 1
   }]
 });
 
@@ -33,24 +33,30 @@ class InteractionForm extends Component {
     this.maxHeight = 250;
   }
 
+  // Fix-up stimulus URL if missing host for local images.
+  getStimulusUrl = (prompt) => {
+    const { stimulus_url } = prompt;
+    if (!stimulus_url || stimulus_url.includes('http')) return stimulus_url;
+    else return "http://localhost" + stimulus_url;
+  };
+
   setFormData = (interaction) => {
     const { id, title, prompt, criterion } = interaction;
     const criterion1 = criterion.length > 0 ? criterion[0] : {};
-    const host = prompt.stimulus_url.includes('http') ? "" : "http://localhost";
     return ({
       id: id,
       title: title,
       answerType: "ShortAnswer",
-      promptTitle: prompt.title,
-      promptCopy: prompt.copy,
-      promptStimulusUrl: host + prompt.stimulus_url,
+      promptTitle: prompt.title || "",
+      promptCopy: prompt.copy || "",
+      promptStimulusUrl: this.getStimulusUrl(prompt),
       imageInputClass: 'image-hide',
       imageInputButton: 'Show',
-      criterionTitle: criterion1.title,
-      criterionDescription: criterion1.description,
-      criterionCopy: criterion1.copy,
-      criterionDescriptor: criterion1.descriptor,
-      criterionScore: criterion1.score
+      criterionTitle: criterion1.title || "",
+      criterionDescription: criterion1.description || "",
+      criterionCopy: criterion1.copy || "",
+      criterionDescriptor: criterion1.descriptor || "",
+      criterionScore: criterion1.score || 1
     })
   };
 
@@ -59,7 +65,7 @@ class InteractionForm extends Component {
     return ({
       id: s.id,
       title: s.title,
-      answerType: s.answerType,
+      answer_type: s.answerType,
       prompt: {
         title: s.promptTitle,
         copy: s.promptCopy,
@@ -170,7 +176,7 @@ class InteractionForm extends Component {
           Correct Response
         </div>
         <div>
-          <label>Answer:</label>
+          <label>Descriptor (Answer):</label>
           <textarea
             rows={2}
             cols={60}
@@ -181,7 +187,7 @@ class InteractionForm extends Component {
           />
         </div>
         <div>
-          <label>Explaination:</label>
+          <label>Copy (Explanation):</label>
           <textarea
             rows={4}
             cols={60}

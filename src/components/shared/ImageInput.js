@@ -96,15 +96,16 @@ class ImageInput extends React.Component {
     this.canvas = document.createElement("canvas");
     this.fileInput.form.addEventListener("reset", this.handleFormReset);
     // Added feature to convert any URL passed in to a dataURL for preloading the canvas.
-    toDataURL(this.props.value)
-      .then(dataUrl => {
-        this.setState({ value: dataUrl });
-        resizeImage(dataUrl, this.canvas, this.props.maxHeight).then(
-          url => {
-            this.setState({ value: url });
-          }
-        );
-      });
+    if (!!this.props.value)
+      toDataURL(this.props.value)
+        .then(dataUrl => {
+          this.setState({ value: dataUrl });
+          resizeImage(dataUrl, this.canvas, this.props.maxHeight).then(
+            url => {
+              this.setState({ value: url });
+            }
+          );
+        });
   }
 
   componentWillUnmount() {

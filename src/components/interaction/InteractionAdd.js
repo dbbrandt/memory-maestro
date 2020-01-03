@@ -11,7 +11,6 @@ class InteractionAdd extends Component {
   }
 
   handleSubmit = interaction => {
-    debugger;
     const { goalId, dispatch, history } = this.props;
     dispatch(handleAddInteraction(interaction, goalId));
     history.push("/");
@@ -19,7 +18,6 @@ class InteractionAdd extends Component {
 
   render() {
     const { goalId, history } = this.props;
-    debugger;
     if (!goalId) history.push('/');
     return(
       <div className="interaction">
