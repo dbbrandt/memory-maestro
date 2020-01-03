@@ -14,7 +14,7 @@ const interactions = createReducer({}, {
     });
     return interactions;
   },
-  [clearInteractions]: (state, action) => ({}),
+  [clearInteractions]: () => ({}),
   [addInteraction]: (state, action) => {
     state[action.payload.id] = action.payload;
   },

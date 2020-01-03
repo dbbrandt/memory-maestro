@@ -67,8 +67,12 @@ Api.deleteGoal = id => {
 Api.fetchInteractions = id => {
   return fetch(`${apiURL}/goals/${id}/interactions?deep=true`, { headers })
     .then(interaction => interaction.json())
-    .then(data =>
-      fixupImageUrl(data).sort((a, b) => (a.title > b.title ? 1 : -1))
+    .then(data => {
+        if (!data.message)
+          return fixupImageUrl(data).sort((a, b) => (a.title > b.title ? 1 : -1));
+        else
+          return [];
+      }
     )
     .catch(error => {
       console.log("Error fetching Interactions: ", error);

@@ -4,8 +4,15 @@ import { Link } from 'react-router-dom';
 import deleteIcon from '../../assets/delete.png';
 import editIcon from '../../assets/edit.png';
 import {handleDeleteGoal} from "../../actions/goals";
+import {GOAL_SECTION, setSection} from "../../actions/selections";
 
 class Goals extends Component {
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(setSection(GOAL_SECTION));
+  }
+
   handleDelete = (id) => {
     const { dispatch } = this.props;
     let ok = window.confirm('Are you sure you want to delete this goal?');

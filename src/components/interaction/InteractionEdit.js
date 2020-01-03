@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import InteractionForm from "./InteractionForm";
 import {handleDeleteInteraction, handleUpdateInteraction} from "../../actions/interactions";
+import {INTERACTION_SECTION, setSection} from "../../actions/selections";
 
 class InteractionEdit extends Component {
   handleSubmit = interaction => {
     const { dispatch, history, goalId } = this.props;
+    dispatch(setSection(INTERACTION_SECTION));
     dispatch(handleUpdateInteraction(interaction, goalId));
     history.push("/");
   };
@@ -23,9 +26,9 @@ class InteractionEdit extends Component {
   };
 
   render() {
-    const { interactionId, interaction, goalId, history } = this.props;
+    const { interaction, goalId, history } = this.props;
     if (!goalId) history.push('/');
-    return interactionId ? (
+    return interaction ? (
       <div className="interaction">
         <div className="header-box">Edit Interaction</div>
         <InteractionForm
@@ -48,4 +51,4 @@ const mapStateToProps = ({ interactions, selections }, { match }) => {
   return { goalId, interactionId, interaction };
 };
 
-export default connect(mapStateToProps)(InteractionEdit);
+export default withRouter(connect(mapStateToProps)(InteractionEdit));

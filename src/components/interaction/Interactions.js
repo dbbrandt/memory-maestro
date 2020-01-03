@@ -5,12 +5,15 @@ import {handleFetchInteractions} from "../../actions/interactions";
 import "./interaction.css";
 import {showLoading} from "react-redux-loading-bar";
 import {setLoading} from "../../actions/loading";
+import {GOAL_SECTION, INTERACTION_SECTION, setSection} from "../../actions/selections";
 
 class Interactions extends Component {
 
   componentDidMount() {
     const { dispatch, goalId, selections } = this.props;
+    dispatch(setSection(INTERACTION_SECTION));
     if (selections.goal !== Number(goalId)) {
+      dispatch(setSection(INTERACTION_SECTION));
       dispatch(showLoading());
       dispatch(setLoading(true));
       dispatch(handleFetchInteractions(goalId));
@@ -33,8 +36,8 @@ class Interactions extends Component {
   };
 
   render() {
-    debugger;
-    const { interactions, loading } = this.props;
+    const { goal, interactions, loading, history } = this.props;
+    if (!goal) history.push('/');
     return (
       <div
         className="interaction"
@@ -53,7 +56,7 @@ class Interactions extends Component {
               </tr>
             </thead>
             <tbody>
-              {Object.values(interactions).map(interaction => (
+              {interactions.map(interaction => (
                 <tr key={interaction.id} className="interaction">
                   <td>
                     <Link to={`/interaction-edit/${interaction.id}`}>
@@ -82,11 +85,15 @@ class Interactions extends Component {
   }
 }
 
-const mapStateToProps = ({ interactions, selections, loading }, { match }) => ({
+const mapStateToProps = ({ goals, interactions, selections, loading }, { match }) => {
+    const goalId = match.params.goalId;
+    return ({
     loading,
     selections,
-    goalId: match.params.goalId,
+    goalId,
+    goal: goals[goalId],
     interactions: Object.values(interactions).sort((a, b) => a.title > b.title ? 1 : -1)
-});
+  });
+}
 
 export default connect(mapStateToProps)(Interactions);

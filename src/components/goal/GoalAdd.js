@@ -4,11 +4,17 @@ import { withRouter } from "react-router-dom";
 import "./goal.css";
 import {handleAddGoal} from "../../actions/goals";
 import GoalForm from "./GoalForm";
+import {GOAL_SECTION, setSection } from "../../actions/selections";
 
 class GoalAdd extends Component {
+  componentDidMount() {
+    this.props.dispatch(setSection(GOAL_SECTION));
+  }
+
   handleSubmit = goal => {
-    this.props.dispatch(handleAddGoal(goal));
-    this.props.history.push("/");
+    const { dispatch, history } = this.props;
+    dispatch(handleAddGoal(goal));
+    history.push("/");
   };
 
   render() {

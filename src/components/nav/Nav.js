@@ -5,7 +5,7 @@ import "./Nav.css";
 
 class Nav extends Component {
   render() {
-    const { loginLink, goalId } = this.props;
+    const { loginLink, goalId, section } = this.props;
     return (
       <nav className="container-grid layout-section navigation">
         <div className="nav-bar">
@@ -16,8 +16,8 @@ class Nav extends Component {
               </NavLink>
             </div>
             <div>
-              <NavLink exact to="/goal-add" activeClassName="nav-active">
-                Add Goal
+              <NavLink exact to={`/${section.toLowerCase()}-add`} activeClassName="nav-active">
+                Add {section}
               </NavLink>
             </div>
             <div>
@@ -42,5 +42,6 @@ class Nav extends Component {
 
 export default withRouter(connect(({ authedUser, selections }) => ({
     loginLink: !!authedUser ? "Logout" : "Login",
-    goalId: selections.goal
+    goalId: selections.goal,
+    section: selections.section
 }))(Nav));

@@ -4,8 +4,14 @@ import { withRouter } from "react-router-dom";
 import "./goal.css";
 import { handleDeleteGoal, handleUpdateGoal } from "../../actions/goals";
 import GoalForm from "./GoalForm";
+import {GOAL_SECTION, setSection } from "../../actions/selections";
 
 class GoalEdit extends Component {
+
+  componentDidMount() {
+    this.props.dispatch(setSection(GOAL_SECTION));
+  }
+
   handleSubmit = goal => {
     const { dispatch, history } = this.props;
     dispatch(handleUpdateGoal(goal));
@@ -24,8 +30,9 @@ class GoalEdit extends Component {
   };
 
   render() {
-    const { goalId, goal } = this.props;
-    return goalId ? (
+    const { goal, history } = this.props;
+    if (!goal) history.push('/');
+    return goal ? (
       <div className="goal">
         <div className="header-box">Edit Goal</div>
         <GoalForm

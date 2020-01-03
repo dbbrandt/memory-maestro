@@ -1,10 +1,10 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { setGoal, setInteraction } from "../actions/selections";
+import {setGoal, setInteraction, setSection} from "../actions/selections";
 import {addGoal, deleteGoal, updateGoal} from "../actions/goals";
 import {addInteraction, deleteInteraction, updateInteraction} from "../actions/interactions";
 
 export const selections = createReducer(
-  {},
+  {section: "goal"},
   {
     [setGoal]: (state, action) => {
       state.goal = Number(action.payload);
@@ -30,8 +30,10 @@ export const selections = createReducer(
     },
     [deleteInteraction]: (state, action) => {
       if (state.goal === action)  delete state.goal;
+    },
+    [setSection]: (state, action) => {
+      state.section = action.payload;
     }
-
   }
 );
 
