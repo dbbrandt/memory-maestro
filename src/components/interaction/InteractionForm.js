@@ -8,16 +8,20 @@ const initState = () => ({
   id: 0,
   title: "",
   answerType: "ShortAnswer",
-  promptTitle: "",
-  promptCopy: "",
-  promptStimulusUrl: "",
   imageInputClass: "image-hide",
   imageInputButton: "Show",
-  criterionTitle: "",
-  criterionDescription: "",
-  criterionCopy: "",
-  criterionDescriptor: "",
-  criterionScore: 0
+  prompt: {
+    title: "",
+    copy: "",
+    stimulus_url: ""
+  },
+  criterion: [{
+    title: "",
+    description: "",
+    copy: "",
+    descriptor: "",
+    score: 0
+  }]
 });
 
 class InteractionForm extends Component {
