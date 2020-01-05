@@ -33,13 +33,6 @@ class InteractionForm extends Component {
     this.maxHeight = 250;
   }
 
-  // Fix-up stimulus URL if missing host for local images.
-  getStimulusUrl = (prompt) => {
-    const { stimulus_url } = prompt;
-    if (!stimulus_url || stimulus_url.includes('http')) return stimulus_url;
-    else return "http://localhost" + stimulus_url;
-  };
-
   setFormData = (interaction) => {
     const { id, title, prompt, criterion } = interaction;
     const criterion1 = criterion.length > 0 ? criterion[0] : {};
@@ -49,7 +42,7 @@ class InteractionForm extends Component {
       answerType: "ShortAnswer",
       promptTitle: prompt.title || "",
       promptCopy: prompt.copy || "",
-      promptStimulusUrl: this.getStimulusUrl(prompt),
+      promptStimulusUrl: prompt.stimulus_url || "",
       imageInputClass: 'image-hide',
       imageInputButton: 'Show',
       criterionTitle: criterion1.title || "",
