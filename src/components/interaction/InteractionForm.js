@@ -32,14 +32,13 @@ class InteractionForm extends Component {
   setFormData = (interaction) => {
     const { id, title, prompt, criterion } = interaction;
     const criterion1 = criterion.length > 0 ? criterion[0] : {};
-    const host = prompt.stimulus_url.includes('http') ? "" : "http://localhost";
     return ({
       id: id,
       title: title,
       answerType: "ShortAnswer",
       promptTitle: prompt.title,
       promptCopy: prompt.copy,
-      promptStimulusUrl: host + prompt.stimulus_url,
+      promptStimulusUrl: prompt.stimulus_url,
       imageInputClass: 'image-hide',
       imageInputButton: 'Show',
       criterionTitle: criterion1.title,

@@ -5,7 +5,7 @@ import {handleFetchInteractions} from "../../actions/interactions";
 import "./interaction.css";
 import {showLoading} from "react-redux-loading-bar";
 import {setLoading} from "../../actions/loading";
-import {GOAL_SECTION, INTERACTION_SECTION, setSection} from "../../actions/selections";
+import { INTERACTION_SECTION, setSection} from "../../actions/selections";
 
 class Interactions extends Component {
 
