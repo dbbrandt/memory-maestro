@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {handleFetchInteractions} from "../../actions/interactions";
+import { handleFetchInteractions } from "../../actions/interactions";
 import "./interaction.css";
-import {showLoading} from "react-redux-loading-bar";
-import {setLoading} from "../../actions/loading";
-import {GOAL_SECTION, INTERACTION_SECTION, setSection} from "../../actions/selections";
+import { showLoading } from "react-redux-loading-bar";
+import { setLoading } from "../../actions/loading";
+import { INTERACTION_SECTION, setSection } from "../../actions/selections";
 
 class Interactions extends Component {
 
@@ -22,6 +22,7 @@ class Interactions extends Component {
 
   getStimulus = interaction => {
     const { title, prompt } = interaction;
+    if (!prompt) return null;
     if (prompt.stimulus_url === "") {
       return <span>{prompt.copy}</span>;
     } else {

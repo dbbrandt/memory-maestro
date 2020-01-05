@@ -32,8 +32,20 @@ export const handleFetchInteractions = id => {
   };
 };
 
-export const handleAddInteraction = interaction => {
-  return dispatch => {};
+export const handleAddInteraction = (interaction, goalId) => {
+  return dispatch => {
+    delete interaction.id;
+    API.addInteraction(interaction, goalId)
+      .then(res => {
+        res["message"]
+          ? alert(res["message"])
+          : dispatch(addInteraction(res));
+      })
+      .catch(error => {
+        alert("Failed to add interaction. Try again.");
+        console.log("Failed to add interaction:", error);
+      });
+  };
 };
 
 export const handleUpdateInteraction = (interaction, goalId) => {
