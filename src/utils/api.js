@@ -1,22 +1,10 @@
 // Temporary dummy user data
 import { _getUsers } from './_DATA.js'
 
-// const baseURL = "http://www.memorymaestro.com";
-// const baseURL = "http://localhost:80";
-// const apiURL = baseURL + "/api";
-const  baseURL="";
 const apiURL = "/api";
 const headers = {
   'Accept': 'application/json',
   'Content-Type': 'application/json'
-};
-
-const fixupImageUrl = interactions => {
-  interactions.forEach(interaction => {
-    const { stimulus_url } = interaction.prompt;
-    interaction.prompt.stimulus_url = !!stimulus_url ? baseURL + stimulus_url : '';
-  });
-  return interactions;
 };
 
 
@@ -37,6 +25,12 @@ Api.addGoal = goal => {
     body: JSON.stringify(goal)
   })
     .then(res => res.json())
+    .then(data => {
+      if (!data.message)
+        return data.sort((a, b) => (a.title > b.title ? 1 : -1));
+      else
+        return [];
+    })
     .catch(error => {
       console.log("Error saving goal: ", error);
     });
@@ -69,7 +63,7 @@ Api.fetchInteractions = id => {
     .then(interaction => interaction.json())
     .then(data => {
         if (!data.message)
-          return fixupImageUrl(data).sort((a, b) => (a.title > b.title ? 1 : -1));
+          return data.sort((a, b) => (a.title > b.title ? 1 : -1));
         else
           return [];
       }
