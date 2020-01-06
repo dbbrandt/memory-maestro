@@ -1,6 +1,0 @@
-{
-  "/api": {
-    "target": "http://www.memorymaestro.com",
-    "secure": false
-  }
-}
