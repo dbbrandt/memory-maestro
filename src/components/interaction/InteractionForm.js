@@ -8,16 +8,20 @@ const initState = () => ({
   id: 0,
   title: "",
   answerType: "ShortAnswer",
-  promptTitle: "",
-  promptCopy: "",
-  promptStimulusUrl: "",
   imageInputClass: "image-hide",
   imageInputButton: "Show",
-  criterionTitle: "",
-  criterionDescription: "",
-  criterionCopy: "",
-  criterionDescriptor: "",
-  criterionScore: 0
+  prompt: {
+    title: "",
+    copy: "",
+    stimulus_url: ""
+  },
+  criterion: [{
+    title: "",
+    description: "",
+    copy: "",
+    descriptor: "",
+    score: 1
+  }]
 });
 
 class InteractionForm extends Component {
@@ -36,16 +40,16 @@ class InteractionForm extends Component {
       id: id,
       title: title,
       answerType: "ShortAnswer",
-      promptTitle: prompt.title,
-      promptCopy: prompt.copy,
-      promptStimulusUrl: prompt.stimulus_url,
+      promptTitle: prompt.title || "",
+      promptCopy: prompt.copy || "",
+      promptStimulusUrl: prompt.stimulus_url || "",
       imageInputClass: 'image-hide',
       imageInputButton: 'Show',
-      criterionTitle: criterion1.title,
-      criterionDescription: criterion1.description,
-      criterionCopy: criterion1.copy,
-      criterionDescriptor: criterion1.descriptor,
-      criterionScore: criterion1.score
+      criterionTitle: criterion1.title || "",
+      criterionDescription: criterion1.description || "",
+      criterionCopy: criterion1.copy || "",
+      criterionDescriptor: criterion1.descriptor || "",
+      criterionScore: criterion1.score || 1
     })
   };
 
@@ -54,7 +58,7 @@ class InteractionForm extends Component {
     return ({
       id: s.id,
       title: s.title,
-      answerType: s.answerType,
+      answer_type: s.answerType,
       prompt: {
         title: s.promptTitle,
         copy: s.promptCopy,
@@ -165,7 +169,7 @@ class InteractionForm extends Component {
           Correct Response
         </div>
         <div>
-          <label>Answer:</label>
+          <label>Descriptor (Answer):</label>
           <textarea
             rows={2}
             cols={60}
@@ -176,7 +180,7 @@ class InteractionForm extends Component {
           />
         </div>
         <div>
-          <label>Explaination:</label>
+          <label>Copy (Explanation):</label>
           <textarea
             rows={4}
             cols={60}

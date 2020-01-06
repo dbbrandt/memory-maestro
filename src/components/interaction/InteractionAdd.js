@@ -1,15 +1,35 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import {INTERACTION_SECTION, setSection} from "../../actions/selections";
+import InteractionForm from "./InteractionForm";
+import {handleAddInteraction} from "../../actions/interactions";
 
 class InteractionAdd extends Component {
   componentDidMount() {
     this.props.dispatch(setSection(INTERACTION_SECTION));
   }
+
+  handleSubmit = interaction => {
+    const { goalId, dispatch, history } = this.props;
+    dispatch(handleAddInteraction(interaction, goalId));
+    history.push("/");
+  };
+
   render() {
+    const { goalId, history } = this.props;
+    if (!goalId) history.push('/');
     return(
-      <div>Interaction Add</div>
+      <div className="interaction">
+        <div className="header-box">Add Interaction</div>
+        <InteractionForm handleSubmit={this.handleSubmit}/>
+      </div>
     )
   }
 }
 
-export default InteractionAdd;
+const mapStateToProps = ({ selections }) => ({
+  goalId: selections.goal
+});
+
+export default withRouter(connect(mapStateToProps)(InteractionAdd));

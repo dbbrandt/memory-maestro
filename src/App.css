@@ -47,7 +47,7 @@ table tr:nth-child(odd) td{
 }
 
 .image-thumbnail  {
-    height: 100px;
+    max-width: 100px;
 }
 
 .box {
