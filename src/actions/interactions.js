@@ -64,5 +64,16 @@ export const handleUpdateInteraction = (interaction, goalId) => {
 };
 
 export const handleDeleteInteraction = id => {
-  return dispatch => {};
+  return dispatch => {
+    API.deleteInteraction(id)
+      .then(res => {
+        res["message"]
+          ? alert(res["message"])
+          : dispatch(deleteInteraction(id));
+      })
+      .catch(error => {
+        alert("Failed to delete interaction. Try again.");
+        console.log("Failed to delete interaction:", error);
+      });
+  };
 };

@@ -7,22 +7,21 @@ import {INTERACTION_SECTION, setSection} from "../../actions/selections";
 
 class InteractionEdit extends Component {
   handleSubmit = interaction => {
-    const { dispatch, history, goalId } = this.props;
+    const { goalId, dispatch, history } = this.props;
     dispatch(setSection(INTERACTION_SECTION));
     dispatch(handleUpdateInteraction(interaction, goalId));
-    history.push("/");
+    history.push(goalId ? "/interactions/"+goalId : "/");
   };
 
   handleDelete = id => {
-    const { dispatch, history } = this.props;
+    const { goalId, dispatch, history} = this.props;
     dispatch(handleDeleteInteraction(id));
-    history.push("/");
+    history.push(goalId ? "/interactions/"+goalId : "/");
   };
 
   handleCancel = () => {
-    const { goalId, history } = this.props;
-    const dest = goalId ? "/interactions/"+goalId : "/";
-    history.push(dest);
+    const { goalId, history} = this.props;
+    history.push(goalId ? "/interactions/"+goalId : "/");
   };
 
   render() {
