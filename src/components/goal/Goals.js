@@ -36,7 +36,7 @@ class Goals extends Component {
               </tr>
             </thead>
             <tbody>
-              {Object.values(goals).map(goal => (
+              {goals.map(goal => (
                 <tr key={goal.id}>
                   <td>
                     <Link to={`/interactions/${goal.id}`}>{goal.title}</Link>
@@ -76,6 +76,6 @@ class Goals extends Component {
 }
 
 export default connect(({ goals, loading }) => ({
-  goals,
+  goals: Object.values(goals).sort((a, b) => a.title > b.title ? 1 : -1),
   loading
 }))(Goals);
