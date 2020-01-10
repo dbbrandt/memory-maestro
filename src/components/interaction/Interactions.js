@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { handleFetchInteractions } from "../../actions/interactions";
+import {handleDeleteInteraction, handleFetchInteractions} from "../../actions/interactions";
 import "./interaction.css";
 import { showLoading } from "react-redux-loading-bar";
 import { setLoading } from "../../actions/loading";
 import { INTERACTION_SECTION, setSection } from "../../actions/selections";
+import deleteIcon from "../../assets/delete.png";
 
 class Interactions extends Component {
 
@@ -19,6 +20,13 @@ class Interactions extends Component {
       dispatch(handleFetchInteractions(goalId));
     }
   }
+
+  handleDelete = (id) => {
+    const { dispatch } = this.props;
+    let ok = window.confirm('Are you sure you want to delete this interaction?');
+    if (ok) dispatch(handleDeleteInteraction(id));
+
+  };
 
   getStimulus = interaction => {
     const { title, prompt } = interaction;
@@ -76,6 +84,10 @@ class Interactions extends Component {
                       new Date(interaction.updated_at)
                     )}
                   </td>
+                  <td className='icon'>
+                    <img onClick={() =>this.handleDelete(interaction.id)} alt='delete' src={deleteIcon}/>
+                  </td>
+
                 </tr>
               ))}
             </tbody>
