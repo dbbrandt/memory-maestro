@@ -1,8 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+const headers = {
+  'Cache-Control': 'no-cache'
+};
+
 const toDataURL = url =>
-  fetch(url)
+  fetch(url, { headers })
     .then(response => {
       return response.blob()
     })

@@ -20,18 +20,25 @@ const headers = {
 };
 
 const fixupGoalImage = goals => {
+  let host = '';
   goals.forEach(goal => {
     const { image_url } = goal;
-    goal.image_url = !!image_url ? BASE_URL + image_url : '';
-    console.log('Goal url: ', goal.image_url);
+    if (!!image_url) {
+      host = image_url.includes('http') ? '' : BASE_URL;
+      goal.image_url = host + image_url;
+    }
   });
   return goals;
 };
 
 const fixupInteractionImage = interactions => {
+  let host = '';
   interactions.forEach(interaction => {
     const { stimulus_url } = interaction.prompt;
-    interaction.prompt.stimulus_url = !!stimulus_url ? BASE_URL + stimulus_url : '';
+    if (!!stimulus_url) {
+      host = stimulus_url.includes('http') ? '' : BASE_URL;
+      interaction.prompt.stimulus_url = host + stimulus_url;
+    }
   });
   return interactions;
 };
