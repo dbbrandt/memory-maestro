@@ -16,6 +16,7 @@ import GoalEdit from "./components/goal/GoalEdit";
 import Interactions from "./components/interaction/Interactions";
 import InteractionEdit from "./components/interaction/InteractionEdit";
 import InteractionAdd from "./components/interaction/InteractionAdd";
+import Practice from "./components/Practice/Practice";
 
 
 class App extends Component {
@@ -44,6 +45,7 @@ class App extends Component {
                   <Route path="/interaction-add" component={InteractionAdd}/>
                   <Route path="/interaction-edit/:id" component={InteractionEdit}/>
                   <Route path="/interactions/:goalId" component={Interactions}/>
+                  <Route path="/practice" component={Practice}/>
                   <Route path="*" component={NotFound} />
                 </Switch>
               ) : (

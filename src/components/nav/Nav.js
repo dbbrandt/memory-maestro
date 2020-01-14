@@ -26,6 +26,11 @@ class Nav extends Component {
               </NavLink>
             </div>
             <div>
+              <NavLink to="/practice">
+                Practice
+              </NavLink>
+            </div>
+            <div>
               <NavLink
                 to={"/" + loginLink.toLowerCase()}
                 activeClassName="nav-active"

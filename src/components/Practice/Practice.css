@@ -1,0 +1,13 @@
+.practice-info {
+    width: 50%;
+    margin: 20px;
+}
+
+.practice-info div {
+    margin: 10px;
+}
+
+.practice-info h1 {
+    text-align: center;
+    color: #006699;
+}
