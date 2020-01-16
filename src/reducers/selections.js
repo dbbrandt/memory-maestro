@@ -3,7 +3,7 @@ import {setGoal, setInteraction, setSection} from "../actions/selections";
 import {addGoal, deleteGoal, updateGoal} from "../actions/goals";
 import {addInteraction, deleteInteraction, updateInteraction} from "../actions/interactions";
 
-export const selections = createReducer(
+const selections = createReducer(
   {section: "goal"},
   {
     [setGoal]: (state, action) => {

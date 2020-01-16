@@ -5,7 +5,9 @@ import interactions from "./interactions";
 import loading from "./loading";
 import authedUser from "./authedUser";
 import users from "./users";
+import rounds from "./rounds";
 import selections from "./selections";
+
 
 const reducer =  combineReducers({
   authedUser,
@@ -13,6 +15,7 @@ const reducer =  combineReducers({
   users,
   goals,
   interactions,
+  rounds,
   loading,
   loadingBar: loadingBarReducer
 });

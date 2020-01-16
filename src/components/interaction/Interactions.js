@@ -107,6 +107,6 @@ const mapStateToProps = ({ goals, interactions, selections, loading }, { match }
     goal: goals[goalId],
     interactions: Object.values(interactions).sort((a, b) => a.title > b.title ? 1 : -1)
   });
-}
+};
 
 export default connect(mapStateToProps)(Interactions);
