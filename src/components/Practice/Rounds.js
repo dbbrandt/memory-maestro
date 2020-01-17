@@ -11,8 +11,9 @@ class Rounds extends Component {
   }
 
   render() {
-    const { goal_id, rounds, history } = this.props;
+    const { loading, goal_id, rounds, history } = this.props;
     if (!goal_id) history.push('/');
+    if (loading) return null;
     return (
       !rounds ? <div>No Rounds Found</div>
         :
@@ -33,9 +34,9 @@ class Rounds extends Component {
               {rounds.map(round => (
                 <tr>
                   <td>{formatDateTime(round.updated_at)}</td>
-                  <td className='centered'>{round.round_responses.length}</td>
-                  <td className='centered'>{round.correct}</td>
-                  <td className='centered'>{round.score}</td>
+                  <td className='centered'>{round.round_responses.total}</td>
+                  <td className='centered'>{round.round_responses.correct}</td>
+                  <td className='centered'>{round.round_responses.score}%</td>
                   <td>{formatDate(round.created_at)}</td>
                 </tr>
             ))}
@@ -47,13 +48,14 @@ class Rounds extends Component {
   }
 }
 
-const mapStateToProps = ({ selections, rounds }) => {
+const mapStateToProps = ({ selections, rounds, loading }) => {
   const sorted = !!rounds && rounds.length > 0 ? [...rounds].sort((a,b) => b.updated_at - a.updated_at > 0 ? 1 : -1)
     : rounds;
   return {
     goal_id: selections.goal,
-    rounds: sorted
+    rounds: sorted,
+    loading
   };
-}
+};
 
 export default withRouter(connect(mapStateToProps)(Rounds));

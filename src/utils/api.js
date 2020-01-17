@@ -160,7 +160,7 @@ Api.deleteInteraction = id => {
 };
 
 Api.fetchRounds = id => {
-  return fetch(`${API_URL}/goals/${id}/rounds?deep=true`, { headers })
+  return fetch(`${API_URL}/goals/${id}/rounds`, { headers })
     .then(rounds => rounds.json())
     .catch(error => {
       console.log("Error fetching Rounds: ", error);
