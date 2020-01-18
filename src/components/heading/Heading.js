@@ -20,8 +20,7 @@ class Heading extends Component {
         {!!currentUser && (
           <Fragment>
             <div className="goal-heading">
-              <div>Goal:</div>
-              <div>{title}</div>
+              <div>Goal: {title}</div>
               <div className='btn'>
                 <button onClick={this.handleClick}>{buttonText}</button>
               </div>

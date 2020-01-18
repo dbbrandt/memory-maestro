@@ -15,7 +15,7 @@ class Rounds extends Component {
     if (!goal_id) history.push('/');
     if (loading) return null;
     return (
-      !rounds ? <div>No Rounds Found</div>
+      !rounds || rounds.length === 0 ? <div>No Rounds Found</div>
         :
       <div className='rounds'>
         <div className='header-box'>Rounds</div>
@@ -24,7 +24,7 @@ class Rounds extends Component {
             <thead>
               <tr>
                 <th>Last Activity</th>
-                <th>Interactions</th>
+                <th>Total</th>
                 <th>Correct</th>
                 <th>Score</th>
                 <th>Started On</th>

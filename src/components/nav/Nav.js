@@ -17,7 +17,7 @@ class Nav extends Component {
             </div>
             <div>
               <NavLink exact to={`/${section.toLowerCase()}-add`} activeClassName="nav-active">
-                Add {section}
+                Add
               </NavLink>
             </div>
             <div>
@@ -28,11 +28,6 @@ class Nav extends Component {
             <div>
               <NavLink to="/practice">
                 Practice
-              </NavLink>
-            </div>
-            <div>
-              <NavLink to="/rounds">
-                Rounds
               </NavLink>
             </div>
             <div>
