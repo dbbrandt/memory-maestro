@@ -31,6 +31,11 @@ class Nav extends Component {
               </NavLink>
             </div>
             <div>
+              <NavLink to="/rounds">
+                Rounds
+              </NavLink>
+            </div>
+            <div>
               <NavLink
                 to={"/" + loginLink.toLowerCase()}
                 activeClassName="nav-active"

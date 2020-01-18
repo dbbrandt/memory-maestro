@@ -45,6 +45,22 @@ const fixupInteractionImage = interactions => {
 
 let Api = {};
 
+// Temporary user api
+Api.getUsers = () => {
+  return _getUsers()
+    .then((users) => users)
+};
+
+Api.getInitialData = () => {
+  return Promise.all([
+    _getUsers(),
+    Api.fetchGoals(),
+  ]).then(([users, goals]) => ({
+    users,
+    goals,
+  }))
+};
+
 Api.fetchGoals = () => {
   return fetch(API_URL + "/goals", { headers })
     .then(res => res.json())
@@ -143,22 +159,12 @@ Api.deleteInteraction = id => {
     });
 };
 
-
-
-// Temporary user api
-Api.getUsers = () => {
-  return _getUsers()
-    .then((users) => users)
-};
-
-Api.getInitialData = () => {
-  return Promise.all([
-    _getUsers(),
-    Api.fetchGoals(),
-  ]).then(([users, goals]) => ({
-    users,
-    goals,
-  }))
+Api.fetchRounds = id => {
+  return fetch(`${API_URL}/goals/${id}/rounds`, { headers })
+    .then(rounds => rounds.json())
+    .catch(error => {
+      console.log("Error fetching Rounds: ", error);
+    });
 };
 
 export default Api;
