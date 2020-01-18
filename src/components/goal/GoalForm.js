@@ -8,7 +8,7 @@ const initState = () => ({
   title: "",
   description: "",
   instructions: "",
-  image_url: "",
+  image_url: ""
 });
 
 class GoalForm extends Component {

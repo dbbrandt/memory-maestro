@@ -12,7 +12,8 @@ class GoalAdd extends Component {
   }
 
   handleSubmit = goal => {
-    const { dispatch, history } = this.props;
+    const { authedUser, dispatch, history } = this.props;
+    goal["user_id"] = authedUser;
     dispatch(handleAddGoal(goal));
     history.push("/");
   };
@@ -27,4 +28,9 @@ class GoalAdd extends Component {
   }
 }
 
-export default withRouter(connect()(GoalAdd));
+// TODO remove default to authedUser 1 when real user api added.
+const mapStateToProps = ({ authedUser }) => ({
+  authedUser: 1
+});
+
+export default withRouter(connect(mapStateToProps)(GoalAdd));
