@@ -8,7 +8,8 @@ const initState = () => ({
   title: "",
   description: "",
   instructions: "",
-  image_url: ""
+  image_url: "",
+  image_filename: ""
 });
 
 class GoalForm extends Component {
@@ -38,8 +39,8 @@ class GoalForm extends Component {
     if (!!id && ok) handleDelete(id);
   };
 
-  handleImageChange = url => {
-    this.setState({ image_url: url });
+  handleImageChange = ( url, filename ) => {
+    this.setState({ image_url: url, image_filename: filename });
   };
 
   handleChange = event => {

@@ -75,6 +75,26 @@ Api.fetchGoals = () => {
     });
 };
 
+Api.getPresignedGoalUrl = (id, filename) => {
+  return fetch(API_URL + "/goals/" + id + '/presigned_url?filename='+filename, { headers })
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error fetching Goals: ", error);
+    });
+};
+
+Api.uploadFileToAws = (url, data) => {
+  return fetch(url, {
+    method: 'POST',
+    headers,
+    body: data
+  })
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error saving goal: ", error);
+    });
+};
+
 Api.addGoal = goal => {
   return fetch(API_URL + "/goals", {
     method: 'POST',

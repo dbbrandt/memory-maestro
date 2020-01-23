@@ -16,6 +16,9 @@ export const handleFetchGoals = () => {
 
 export const handleAddGoal = goal => {
   return dispatch => {
+    debugger;
+    // Need to handle image_url as image data for upload to AWS but only if it has changed.
+    goal.image_url = goal.image_filename;
     Api.addGoal(goal)
       .then(res => {
         res["message"] ? alert(res["message"]) : dispatch(addGoal(res));

@@ -5,6 +5,8 @@ const headers = {
   'Cache-Control': 'no-cache'
 };
 
+const getFilenamePart = filename => filename.match(/.*\/(.*)$/)[1];
+
 const toDataURL = url =>
   fetch(url, { headers })
     .then(response => {
@@ -68,16 +70,21 @@ class ImageInput extends React.Component {
   };
 
   state = {
-    value: ""
+    value: "",
+    filename: ""
   };
 
   handleValueChange = value => {
     this.setState({ value: value });
-    this.props.handleFileChange(value);
+    const { filename } = this.state;
+    this.props.handleFileChange(value, filename);
   };
 
   handleFileChange = event => {
+    debugger;
     const file = event.target.files[0];
+    this.setState({ filename: file.name });
+
 
     if (file && file.type.match(/^image\//)) {
       readFileAsDataURL(file).then(originalURL => {
@@ -103,7 +110,9 @@ class ImageInput extends React.Component {
     if (!!this.props.value)
       toDataURL(this.props.value)
         .then(dataUrl => {
-          this.setState({ value: dataUrl });
+          debugger;
+          const filename = getFilenamePart(this.props.value)
+          this.setState({ value: dataUrl, filename: filename });
           resizeImage(dataUrl, this.canvas, this.props.maxHeight).then(
             url => {
               this.setState({ value: url });
