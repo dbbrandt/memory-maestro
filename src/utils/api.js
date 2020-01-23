@@ -1,9 +1,10 @@
 // Temporary dummy user data
-import { _getUsers } from './_DATA.js'
+import { _getUsers } from "./_DATA.js";
+import bufferFrom from "buffer-from";
 
 const prod = {
   BASE_URL: "https://api.memorymaestro.com",
-  API_URL:   "https://api.memorymaestro.com/api"
+  API_URL: "https://api.memorymaestro.com/api"
 };
 
 const dev = {
@@ -11,20 +12,21 @@ const dev = {
   API_URL: "http://localhost/api"
 };
 
-const { BASE_URL, API_URL } = process.env.NODE_ENV === 'development' ? dev : prod;
-console.log('BASE_URL: ', BASE_URL);
+const { BASE_URL, API_URL } =
+  process.env.NODE_ENV === "development" ? dev : prod;
+console.log("BASE_URL: ", BASE_URL);
 
 const headers = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json'
+  Accept: "application/json",
+  "Content-Type": "application/json"
 };
 
 const fixupGoalImage = goals => {
-  let host = '';
+  let host = "";
   goals.forEach(goal => {
     const { image_url } = goal;
     if (!!image_url) {
-      host = image_url.includes('http') ? '' : BASE_URL;
+      host = image_url.includes("http") ? "" : BASE_URL;
       goal.image_url = host + image_url;
     }
   });
@@ -32,11 +34,11 @@ const fixupGoalImage = goals => {
 };
 
 const fixupInteractionImage = interactions => {
-  let host = '';
+  let host = "";
   interactions.forEach(interaction => {
     const { stimulus_url } = interaction.prompt;
     if (!!stimulus_url) {
-      host = stimulus_url.includes('http') ? '' : BASE_URL;
+      host = stimulus_url.includes("http") ? "" : BASE_URL;
       interaction.prompt.stimulus_url = host + stimulus_url;
     }
   });
@@ -47,18 +49,16 @@ let Api = {};
 
 // Temporary user api
 Api.getUsers = () => {
-  return _getUsers()
-    .then((users) => users)
+  return _getUsers().then(users => users);
 };
 
 Api.getInitialData = () => {
-  return Promise.all([
-    _getUsers(),
-    Api.fetchGoals(),
-  ]).then(([users, goals]) => ({
-    users,
-    goals,
-  }))
+  return Promise.all([_getUsers(), Api.fetchGoals()]).then(
+    ([users, goals]) => ({
+      users,
+      goals
+    })
+  );
 };
 
 Api.fetchGoals = () => {
@@ -66,9 +66,10 @@ Api.fetchGoals = () => {
     .then(res => res.json())
     .then(data => {
       if (!data.message)
-        return fixupGoalImage(data).sort((a, b) => (a.title > b.title ? 1 : -1));
-      else
-        return [];
+        return fixupGoalImage(data).sort((a, b) =>
+          a.title > b.title ? 1 : -1
+        );
+      else return [];
     })
     .catch(error => {
       console.log("Error fetching Goals: ", error);
@@ -76,7 +77,10 @@ Api.fetchGoals = () => {
 };
 
 Api.getPresignedGoalUrl = (id, filename) => {
-  return fetch(API_URL + "/goals/" + id + '/presigned_url?filename='+filename, { headers })
+  return fetch(
+    API_URL + "/goals/" + id + "/presigned_url?filename=" + filename,
+    { headers }
+  )
     .then(res => res.json())
     .catch(error => {
       console.log("Error fetching Goals: ", error);
@@ -84,12 +88,16 @@ Api.getPresignedGoalUrl = (id, filename) => {
 };
 
 Api.uploadFileToAws = (url, data) => {
+  debugger;
+  const buf = bufferFrom(
+    data.replace(/^data:image\/\w+;base64,/, ""),
+    "base64"
+  );
   return fetch(url, {
-    method: 'POST',
-    headers,
-    body: data
+    method: "POST",
+    body: buf
   })
-    .then(res => res.json())
+    .then(response => response.text())
     .catch(error => {
       console.log("Error saving goal: ", error);
     });
@@ -97,7 +105,7 @@ Api.uploadFileToAws = (url, data) => {
 
 Api.addGoal = goal => {
   return fetch(API_URL + "/goals", {
-    method: 'POST',
+    method: "POST",
     headers,
     body: JSON.stringify(goal)
   })
@@ -109,11 +117,11 @@ Api.addGoal = goal => {
 
 Api.updateGoal = goal => {
   return fetch(API_URL + "/goals/" + goal.id, {
-    method: 'PUT',
+    method: "PUT",
     headers,
     body: JSON.stringify(goal)
   })
-    .then(res=> res.json())
+    .then(res => res.json())
     .catch(error => {
       console.log("Error saving goal: ", error);
     });
@@ -121,24 +129,23 @@ Api.updateGoal = goal => {
 
 Api.deleteGoal = id => {
   return fetch(API_URL + "/goals/" + id, {
-    method: 'DELETE',
-    headers,
-  })
-    .catch(error => {
-      console.log("Error deleting goal: ", error);
-    });
+    method: "DELETE",
+    headers
+  }).catch(error => {
+    console.log("Error deleting goal: ", error);
+  });
 };
 
 Api.fetchInteractions = id => {
   return fetch(`${API_URL}/goals/${id}/interactions?deep=true`, { headers })
     .then(interaction => interaction.json())
     .then(data => {
-        if (!data.message)
-          return fixupInteractionImage(data).sort((a, b) => (a.title > b.title ? 1 : -1));
-        else
-          return [];
-      }
-    )
+      if (!data.message)
+        return fixupInteractionImage(data).sort((a, b) =>
+          a.title > b.title ? 1 : -1
+        );
+      else return [];
+    })
     .catch(error => {
       console.log("Error fetching Interactions: ", error);
     });
@@ -146,7 +153,7 @@ Api.fetchInteractions = id => {
 
 Api.addInteraction = (interaction, goalId) => {
   return fetch(`${API_URL}/goals/${goalId}/interactions`, {
-    method: 'POST',
+    method: "POST",
     headers,
     body: JSON.stringify(interaction)
   })
@@ -159,7 +166,7 @@ Api.addInteraction = (interaction, goalId) => {
 Api.updateInteraction = (interaction, goalId) => {
   const { id } = interaction;
   return fetch(`${API_URL}/goals/${goalId}/interactions/${id}?deep=true`, {
-    method: 'PUT',
+    method: "PUT",
     headers,
     body: JSON.stringify(interaction)
   })
@@ -171,12 +178,11 @@ Api.updateInteraction = (interaction, goalId) => {
 
 Api.deleteInteraction = id => {
   return fetch(API_URL + "/interactions/" + id, {
-    method: 'DELETE',
-    headers,
-  })
-    .catch(error => {
-      console.log("Error deleting interaction: ", error);
-    });
+    method: "DELETE",
+    headers
+  }).catch(error => {
+    console.log("Error deleting interaction: ", error);
+  });
 };
 
 Api.fetchRounds = id => {

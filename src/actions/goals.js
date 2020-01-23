@@ -16,12 +16,17 @@ export const handleFetchGoals = () => {
 
 export const handleAddGoal = goal => {
   return dispatch => {
-    debugger;
     // Need to handle image_url as image data for upload to AWS but only if it has changed.
-    goal.image_url = goal.image_filename;
     Api.addGoal(goal)
       .then(res => {
-        res["message"] ? alert(res["message"]) : dispatch(addGoal(res));
+        const filename = goal.image_filename;
+        if (res["status"] || res["message"]) {
+          const message = res["exception"] ? res["exception"] : res["message"]
+          alert(message)
+        } else {
+          res.image_filename = filename;
+          dispatch(handleUploadGoalImage(res, goal.image_data_url));
+        }
       })
       .catch(error => {
         alert("Failed to save goal. Try again.");
@@ -50,6 +55,38 @@ export const handleDeleteGoal = id => {
       .catch(error => {
         alert("Failed to delete goal. Try again.");
         console.log("Failed to delete goal:", error);
+      });
+  };
+};
+
+export const handleUploadGoalImage = (goal, image_data_url) => {
+  return dispatch => {
+    Api.getPresignedGoalUrl(goal.id, goal.image_filename)
+      .then(res => {
+        console.log("handleUploadToPresignedURL presigned data: ", res);
+        const url = res.url;
+        const fileUrl = res.filename;
+        Api.uploadFileToAws(url, image_data_url)
+          .then((res) => {
+            debugger;
+            if (res) {
+              console.log('uloadFileToAws result: ', res);
+              alert('Failed to upload image to AWS. Goal save failed. Try Again.')
+              dispatch(handleDeleteGoal(goal.id))
+            } else {
+              goal.image_url = fileUrl;
+              dispatch(handleUpdateGoal(goal));
+            }
+          })
+          .catch(error => {
+            console.group("Uploading File TO AWS Error");
+            console.log("Failed upload file: ", fileUrl);
+            console.log("Failed upload URL: ", url);
+            console.log("Upload error: ", error);
+          });
+      })
+      .catch(error => {
+        console.log("Unable to get presigned url: ", error);
       });
   };
 };

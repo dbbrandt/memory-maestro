@@ -65,7 +65,7 @@ class ImageInput extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     maxHeight: PropTypes.number,
-    handleFileChange: PropTypes.func,
+    handleImageChange: PropTypes.func,
     value: PropTypes.string
   };
 
@@ -74,23 +74,22 @@ class ImageInput extends React.Component {
     filename: ""
   };
 
-  handleValueChange = value => {
-    this.setState({ value: value });
-    const { filename } = this.state;
-    this.props.handleFileChange(value, filename);
+  handleValueChange = (data_url, filename) => {
+    this.setState({ value: data_url });
+    this.props.handleImageChange(data_url, filename);
   };
 
   handleFileChange = event => {
-    debugger;
     const file = event.target.files[0];
-    this.setState({ filename: file.name });
-
+    const filename = file.name;
+    this.setState({ filename: filename });
+    console.log('ImageInput new filename: ', filename);
 
     if (file && file.type.match(/^image\//)) {
       readFileAsDataURL(file).then(originalURL => {
         resizeImage(originalURL, this.canvas, this.props.maxHeight).then(
           url => {
-            this.handleValueChange(url);
+            this.handleValueChange(url, filename);
           }
         );
       });
@@ -110,7 +109,6 @@ class ImageInput extends React.Component {
     if (!!this.props.value)
       toDataURL(this.props.value)
         .then(dataUrl => {
-          debugger;
           const filename = getFilenamePart(this.props.value)
           this.setState({ value: dataUrl, filename: filename });
           resizeImage(dataUrl, this.canvas, this.props.maxHeight).then(
