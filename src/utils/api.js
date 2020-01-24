@@ -88,7 +88,6 @@ Api.getPresignedGoalUrl = (id, filename) => {
 };
 
 Api.uploadFileToAws = (url, data) => {
-  debugger;
   const buf = bufferFrom(
     data.replace(/^data:image\/\w+;base64,/, ""),
     "base64"

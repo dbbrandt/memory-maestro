@@ -19,19 +19,19 @@ export const handleAddGoal = goal => {
     // Need to handle image_url as image data for upload to AWS but only if it has changed.
     Api.addGoal(goal)
       .then(res => {
-        const filename = goal.image_filename;
-        if (res["status"] || res["message"]) {
-          const message = res["exception"] ? res["exception"] : res["message"]
-          alert(message)
+        if (res["message"]) {
+          alert(res["message"]);
         } else {
-          res.image_filename = filename;
-          dispatch(handleUploadGoalImage(res, goal.image_data_url));
-        }
-      })
-      .catch(error => {
-        alert("Failed to save goal. Try again.");
-        console.log("Failed to save goal:", error);
-      });
+          if (goal.image_data_url) {
+            dispatch(handleUploadGoalImage(res, goal.image_filename, goal.image_data_url));
+          } else {
+            dispatch(addGoal(res))
+          }
+        }})
+        .catch(error => {
+          alert("Failed to save goal. Try again.");
+          console.log("Failed to save goal:", error);
+        });
   };
 };
 
@@ -39,12 +39,19 @@ export const handleUpdateGoal = goal => {
   return dispatch => {
     Api.updateGoal(goal)
       .then(res => {
-        res["message"] ? alert(res["message"]) : dispatch(updateGoal(res));
-      })
-      .catch(error => {
-        alert("Failed to save goal. Try again.");
-        console.log("Failed to save goal:", error);
-      });
+        if (res["message"]) {
+          alert(res["message"]);
+          } else {
+          if (goal.image_data_url) {
+            dispatch(handleUploadGoalImage(res, goal.image_filename, goal.image_data_url));
+          } else {
+            dispatch(updateGoal(res))
+          }
+        }})
+        .catch(error => {
+          alert("Failed to save goal. Try again.");
+          console.log("Failed to save goal:", error);
+        });
   };
 };
 
@@ -59,29 +66,23 @@ export const handleDeleteGoal = id => {
   };
 };
 
-export const handleUploadGoalImage = (goal, image_data_url) => {
+const handleUploadGoalImage = (goal, filename, data_url) => {
   return dispatch => {
-    Api.getPresignedGoalUrl(goal.id, goal.image_filename)
+    Api.getPresignedGoalUrl(goal.id, filename)
       .then(res => {
-        console.log("handleUploadToPresignedURL presigned data: ", res);
-        const url = res.url;
-        const fileUrl = res.filename;
-        Api.uploadFileToAws(url, image_data_url)
+        const imageUrl = res.filename;
+        const signedUploadUrl = res.url;
+        Api.uploadFileToAws(signedUploadUrl, data_url)
           .then((res) => {
-            debugger;
             if (res) {
-              console.log('uloadFileToAws result: ', res);
               alert('Failed to upload image to AWS. Goal save failed. Try Again.')
-              dispatch(handleDeleteGoal(goal.id))
             } else {
-              goal.image_url = fileUrl;
-              dispatch(handleUpdateGoal(goal));
+              goal.image_url = imageUrl;
+              dispatch(updateGoal(goal));
             }
           })
           .catch(error => {
-            console.group("Uploading File TO AWS Error");
-            console.log("Failed upload file: ", fileUrl);
-            console.log("Failed upload URL: ", url);
+            console.group("Uploading File TO AWS Error", imageUrl);
             console.log("Upload error: ", error);
           });
       })
