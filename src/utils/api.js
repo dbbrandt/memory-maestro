@@ -94,7 +94,7 @@ Api.uploadFileToAws = (url, data) => {
     "base64"
   );
   return fetch(url, {
-    method: "POST",
+    method: "PUT",
     body: buf
   })
     .then(response => response.text())
