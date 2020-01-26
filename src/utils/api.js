@@ -150,6 +150,17 @@ Api.fetchInteractions = id => {
     });
 };
 
+Api.getPresignedInteractionUrl = (goal_id, id, filename) => {
+  return fetch(
+    API_URL + "/goals/" + goal_id +"/interactions/" + id + "/presigned_url?filename=" + filename,
+    { headers }
+  )
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error fetching Interactions: ", error);
+    });
+};
+
 Api.addInteraction = (interaction, goalId) => {
   return fetch(`${API_URL}/goals/${goalId}/interactions`, {
     method: "POST",

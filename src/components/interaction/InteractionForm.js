@@ -10,6 +10,8 @@ const initState = () => ({
   answerType: "ShortAnswer",
   imageInputClass: "image-hide",
   imageInputButton: "Show",
+  image_data_url: "",
+  image_filename: "",
   prompt: {
     title: "",
     copy: "",
@@ -59,6 +61,8 @@ class InteractionForm extends Component {
       id: s.id,
       title: s.title,
       answer_type: s.answerType,
+      image_data_url: s.image_data_url,
+      image_filename: s.image_filename,
       prompt: {
         title: s.promptTitle,
         copy: s.promptCopy,
@@ -93,8 +97,8 @@ class InteractionForm extends Component {
     if (!!id && ok) handleDelete(id);
   };
 
-  handleImageChange = url => {
-    this.setState({ promptStimulusUrl: url });
+  handleImageChange = ( data_url, filename ) => {
+    this.setState({ image_data_url: data_url, image_filename: filename });
   };
 
   handleChange = event => {
@@ -158,7 +162,7 @@ class InteractionForm extends Component {
             </button>
           </label>
           <ImageInput
-            handleFileChange={this.handleImageChange}
+            handleImageChange={this.handleImageChange}
             className={imageInputClass}
             maxHeight={this.maxHeight}
             value={promptStimulusUrl}
