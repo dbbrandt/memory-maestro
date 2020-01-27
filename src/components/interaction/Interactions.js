@@ -21,10 +21,10 @@ class Interactions extends Component {
     }
   }
 
-  handleDelete = (id) => {
-    const { dispatch } = this.props;
+  handleDelete = id => {
+    const { goalId, dispatch } = this.props;
     let ok = window.confirm('Are you sure you want to delete this interaction?');
-    if (ok) dispatch(handleDeleteInteraction(id));
+    if (ok) dispatch(handleDeleteInteraction(goalId, id));
 
   };
 

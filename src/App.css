@@ -24,6 +24,9 @@ table tr:nth-child(odd) td{
     height: 20px;
 }
 
+.error-message {
+    color: red;
+}
 @media screen and (max-width: 63rem) {
     th:nth-child(n+4), td:nth-child(n+4) {
         display: none

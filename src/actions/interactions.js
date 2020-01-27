@@ -39,7 +39,6 @@ export const handleAddInteraction = (interaction, goalId) => {
         if (res["message"]) {
           alert(res["message"]);
         } else {
-          debugger;
           if (interaction.image_data_url) {
             dispatch(
               handleUploadInteractionImage(
@@ -89,12 +88,15 @@ export const handleUpdateInteraction = (interaction, goalId) => {
   };
 };
 
-export const handleDeleteInteraction = id => {
+export const handleDeleteInteraction = (goalId, id) => {
   return dispatch => {
-    Api.deleteInteraction(id)
+    Api.deleteInteraction(goalId, id)
       .then(res => {
-        res["message"]
-          ? alert(res["message"])
+        const  message = res["status"] > 400
+          ? `Error: ${res["status"]} ${res["statusText"]}`
+          : res["message"];
+        message
+          ? alert(message)
           : dispatch(deleteInteraction(id));
       })
       .catch(error => {
@@ -104,30 +106,35 @@ export const handleDeleteInteraction = id => {
   };
 };
 
-const handleUploadInteractionImage = (interaction, goal_id, filename, data_url) => {
+const handleUploadInteractionImage = (interaction, goalId, filename, dataUrl) => {
   return dispatch => {
-    Api.getPresignedInteractionUrl(goal_id, interaction.id, filename)
+    Api.getPresignedInteractionUrl(goalId, interaction.id, filename)
       .then(res => {
         debugger;
         const imageUrl = res.filename;
         const signedUploadUrl = res.url;
-        Api.uploadFileToAws(signedUploadUrl, data_url)
-          .then((res) => {
-            debugger;
-            if (res) {
-              alert('Failed to upload image to AWS. Interaction save failed. Try Again.')
-            } else {
-              interaction.prompt.stimulus_url = imageUrl;
-              dispatch(updateInteraction(interaction));
-            }
-          })
-          .catch(error => {
-            console.group("Uploading File TO AWS Error", imageUrl);
-            console.log("Upload error: ", error);
-          });
-      })
+        dispatch(updateInteractionImage(interaction, goalId, dataUrl, signedUploadUrl, imageUrl));            })
       .catch(error => {
-        console.log("Unable to get presigned url: ", error);
+        alert('Unable to upload interaction image');
+        console.log("Unable to get interaction presigned url: ", error);
       });
   };
+};
+
+const  updateInteractionImage = (interaction, goalId, dataUrl, signedUploadUrl, imageUrl) => {
+  return dispatch => {
+    Api.updateInteractionImage(interaction, goalId, dataUrl, signedUploadUrl, imageUrl)
+      .then((res) => {
+        debugger;
+        if (res["message"]) {
+          alert(res["message"]);
+        } else {
+          dispatch(updateInteraction(res));
+        }
+      })
+      .catch(error => {
+        alert('Unable to update interaction image');
+        console.log("Unable to update interaction image: ", error);
+      })
+  }
 };

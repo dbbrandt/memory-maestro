@@ -15,7 +15,7 @@ class InteractionEdit extends Component {
 
   handleDelete = id => {
     const { goalId, dispatch, history} = this.props;
-    dispatch(handleDeleteInteraction(id));
+    dispatch(handleDeleteInteraction(goalId, id));
     history.push(goalId ? "/interactions/"+goalId : "/");
   };
 

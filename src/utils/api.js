@@ -87,18 +87,42 @@ Api.getPresignedGoalUrl = (id, filename) => {
     });
 };
 
-Api.uploadFileToAws = (url, data) => {
+Api.updateGoalImage = (goal, url, data, fileUrl) => {
+  return uploadFileToAws(url, data).then(res => {
+    if (res) {
+      console.log("Failed to upload image to AWS", url);
+      return { message: res };
+    } else {
+      goal.image_url = fileUrl;
+      return fetch(API_URL + "/goals/" + goal.id, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(goal)
+      })
+        .then(res => res.json())
+        .catch(error => {
+          console.log("Error saving goal image: ", error);
+        });
+    }
+  });
+};
+
+const uploadFileToAws = (url, data) => {
   const buf = bufferFrom(
     data.replace(/^data:image\/\w+;base64,/, ""),
     "base64"
   );
+  debugger;
   return fetch(url, {
     method: "PUT",
     body: buf
   })
-    .then(response => response.text())
+    .then(response => {
+      debugger;
+      return response;
+    })
     .catch(error => {
-      console.log("Error saving goal: ", error);
+      console.log("Error in UploadFilesToAWS: ", error);
     });
 };
 
@@ -152,13 +176,41 @@ Api.fetchInteractions = id => {
 
 Api.getPresignedInteractionUrl = (goal_id, id, filename) => {
   return fetch(
-    API_URL + "/goals/" + goal_id +"/interactions/" + id + "/presigned_url?filename=" + filename,
+    API_URL +
+      "/goals/" +
+      goal_id +
+      "/interactions/" +
+      id +
+      "/presigned_url?filename=" +
+      filename,
     { headers }
   )
     .then(res => res.json())
     .catch(error => {
       console.log("Error fetching Interactions: ", error);
     });
+};
+
+Api.updateInteractionImage = (interaction, goalId, url, data, fileUrl) => {
+  return uploadFileToAws(url, data).then(res => {
+    if (res) {
+      console.log("Failed to upload image to AWS", url);
+      return { message: res };
+    } else {
+      debugger;
+      interaction.prompt.stimulus_url = fileUrl;
+      const { id } = interaction;
+      return fetch(`${API_URL}/goals/${goalId}/interactions/${id}?deep=true`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(interaction)
+      })
+        .then(res => res.json())
+        .catch(error => {
+          console.log("Error saving interaction: ", error);
+        });
+    }
+  });
 };
 
 Api.addInteraction = (interaction, goalId) => {
@@ -186,8 +238,8 @@ Api.updateInteraction = (interaction, goalId) => {
     });
 };
 
-Api.deleteInteraction = id => {
-  return fetch(API_URL + "/interactions/" + id, {
+Api.deleteInteraction = (goalId, id) => {
+  return fetch(`${API_URL}/goals/${goalId}/interactions/${id}`, {
     method: "DELETE",
     headers
   }).catch(error => {

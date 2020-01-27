@@ -72,22 +72,28 @@ const handleUploadGoalImage = (goal, filename, data_url) => {
       .then(res => {
         const imageUrl = res.filename;
         const signedUploadUrl = res.url;
-        Api.uploadFileToAws(signedUploadUrl, data_url)
-          .then((res) => {
-            if (res) {
-              alert('Failed to upload image to AWS. Goal save failed. Try Again.')
-            } else {
-              goal.image_url = imageUrl;
-              dispatch(updateGoal(goal));
-            }
-          })
-          .catch(error => {
-            console.group("Uploading File TO AWS Error", imageUrl);
-            console.log("Upload error: ", error);
-          });
+        dispatch(updateGoalImage(goal, data_url, signedUploadUrl, imageUrl))
       })
       .catch(error => {
+        alert('Unable to upload goal image');
         console.log("Unable to get presigned url: ", error);
       });
   };
+};
+
+const  updateGoalImage = (goal, data_url, signedUploadUrl, imageUrl) => {
+  return dispatch => {
+    Api.updateGoalImage(goal, data_url, signedUploadUrl, imageUrl)
+      .then((res) => {
+        if (res["message"]) {
+          alert(res["message"]);
+        } else {
+          dispatch(updateGoal(res));
+        }
+      })
+      .catch(error => {
+        alert('Unable to update goal image');
+        console.log("Unable to update goal image: ", error);
+      })
+  }
 };
