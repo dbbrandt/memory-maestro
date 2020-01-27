@@ -91,8 +91,8 @@ class InteractionForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { image_data_url, promptCopy } = this.state;
-    if (!!image_data_url || !!promptCopy) {
+    const { promptStimulusUrl, image_data_url, promptCopy } = this.state;
+    if (!!promptStimulusUrl || !!image_data_url || !!promptCopy) {
       this.props.handleSubmit(this.getFormData());
       this.setState(initState);
     } else {
