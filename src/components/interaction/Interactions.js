@@ -5,7 +5,7 @@ import {handleDeleteInteraction, handleFetchInteractions} from "../../actions/in
 import "./interaction.css";
 import { showLoading } from "react-redux-loading-bar";
 import { setLoading } from "../../actions/loading";
-import { INTERACTION_SECTION, setSection } from "../../actions/selections";
+import {INTERACTION_SECTION, setGoal, setSection} from "../../actions/selections";
 import deleteIcon from "../../assets/delete.png";
 
 class Interactions extends Component {
@@ -14,7 +14,7 @@ class Interactions extends Component {
     const { dispatch, goalId, selections } = this.props;
     dispatch(setSection(INTERACTION_SECTION));
     if (selections.goal !== Number(goalId)) {
-      dispatch(setSection(INTERACTION_SECTION));
+      dispatch(setGoal(goalId));
       dispatch(showLoading());
       dispatch(setLoading(true));
       dispatch(handleFetchInteractions(goalId));

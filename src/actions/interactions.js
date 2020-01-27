@@ -110,10 +110,10 @@ const handleUploadInteractionImage = (interaction, goalId, filename, dataUrl) =>
   return dispatch => {
     Api.getPresignedInteractionUrl(goalId, interaction.id, filename)
       .then(res => {
-        debugger;
         const imageUrl = res.filename;
         const signedUploadUrl = res.url;
-        dispatch(updateInteractionImage(interaction, goalId, dataUrl, signedUploadUrl, imageUrl));            })
+        dispatch(updateInteractionImage(interaction, goalId, dataUrl, signedUploadUrl, imageUrl));
+      })
       .catch(error => {
         alert('Unable to upload interaction image');
         console.log("Unable to get interaction presigned url: ", error);
@@ -125,9 +125,8 @@ const  updateInteractionImage = (interaction, goalId, dataUrl, signedUploadUrl, 
   return dispatch => {
     Api.updateInteractionImage(interaction, goalId, dataUrl, signedUploadUrl, imageUrl)
       .then((res) => {
-        debugger;
         if (res["message"]) {
-          alert(res["message"]);
+          alert("Unable to save interaction image: ", res["message"]);
         } else {
           dispatch(updateInteraction(res));
         }

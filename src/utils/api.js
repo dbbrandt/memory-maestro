@@ -87,10 +87,10 @@ Api.getPresignedGoalUrl = (id, filename) => {
     });
 };
 
-Api.updateGoalImage = (goal, url, data, fileUrl) => {
-  return uploadFileToAws(url, data).then(res => {
+Api.updateGoalImage = (goal, data, uploadUrl, fileUrl) => {
+  return uploadFileToAws(uploadUrl, data).then(res => {
     if (res) {
-      console.log("Failed to upload image to AWS", url);
+      console.log("Failed to upload image to AWS", uploadUrl);
       return { message: res };
     } else {
       goal.image_url = fileUrl;
@@ -99,7 +99,9 @@ Api.updateGoalImage = (goal, url, data, fileUrl) => {
         headers,
         body: JSON.stringify(goal)
       })
-        .then(res => res.json())
+        .then(res => {
+          return res.json()
+        })
         .catch(error => {
           console.log("Error saving goal image: ", error);
         });
@@ -107,20 +109,16 @@ Api.updateGoalImage = (goal, url, data, fileUrl) => {
   });
 };
 
-const uploadFileToAws = (url, data) => {
+const uploadFileToAws = (uploadUrl, data) => {
   const buf = bufferFrom(
     data.replace(/^data:image\/\w+;base64,/, ""),
     "base64"
   );
-  debugger;
-  return fetch(url, {
+  return fetch(uploadUrl, {
     method: "PUT",
     body: buf
   })
-    .then(response => {
-      debugger;
-      return response;
-    })
+    .then(response => response.text())
     .catch(error => {
       console.log("Error in UploadFilesToAWS: ", error);
     });
@@ -191,13 +189,12 @@ Api.getPresignedInteractionUrl = (goal_id, id, filename) => {
     });
 };
 
-Api.updateInteractionImage = (interaction, goalId, url, data, fileUrl) => {
-  return uploadFileToAws(url, data).then(res => {
+Api.updateInteractionImage = (interaction, goalId, data, uploadUrl, fileUrl) => {
+  return uploadFileToAws(uploadUrl, data).then(res => {
     if (res) {
-      console.log("Failed to upload image to AWS", url);
-      return { message: res };
+      console.log(`Failed to upload image ${fileUrl} to AWS`, res);
+      return { message: res};
     } else {
-      debugger;
       interaction.prompt.stimulus_url = fileUrl;
       const { id } = interaction;
       return fetch(`${API_URL}/goals/${goalId}/interactions/${id}?deep=true`, {
@@ -212,6 +209,7 @@ Api.updateInteractionImage = (interaction, goalId, url, data, fileUrl) => {
     }
   });
 };
+
 
 Api.addInteraction = (interaction, goalId) => {
   return fetch(`${API_URL}/goals/${goalId}/interactions`, {
