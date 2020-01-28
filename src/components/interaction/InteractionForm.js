@@ -10,18 +10,23 @@ const initState = () => ({
   answerType: "ShortAnswer",
   imageInputClass: "image-hide",
   imageInputButton: "Show",
+  image_data_url: "",
+  image_filename: "",
+  errorMessage: "",
   prompt: {
     title: "",
     copy: "",
     stimulus_url: ""
   },
-  criterion: [{
-    title: "",
-    description: "",
-    copy: "",
-    descriptor: "",
-    score: 1
-  }]
+  criterion: [
+    {
+      title: "",
+      description: "",
+      copy: "",
+      descriptor: "",
+      score: 1
+    }
+  ]
 });
 
 class InteractionForm extends Component {
@@ -33,68 +38,85 @@ class InteractionForm extends Component {
     this.maxHeight = 250;
   }
 
-  setFormData = (interaction) => {
+  setFormData = interaction => {
     const { id, title, prompt, criterion } = interaction;
     const criterion1 = criterion.length > 0 ? criterion[0] : {};
-    return ({
+    return {
       id: id,
       title: title,
       answerType: "ShortAnswer",
       promptTitle: prompt.title || "",
       promptCopy: prompt.copy || "",
       promptStimulusUrl: prompt.stimulus_url || "",
-      imageInputClass: 'image-hide',
-      imageInputButton: 'Show',
+      errorMessage: "",
+      imageInputClass: "image-hide",
+      imageInputButton: "Show",
       criterionTitle: criterion1.title || "",
       criterionDescription: criterion1.description || "",
       criterionCopy: criterion1.copy || "",
       criterionDescriptor: criterion1.descriptor || "",
       criterionScore: criterion1.score || 1
-    })
+    };
   };
 
   getFormData = () => {
     const s = this.state;
-    return ({
+    // TODO refactor this business logic
+    // stimulusUrl needs a temporary value if their is an image to pass API validation.
+    const stimulusUrl = (!!s.image_data_url && s.promptStimulusUrl === "")
+      ? s.image_filename
+      : s.promptStimulusUrl
+    return {
       id: s.id,
       title: s.title,
       answer_type: s.answerType,
+      image_data_url: s.image_data_url,
+      image_filename: s.image_filename,
       prompt: {
         title: s.promptTitle,
         copy: s.promptCopy,
-        stimulus_url: s.promptStimulusUrl,
+        stimulus_url: stimulusUrl
       },
-      criterion: [{
-        title: s.criterionTitle,
-        description: s.criterionDescription,
-        copy: s.criterionCopy,
-        descriptor: s.criterionDescriptor,
-        score: s.criterionScore
-      }]
-    })
+      criterion: [
+        {
+          title: s.criterionTitle,
+          description: s.criterionDescription,
+          copy: s.criterionCopy,
+          descriptor: s.criterionDescriptor,
+          score: s.criterionScore
+        }
+      ]
+    };
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.handleSubmit(this.getFormData());
-    this.setState(initState);
+    const { promptStimulusUrl, image_data_url, promptCopy } = this.state;
+    if (!!promptStimulusUrl || !!image_data_url || !!promptCopy) {
+      this.props.handleSubmit(this.getFormData());
+      this.setState(initState);
+    } else {
+      this.setState({ errorMessage: "Copy or Stimulus Image is required" });
+    }
   };
 
-  handleCancel = (event)  => {
+  handleCancel = event => {
     event.preventDefault();
     this.props.handleCancel(this.state);
   };
 
-  handleDelete = (event) => {
+  handleDelete = event => {
     event.preventDefault();
     const { handleDelete } = this.props;
     const { id } = this.state;
-    let ok = window.confirm('Are you sure you want to delete this interaction?');
+    let ok = window.confirm(
+      "Are you sure you want to delete this interaction?"
+    );
     if (!!id && ok) handleDelete(id);
   };
 
-  handleImageChange = url => {
-    this.setState({ promptStimulusUrl: url });
+  handleImageChange = (data_url, filename) => {
+    this.setState({ image_data_url: data_url, image_filename: filename });
   };
 
   handleChange = event => {
@@ -103,11 +125,10 @@ class InteractionForm extends Component {
 
   toggleImageInput = event => {
     event.preventDefault();
-    const hide = this.state.imageInputClass === 'image-hide' ;
-    const newClass = hide ? 'image-input' : 'image-hide';
-    const newButton = hide ? 'Hide' : 'Show';
-    this.setState({ imageInputClass: newClass, imageInputButton: newButton })
-
+    const hide = this.state.imageInputClass === "image-hide";
+    const newClass = hide ? "image-input" : "image-hide";
+    const newButton = hide ? "Hide" : "Show";
+    this.setState({ imageInputClass: newClass, imageInputButton: newButton });
   };
 
   render() {
@@ -116,12 +137,12 @@ class InteractionForm extends Component {
       title,
       promptCopy,
       promptStimulusUrl,
+      errorMessage,
       imageInputClass,
       imageInputButton,
       criterionCopy,
       criterionDescriptor
     } = this.state;
-
     const { handleCancel, handleDelete } = this.props;
     return (
       <form className="form box" onSubmit={this.handleSubmit}>
@@ -137,9 +158,7 @@ class InteractionForm extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <div className='form-separator-box'>
-          Prompt
-        </div>
+        <div className="form-separator-box">Prompt</div>
         <div>
           <label>Copy:</label>
           <textarea
@@ -152,22 +171,22 @@ class InteractionForm extends Component {
           />
         </div>
         <div>
-          <label>Stimulus Image:
-            <button  className='button-link' onClick={this.toggleImageInput}>
+          <label>
+            Stimulus Image:
+            <button className="button-link" onClick={this.toggleImageInput}>
               {imageInputButton}
             </button>
           </label>
           <ImageInput
-            handleFileChange={this.handleImageChange}
+            handleImageChange={this.handleImageChange}
             className={imageInputClass}
             maxHeight={this.maxHeight}
             value={promptStimulusUrl}
             onChange={this.handleChange}
           />
         </div>
-        <div className='form-separator-box'>
-          Correct Response
-        </div>
+        <div className='error-message'>{errorMessage}</div>
+        <div className="form-separator-box">Correct Response</div>
         <div>
           <label>Descriptor (Answer):</label>
           <textarea
@@ -194,10 +213,11 @@ class InteractionForm extends Component {
           <button className="btn" type="submit">
             Save
           </button>
-          {!!handleCancel &&
+          {!!handleCancel && (
             <button className="btn" onClick={this.handleCancel}>
               Cancel
-            </button>}
+            </button>
+          )}
           {!!handleDelete && !!id && (
             <button className="btn" onClick={this.handleDelete}>
               Delete
@@ -218,7 +238,7 @@ InteractionForm.propType = {
   handleCancel: PropTypes.func,
   handleDelete: PropTypes.func,
   goalId: PropTypes.number.isRequired,
-  initForm: PropTypes.object,
+  initForm: PropTypes.object
 };
 
 export default connect()(InteractionForm);

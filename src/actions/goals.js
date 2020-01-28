@@ -16,14 +16,22 @@ export const handleFetchGoals = () => {
 
 export const handleAddGoal = goal => {
   return dispatch => {
+    // Need to handle image_url as image data for upload to AWS but only if it has changed.
     Api.addGoal(goal)
       .then(res => {
-        res["message"] ? alert(res["message"]) : dispatch(addGoal(res));
-      })
-      .catch(error => {
-        alert("Failed to save goal. Try again.");
-        console.log("Failed to save goal:", error);
-      });
+        if (res["message"]) {
+          alert(res["message"]);
+        } else {
+          if (goal.image_data_url) {
+            dispatch(handleUploadGoalImage(res, goal.image_filename, goal.image_data_url));
+          } else {
+            dispatch(addGoal(res))
+          }
+        }})
+        .catch(error => {
+          alert("Failed to save goal. Try again.");
+          console.log("Failed to save goal:", error);
+        });
   };
 };
 
@@ -31,12 +39,19 @@ export const handleUpdateGoal = goal => {
   return dispatch => {
     Api.updateGoal(goal)
       .then(res => {
-        res["message"] ? alert(res["message"]) : dispatch(updateGoal(res));
-      })
-      .catch(error => {
-        alert("Failed to save goal. Try again.");
-        console.log("Failed to save goal:", error);
-      });
+        if (res["message"]) {
+          alert(res["message"]);
+          } else {
+          if (goal.image_data_url) {
+            dispatch(handleUploadGoalImage(res, goal.image_filename, goal.image_data_url));
+          } else {
+            dispatch(updateGoal(res))
+          }
+        }})
+        .catch(error => {
+          alert("Failed to save goal. Try again.");
+          console.log("Failed to save goal:", error);
+        });
   };
 };
 
@@ -49,4 +64,36 @@ export const handleDeleteGoal = id => {
         console.log("Failed to delete goal:", error);
       });
   };
+};
+
+const handleUploadGoalImage = (goal, filename, data_url) => {
+  return dispatch => {
+    Api.getPresignedGoalUrl(goal.id, filename)
+      .then(res => {
+        const imageUrl = res.filename;
+        const signedUploadUrl = res.url;
+        dispatch(updateGoalImage(goal, data_url, signedUploadUrl, imageUrl))
+      })
+      .catch(error => {
+        alert('Unable to upload goal image');
+        console.log("Unable to get presigned url: ", error);
+      });
+  };
+};
+
+const  updateGoalImage = (goal, data_url, signedUploadUrl, imageUrl) => {
+  return dispatch => {
+    Api.updateGoalImage(goal, data_url, signedUploadUrl, imageUrl)
+      .then((res) => {
+        if (res["message"]) {
+          alert(res["message"]);
+        } else {
+          dispatch(updateGoal(res));
+        }
+      })
+      .catch(error => {
+        alert('Unable to update goal image');
+        console.log("Unable to update goal image: ", error);
+      })
+  }
 };

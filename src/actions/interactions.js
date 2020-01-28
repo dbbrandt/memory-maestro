@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
-import API from "../utils/api";
+import Api from "../utils/api";
 import { setLoading } from "./loading";
 import { hideLoading } from "react-redux-loading-bar";
 import { setGoal } from "./selections";
@@ -12,7 +12,7 @@ export const deleteInteraction = createAction("DELETE_INTERACTION");
 
 export const handleFetchInteractions = id => {
   return dispatch => {
-    API.fetchInteractions(id)
+    Api.fetchInteractions(id)
       .then(interactions => {
         dispatch(setGoal(id));
         dispatch(fetchInteractions(interactions));
@@ -24,8 +24,7 @@ export const handleFetchInteractions = id => {
       .then(() => {
         dispatch(hideLoading());
         dispatch(setLoading(false));
-        }
-      )
+      })
       .catch(error => {
         alert("Fetch Interactions Failed: " + error);
       });
@@ -35,11 +34,24 @@ export const handleFetchInteractions = id => {
 export const handleAddInteraction = (interaction, goalId) => {
   return dispatch => {
     delete interaction.id;
-    API.addInteraction(interaction, goalId)
+    Api.addInteraction(interaction, goalId)
       .then(res => {
-        res["message"]
-          ? alert(res["message"])
-          : dispatch(addInteraction(res));
+        if (res["message"]) {
+          alert(res["message"]);
+        } else {
+          if (interaction.image_data_url) {
+            dispatch(
+              handleUploadInteractionImage(
+                res,
+                goalId,
+                interaction.image_filename,
+                interaction.image_data_url
+              )
+            );
+          } else {
+            dispatch(addInteraction(res));
+          }
+        }
       })
       .catch(error => {
         alert("Failed to add interaction. Try again.");
@@ -50,11 +62,24 @@ export const handleAddInteraction = (interaction, goalId) => {
 
 export const handleUpdateInteraction = (interaction, goalId) => {
   return dispatch => {
-    API.updateInteraction(interaction, goalId)
+    Api.updateInteraction(interaction, goalId)
       .then(res => {
-        res["message"]
-          ? alert(res["message"])
-          : dispatch(updateInteraction(res));
+        if (res["message"]) {
+          alert(res["message"]);
+        } else {
+          if (interaction.image_data_url) {
+            dispatch(
+              handleUploadInteractionImage(
+                res,
+                goalId,
+                interaction.image_filename,
+                interaction.image_data_url
+              )
+            );
+          } else {
+            dispatch(updateInteraction(res));
+          }
+        }
       })
       .catch(error => {
         alert("Failed to save interaction. Try again.");
@@ -63,12 +88,15 @@ export const handleUpdateInteraction = (interaction, goalId) => {
   };
 };
 
-export const handleDeleteInteraction = id => {
+export const handleDeleteInteraction = (goalId, id) => {
   return dispatch => {
-    API.deleteInteraction(id)
+    Api.deleteInteraction(goalId, id)
       .then(res => {
-        res["message"]
-          ? alert(res["message"])
+        const  message = res["status"] > 400
+          ? `Error: ${res["status"]} ${res["statusText"]}`
+          : res["message"];
+        message
+          ? alert(message)
           : dispatch(deleteInteraction(id));
       })
       .catch(error => {
@@ -76,4 +104,36 @@ export const handleDeleteInteraction = id => {
         console.log("Failed to delete interaction:", error);
       });
   };
+};
+
+const handleUploadInteractionImage = (interaction, goalId, filename, dataUrl) => {
+  return dispatch => {
+    Api.getPresignedInteractionUrl(goalId, interaction.id, filename)
+      .then(res => {
+        const imageUrl = res.filename;
+        const signedUploadUrl = res.url;
+        dispatch(updateInteractionImage(interaction, goalId, dataUrl, signedUploadUrl, imageUrl));
+      })
+      .catch(error => {
+        alert('Unable to upload interaction image');
+        console.log("Unable to get interaction presigned url: ", error);
+      });
+  };
+};
+
+const  updateInteractionImage = (interaction, goalId, dataUrl, signedUploadUrl, imageUrl) => {
+  return dispatch => {
+    Api.updateInteractionImage(interaction, goalId, dataUrl, signedUploadUrl, imageUrl)
+      .then((res) => {
+        if (res["message"]) {
+          alert("Unable to save interaction image: ", res["message"]);
+        } else {
+          dispatch(updateInteraction(res));
+        }
+      })
+      .catch(error => {
+        alert('Unable to update interaction image');
+        console.log("Unable to update interaction image: ", error);
+      })
+  }
 };

@@ -13,7 +13,7 @@ class InteractionAdd extends Component {
   handleSubmit = interaction => {
     const { goalId, dispatch, history } = this.props;
     dispatch(handleAddInteraction(interaction, goalId));
-    history.push("/");
+    history.push(goalId ? "/interactions/"+goalId : "/");
   };
 
   render() {

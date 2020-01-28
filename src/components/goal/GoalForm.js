@@ -8,7 +8,9 @@ const initState = () => ({
   title: "",
   description: "",
   instructions: "",
-  image_url: ""
+  image_url: "",
+  image_data_url: "",
+  image_filename: ""
 });
 
 class GoalForm extends Component {
@@ -38,8 +40,8 @@ class GoalForm extends Component {
     if (!!id && ok) handleDelete(id);
   };
 
-  handleImageChange = url => {
-    this.setState({ image_url: url });
+  handleImageChange = ( data_url, filename ) => {
+    this.setState({ image_data_url: data_url, image_filename: filename });
   };
 
   handleChange = event => {
@@ -90,7 +92,7 @@ class GoalForm extends Component {
         <div>
           <label>Goal Image:</label>
           <ImageInput
-            handleFileChange={this.handleImageChange}
+            handleImageChange={this.handleImageChange}
             className="goal-image-input"
             maxHeight={this.maxHeight}
             value={image_url}
