@@ -99,9 +99,7 @@ Api.updateGoalImage = (goal, data, uploadUrl, fileUrl) => {
         headers,
         body: JSON.stringify(goal)
       })
-        .then(res => {
-          return res.json()
-        })
+        .then(res => res.json())
         .catch(error => {
           console.log("Error saving goal image: ", error);
         });
