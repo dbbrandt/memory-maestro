@@ -4,11 +4,21 @@ import { withRouter } from "react-router-dom";
 import { handleAuthenticateUser } from "../../actions/authedUser";
 import "./Login.css";
 import { hideLoading, showLoading } from "react-redux-loading-bar";
+import Amplify from 'aws-amplify';
+import awsconfig from '../../aws-exports';
+import { withAuthenticator } from 'aws-amplify-react';
+import {handleInititalData} from "../../actions/shared";
+Amplify.configure(awsconfig);
 
 class Login extends Component {
   state = {
     userId: ""
   };
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(handleInititalData());
+  }
 
   handleChange = event => {
     this.setState({ userId:  event.target.value });
@@ -74,4 +84,4 @@ const mapStateToProps = ({ loading, users, authedUser }, { logout }) => ({
   logout: !!logout
 });
 
-export default withRouter(connect(mapStateToProps)(Login));
+export default withRouter(connect(mapStateToProps)(withAuthenticator(Login,true)));
