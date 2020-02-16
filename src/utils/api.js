@@ -251,4 +251,12 @@ Api.fetchRounds = id => {
     });
 };
 
+Api.startRound = id => {
+  return fetch(`${API_URL}/goals/${id}/interactions?size=50&deep=game`, { headers })
+    .then(interactions => interactions.json())
+    .catch(error => {
+      console.log("Error starting Round: ", error);
+    });
+};
+
 export default Api;
