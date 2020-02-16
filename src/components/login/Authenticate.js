@@ -11,12 +11,24 @@ Analytics.disable();
 class Authenticate extends Component {
   componentDidMount() {
     const {dispatch} = this.props;
-    dispatch(handleInititalData());
+    console.log('Authenticate: ', this.props);
+    const email = this.props.authData.attributes.email;
+    dispatch(handleInititalData(email));
   }
 
   render() {
-    return <Redirect to='/'/>
+    const { authedUser, user } = this.props;
+    if (!!user) return <Redirect to='/'/>
+    else {
+      return <Redirect to='/login'/>
+    }
   }
 };
 
-export default connect()(withAuthenticator(Authenticate));
+const mapStateToProps = ({authedUser, users}) => ({
+  authedUser,
+  user: users[authedUser]
+});
+
+
+export default connect(mapStateToProps)(withAuthenticator(Authenticate));

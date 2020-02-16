@@ -4,8 +4,8 @@ export const authenticateUser = createAction('AUTHENTICATE_USER');
 export const logoutUser = createAction('LOGOUT_USER');
 
 
-export const handleAuthenticateUser = ( user ) => {
+export const handleAuthenticateUser = ( email ) => {
   return (dispatch) => {
-      dispatch(authenticateUser(user));
+      dispatch(authenticateUser(email));
   }
 };

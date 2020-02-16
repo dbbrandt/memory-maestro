@@ -1,8 +1,8 @@
 let users = {
-  sarahedo: {
-    id: 'sarahedo',
-    name: 'Sarah Edo',
-    avatarURL: '/img/woman2-avr.png',
+  'dbbrandt@gmail.com': {
+    id: 'dbbrandt@gmail.com',
+    name: 'Daniel Brandt',
+    avatarURL: '/img/man1-avr.png',
     answers: {
       "8xf0y6ziyjabvozdd253nd": 'optionOne',
       "6ni6ok3ym7mf1p33lnez": 'optionTwo',

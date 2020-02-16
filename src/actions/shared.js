@@ -5,14 +5,13 @@ import {hideLoading, showLoading} from "react-redux-loading-bar";
 import {setLoading} from "./loading";
 import {handleAuthenticateUser} from "./authedUser";
 
-export const handleInititalData = () => {
+export const handleInititalData = (email) => {
   return dispatch => {
     dispatch(showLoading());
     dispatch(setLoading(true));
     Api.getInitialData()
       .then(({ users, goals }) => {
-        const authedUser = Object.values(users)[0].id;
-        dispatch(handleAuthenticateUser(authedUser));
+        dispatch(handleAuthenticateUser(email));
         dispatch(fetchUsers(users));
         dispatch(fetchGoals(goals));
         dispatch(hideLoading());

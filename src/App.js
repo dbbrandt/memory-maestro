@@ -7,7 +7,7 @@ import LoadingBar from "react-redux-loading-bar";
 import Heading from "./components/heading/Heading";
 import Nav from "./components/nav/Nav";
 import Footer from "./components/footer/Footer";
-// import Login from "./components/login/Login";
+import Login from "./components/login/Login";
 import Logout from "./components/login/Logout";
 import NotFound from "./components/login/NotFound";
 import Goals from "./components/goal/Goals";
@@ -34,7 +34,7 @@ class App extends Component {
               {!!authedUser ? (
                 <Switch>
                   <Route exact path="/" component={Goals} />
-                  <Route path="/login" component={Authenticate} />
+                  <Route path="/login" component={Login} />
                   <Route path="/logout" component={Logout} />
                   <Route path="/goal-add" component={GoalAdd}/>
                   <Route path="/goal-edit/:id" component={GoalEdit}/>
