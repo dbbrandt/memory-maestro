@@ -22,7 +22,6 @@ import Authenticate from "./components/login/Authenticate";
 
 class App extends Component {
   render() {
-    debugger;
     const { authedUser } = this.props;
     return (
       <Fragment>
