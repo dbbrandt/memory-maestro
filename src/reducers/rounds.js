@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import {fetchRounds} from "../actions/rounds";
+import { fetchRounds, startRound } from "../actions/rounds";
 
 const rounds = createReducer([],{
   [fetchRounds]: (state, action) => action.payload

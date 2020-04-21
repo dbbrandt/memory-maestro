@@ -13,3 +13,9 @@ export const handleFetchUsers = () => {
   }
 };
 
+export const handleAddUser = (user) => {
+  return (dispatch) => {
+
+  }
+};
+
