@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import "./Heading.css";
 import headerImage from "../../assets/Precidix_Logo_300x300.png";
 
@@ -29,7 +29,9 @@ class Heading extends Component {
               <div>Hi {currentUser.name}!</div>
             </div>
             <div className="user-image">
-              <img alt={currentUser.name} src={currentUser.avatarURL} />
+              <Link to="/user">
+                <img alt={currentUser.name} src={currentUser.avatarURL} />
+              </Link>
             </div>
           </Fragment>
         )}

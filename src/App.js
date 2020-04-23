@@ -40,6 +40,7 @@ class App extends Component {
                     <Route exact path="/" component={User}/>
                   )
                   }
+                  <Route path="/user" component={User}/>
                   <Route path="/logout" component={Logout}/>
                   <Route path="/goal-add" component={GoalAdd}/>
                   <Route path="/goal-edit/:id" component={GoalEdit}/>
