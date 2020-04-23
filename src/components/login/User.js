@@ -1,29 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import "./Login.css";
+import "./User.css";
 import UserForm from "./UserForm";
 import { addUser } from "../../actions/users";
 
-class Login extends Component {
+class User extends Component {
 
   handleSubmit = user => {
-    const {authedUser, dispatch, history, location } = this.props;
-    const destRoute = location.pathname === "/login" ? "/" : location.pathname;
-    debugger;
+    const {authedUser, dispatch, history } = this.props;
     user['id'] = authedUser;
     dispatch(addUser(user));
-    history.push(destRoute);
+    history.push("/");
   };
 
   render() {
     return (
       <div className="login">
-        <div className="header-box">Add User Information</div>
+        <div className="header-box">Update User Information</div>
         <UserForm handleSubmit={this.handleSubmit}/>
       </div>
     );
   }
 }
 
-export default withRouter(connect(({authedUser}) => ({authedUser}))(Login));
+export default withRouter(connect(({authedUser}) => ({authedUser}))(User));

@@ -2,12 +2,11 @@ import React, { Component, Fragment} from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import "./App.css";
 import { connect } from "react-redux";
-// import { handleInititalData } from "./actions/shared";
 import LoadingBar from "react-redux-loading-bar";
 import Heading from "./components/heading/Heading";
 import Nav from "./components/nav/Nav";
 import Footer from "./components/footer/Footer";
-import Login from "./components/login/Login";
+import User from "./components/login/User";
 import Logout from "./components/login/Logout";
 import NotFound from "./components/login/NotFound";
 import Goals from "./components/goal/Goals";
@@ -22,7 +21,7 @@ import Authenticate from "./components/login/Authenticate";
 
 class App extends Component {
   render() {
-    const { authedUser } = this.props;
+    const { authedUser, user } = this.props;
     return (
       <Fragment>
         <LoadingBar className="loading-bar" />
@@ -31,11 +30,17 @@ class App extends Component {
             <Heading />
             <Nav />
             <main className="container-grid layout-section main">
-              {!!authedUser ? (
+              {!authedUser ? (
+                <Route path="*" component={Authenticate}/>
+              ) : (
                 <Switch>
-                  <Route exact path="/" component={Goals} />
-                  <Route path="/login" component={Login} />
-                  <Route path="/logout" component={Logout} />
+                  {!!user ? (
+                    <Route exact path="/" component={Goals}/>
+                  ) : (
+                    <Route exact path="/" component={User}/>
+                  )
+                  }
+                  <Route path="/logout" component={Logout}/>
                   <Route path="/goal-add" component={GoalAdd}/>
                   <Route path="/goal-edit/:id" component={GoalEdit}/>
                   <Route path="/interaction-add" component={InteractionAdd}/>
@@ -43,11 +48,10 @@ class App extends Component {
                   <Route path="/interactions/:goalId" component={Interactions}/>
                   <Route path="/practice" component={Practice}/>
                   <Route path="/rounds" component={Rounds}/>
-                  <Route path="*" component={NotFound} />
+                  <Route path="*" component={NotFound}/>
                 </Switch>
-              ) : (
-                <Route path="/" component={Authenticate} />
-              )}
+              )
+              }
             </main>
             <Footer />
           </Router>
@@ -56,4 +60,10 @@ class App extends Component {
     );
   }
 }
-export default connect(({authedUser}) => ({ authedUser }))(App);
+
+const mapStateToProps = ({ authedUser, users}) => ({
+  authedUser,
+  user: users[authedUser]
+});
+
+export default connect(mapStateToProps)(App);

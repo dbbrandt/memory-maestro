@@ -6,6 +6,7 @@ import loading from "./loading";
 import authedUser from "./authedUser";
 import users from "./users";
 import rounds from "./rounds";
+import round from "./round";
 import selections from "./selections";
 
 
@@ -16,6 +17,7 @@ const reducer =  combineReducers({
   goals,
   interactions,
   rounds,
+  round,
   loading,
   loadingBar: loadingBarReducer
 });

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ImageInput from "../shared/ImageInput";
-import "./Login.css";
+import "./User.css";
 
 const initState = () => ({
   id: 0,

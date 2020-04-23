@@ -3,15 +3,13 @@ import { fetchUsers } from "./users";
 import { fetchGoals } from "./goals";
 import {hideLoading, showLoading} from "react-redux-loading-bar";
 import {setLoading} from "./loading";
-import {handleAuthenticateUser} from "./authedUser";
 
-export const handleInititalData = (email) => {
+export const handleInititalData = () => {
   return dispatch => {
     dispatch(showLoading());
     dispatch(setLoading(true));
     Api.getInitialData()
       .then(({ users, goals }) => {
-        dispatch(handleAuthenticateUser(email));
         dispatch(fetchUsers(users));
         dispatch(fetchGoals(goals));
         dispatch(hideLoading());
