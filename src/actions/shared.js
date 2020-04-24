@@ -10,10 +10,10 @@ export const handleInititalData = () => {
     dispatch(setLoading(true));
     Api.getInitialData()
       .then(({ users, goals }) => {
-      dispatch(fetchUsers(users));
-      dispatch(fetchGoals(goals));
-      dispatch(hideLoading());
-      dispatch(setLoading(false));
+        dispatch(fetchUsers(users));
+        dispatch(fetchGoals(goals));
+        dispatch(hideLoading());
+        dispatch(setLoading(false));
     })
     .catch((error) => (
         alert('Failed to download initial data '+error)
