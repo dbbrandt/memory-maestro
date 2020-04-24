@@ -9,6 +9,12 @@ class Practice extends Component {
     history.push('/rounds');
   };
 
+  handleStartRound = () => {
+    const { history } = this.props;
+    history.push('/round');
+  };
+
+
   render() {
     const { goal_id, history } = this.props;
     if (!goal_id) history.push('/');
@@ -18,6 +24,9 @@ class Practice extends Component {
           <h1>UNDER CONSTRUCTION</h1>
           <div className='btn'>
             <button onClick={this.handleClick}>Practice Rounds</button>
+          </div>
+          <div className='btn'>
+            <button onClick={this.handleStartRound}>Start Round</button>
           </div>
           <div>
             Practice your goals by responding to a selection of interactions. Choose the number
