@@ -32,7 +32,7 @@ class Rounds extends Component {
             </thead>
             <tbody>
               {rounds.map(round => (
-                <tr>
+                <tr key={round.id}>
                   <td>{formatDateTime(round.updated_at)}</td>
                   <td className='centered'>{round.round_responses.total}</td>
                   <td className='centered'>{round.round_responses.correct}</td>

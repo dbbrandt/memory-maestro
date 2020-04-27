@@ -11,7 +11,7 @@ class Practice extends Component {
 
   handleStartRound = () => {
     const { history } = this.props;
-    history.push('/quiz');
+    history.push('/round');
   };
 
 
