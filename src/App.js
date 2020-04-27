@@ -19,6 +19,7 @@ import Practice from "./components/Practice/Practice";
 import Rounds from "./components/Practice/Rounds";
 import Authenticate from "./components/login/Authenticate";
 import Round from "./components/Practice/Round";
+import Quiz from "./components/Practice/Quiz";
 
 class App extends Component {
   render() {
@@ -51,6 +52,7 @@ class App extends Component {
                   <Route path="/practice" component={Practice}/>
                   <Route path="/rounds" component={Rounds}/>
                   <Route path="/round" component={Round}/>
+                  <Route path="/quiz" component={Quiz}/>
                   <Route path="*" component={NotFound}/>
                 </Switch>
               )
