@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import RoundDetail from "./RoundDetail";
 import { handleStartRound, handleRoundDetail, completeRound } from "../../actions/round";
+import queryString from "query-string";
 
 const InitialData = {
   current: 0,
@@ -14,8 +15,9 @@ class Round extends Component {
   state = InitialData;
 
   componentDidMount() {
-    const { goal_id, dispatch } = this.props;
-    if (goal_id) dispatch(handleStartRound(goal_id));
+    const { goal_id, dispatch, location } = this.props;
+    const { size } = queryString.parse(location.search);
+    if (goal_id) dispatch(handleStartRound(goal_id, size));
   }
 
   handleSubmit = (interaction, correct) => {
@@ -23,7 +25,7 @@ class Round extends Component {
     const { current, answeredCount, correctCount, answerList } = this.state;
 
     dispatch(handleRoundDetail(goal_id, round, correct ));
-    if (current + 1 >= round.length) {
+    if (current + 1 >= round.interactions.length) {
       dispatch(completeRound({ goal_id }));
       history.push(
         `round-result?answered=${answeredCount + 1}&correct=${correctCount +
@@ -61,7 +63,6 @@ class Round extends Component {
 }
 
 const mapStateToProps = ({ selections, round, loading }) => {
-  console.log("Quiz mapStateToProps round:",round);
   const goal_id = selections.goal;
   return {
     goal_id,

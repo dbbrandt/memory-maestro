@@ -8,11 +8,11 @@ export const submitRoundDetail = createAction("SUBMIT_ROUND_DETAIL");
 export const completeRound = createAction("COMPLETE_ROUND");
 export const initResults = createAction("INIT_RESULTS");
 
-export const handleStartRound = goal_id => {
+export const handleStartRound = (goal_id, size) => {
   return dispatch => {
     dispatch(setLoading(true));
     dispatch(showLoading());
-    Api.startRound(goal_id)
+    Api.startRound(goal_id, size)
       .then(interactions => {
         dispatch(startRound({goal_id, interactions}));
         dispatch(setLoading(false));

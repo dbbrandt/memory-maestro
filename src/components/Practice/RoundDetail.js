@@ -15,7 +15,6 @@ class RoundDetail extends Component {
 
   handleSubmit = (interaction, correct) => {
     const { face } = this.state;
-    console.log("CardDetails handleSubmit face: ", face);
     this.setState({face: FRONT});
     this.props.onSubmit(interaction, correct)
   };
@@ -50,7 +49,6 @@ class RoundDetail extends Component {
     const { interaction, current, totalCards } = this.props;
     const { face } = this.state;
     const toFace = face === FRONT ? BACK : FRONT;
-    console.log("CardDetails Render face: ", face);
     return (
       <div>
         <div>
