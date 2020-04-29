@@ -259,4 +259,19 @@ Api.startRound = (id, size) => {
     });
 };
 
+Api.submitReview = (goalId, id, roundId, answerVal, scoreVal, correctVal, reviewCorrectVal) => {
+  return fetch(`${API_URL}/goals/${goalId}/interactions/${id}/submit-review`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({roundId, answerVal, scoreVal, correctVal, reviewCorrectVal})}
+    )
+    .then(response => response.json())
+    .then(json => json.round)
+    .catch(error => {
+      console.log("Error submitting round review: ", error);
+    });
+};
+
+
+
 export default Api;

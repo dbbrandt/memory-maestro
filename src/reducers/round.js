@@ -2,6 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 import {completeRound, startRound, initResults, submitRoundDetail} from "../actions/round";
 
 const InitialResults = {
+  round_id: 0,
   submitCount: 0,
   correctCount: 0,
   attemptCount: 0,

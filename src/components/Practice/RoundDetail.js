@@ -44,7 +44,6 @@ class RoundDetail extends Component {
     )
   };
 
-
   render() {
     const { interaction, current, totalCards } = this.props;
     const { face } = this.state;
