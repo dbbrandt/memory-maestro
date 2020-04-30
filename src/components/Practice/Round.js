@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import RoundDetail from "./RoundDetail";
+import RoundResponse from "./RoundResponse";
 import { handleStartRound, handleRoundDetail, completeRound } from "../../actions/round";
 import queryString from "query-string";
 
@@ -52,7 +52,7 @@ class Round extends Component {
     if (!interactions) return null;
     const interaction = interactions[current];
     return (
-      <RoundDetail
+      <RoundResponse
         interaction={interaction}
         current={current}
         totalCards={interactions.length}

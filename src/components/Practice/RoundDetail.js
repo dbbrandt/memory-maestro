@@ -1,73 +1,50 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { formatDateTime } from "../../utils/formatDate";
+import {handleFetchRoundResult, setRound} from "../../actions/round";
 
-const FRONT = "QUESTION";
-const BACK = "ANSWER";
 
 class RoundDetail extends Component {
-  state = {
-    face: FRONT
-  };
-
-  handleFlip = () => {
-    const { face } = this.state;
-    this.setState({face: face === FRONT ? BACK : FRONT});
-  };
-
-  handleSubmit = (interaction, correct) => {
-    const { face } = this.state;
-    this.setState({face: FRONT});
-    this.props.onSubmit(interaction, correct)
-  };
-
-  showContent = (interaction) => {
-    const { face } = this.state;
-    const { title, prompt, criterion} = interaction;
-    const { copy, stimulus_url } = prompt;
-    const { descriptor } = criterion[0];
-    return (
-      face === FRONT ? (
-      <div>
-        <div>{copy}</div>
-        {!!stimulus_url && (
-          <div>
-            <img
-              alt={title}
-              src={stimulus_url}
-              className="image-thumbnail"
-            />
-          </div>
-        )}
-      </div>
-      ) : (
-       <div>{descriptor}</div>
-      )
-    )
-  };
+  componentDidMount() {
+    const { goal_id, round, dispatch } = this.props;
+    dispatch(handleFetchRoundResult(goal_id, round.id ));
+  }
 
   render() {
-    const { interaction, current, totalCards } = this.props;
-    const { face } = this.state;
-    const toFace = face === FRONT ? BACK : FRONT;
+    const { round } = this.props;
+    const { created_at, round_responses, correct, score, total } = round;
     return (
-      <div>
-        <div>
-            {current + 1} of {totalCards}
-        </div>
-        {this.showContent(interaction)}
-        <div>
-          <button onClick={this.handleFlip}>{toFace}</button>
-        </div>
-        <div>
-          <button onClick={() => this.handleSubmit(interaction, true)}>
-            Correct!
-          </button>
-          <button onClick={() => this.handleSubmit(interaction, false)}>
-            Incorrect
-          </button>
+      <div className="box">
+        <div className="header-box">Round Detail</div>
+        <div className="response-totals">
+          <div className="response-line">
+            <div>Total Questions:</div>
+            <div>{total}</div>
+          </div>
+          <div className="response-line">
+            <div>Correct:</div>
+            <div>{correct}</div>
+          </div>
+          <div className="response-line">
+            <div>Score:</div>
+            <div>{score}%</div>
+          </div>
+          <div className="response-line">
+            <div>Created:</div>
+            <div>{formatDateTime(created_at)}</div>
+          </div>
         </div>
       </div>
-    );
+    )
   }
 }
+const mapStateToProps = ({ selections, rounds }, { match }) => {
+  const round_id = Number(match.params.id);
+  const round = rounds.filter(r => r.id === round_id)[0];
+  return {
+    goal_id: selections.goal,
+    round
+  };
+};
 
-export default RoundDetail;
+export default connect(mapStateToProps)(RoundDetail);

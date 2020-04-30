@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { handleFetchRounds } from "../../actions/rounds";
 import { formatDate, formatDateTime } from "../../utils/formatDate";
 
@@ -23,6 +23,7 @@ class Rounds extends Component {
           <table>
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Last Activity</th>
                 <th>Total</th>
                 <th>Correct</th>
@@ -33,10 +34,11 @@ class Rounds extends Component {
             <tbody>
               {rounds.map(round => (
                 <tr key={round.id}>
+                  <td><Link to={`/round-detail/${round.id}`}>{round.id}</Link></td>
                   <td>{formatDateTime(round.updated_at)}</td>
-                  <td className='centered'>{round.round_responses.total}</td>
-                  <td className='centered'>{round.round_responses.correct}</td>
-                  <td className='centered'>{round.round_responses.score}%</td>
+                  <td className='centered'>{round.total}</td>
+                  <td className='centered'>{round.correct}</td>
+                  <td className='centered'>{round.score}%</td>
                   <td>{formatDate(round.created_at)}</td>
                 </tr>
             ))}

@@ -272,6 +272,13 @@ Api.submitReview = (goalId, id, roundId, answerVal, scoreVal, correctVal, review
     });
 };
 
+Api.fetchRoundResponse = (goalId, roundId, id) => {
+  return fetch(`${API_URL}/goals/${goalId}/rounds/${roundId}/${id}?deep=true`, { headers })
+    .then(result => result.json())
+    .catch(error => {
+      console.log("Error fetching RoundResponse: ", error);
+    });
+};
 
 
 export default Api;

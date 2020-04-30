@@ -20,6 +20,7 @@ import Rounds from "./components/Practice/Rounds";
 import Authenticate from "./components/login/Authenticate";
 import Round from "./components/Practice/Round";
 import RoundResult from "./components/Practice/RoundResult";
+import RoundDetail from "./components/Practice/RoundDetail";
 
 class App extends Component {
   render() {
@@ -51,6 +52,7 @@ class App extends Component {
                   <Route path="/interactions/:goalId" component={Interactions}/>
                   <Route path="/practice" component={Practice}/>
                   <Route path="/rounds" component={Rounds}/>
+                  <Route path="/round-detail/:id" component={RoundDetail}/>
                   <Route path="/round" component={Round}/>
                   <Route path="/round-result" component={RoundResult}/>
                   <Route path="*" component={NotFound}/>
