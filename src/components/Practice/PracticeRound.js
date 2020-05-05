@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import RoundResponse from "./RoundResponse";
+import PracticeResponse from "./PracticeResponse";
 import { handleStartRound, handleRoundDetail, completeRound } from "../../actions/round";
 import queryString from "query-string";
 
@@ -11,7 +11,7 @@ const InitialData = {
   answerList: []
 };
 
-class Round extends Component {
+class PracticeRound extends Component {
   state = InitialData;
 
   componentDidMount() {
@@ -52,7 +52,7 @@ class Round extends Component {
     if (!interactions) return null;
     const interaction = interactions[current];
     return (
-      <RoundResponse
+      <PracticeResponse
         interaction={interaction}
         current={current}
         totalCards={interactions.length}
@@ -71,4 +71,4 @@ const mapStateToProps = ({ selections, round, loading }) => {
   };
 };
 
-export default connect(mapStateToProps)(Round);
+export default connect(mapStateToProps)(PracticeRound);

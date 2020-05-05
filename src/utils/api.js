@@ -272,11 +272,11 @@ Api.submitReview = (goalId, id, roundId, answerVal, scoreVal, correctVal, review
     });
 };
 
-Api.fetchRoundResponse = (goalId, roundId, id) => {
-  return fetch(`${API_URL}/goals/${goalId}/rounds/${roundId}/${id}?deep=true`, { headers })
+Api.fetchRoundResponses = (goalId, roundId) => {
+  return fetch(`${API_URL}/goals/${goalId}/rounds/${roundId}/round_responses?deep=true`, { headers })
     .then(result => result.json())
     .catch(error => {
-      console.log("Error fetching RoundResponse: ", error);
+      console.log("Error fetching RoundResponses: ", error);
     });
 };
 

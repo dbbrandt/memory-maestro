@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import {completeRound, startRound, initResults, submitRoundDetail, fetchRoundResponse} from "../actions/round";
+import {completeRound, startRound, initResults, submitRoundDetail } from "../actions/round";
 
 const InitialResults = {
   round_id: 0,
@@ -45,13 +45,6 @@ const round = createReducer(
         ...state[goal_id],
         ...InitialResults
       };
-    },
-    [fetchRoundResponse]: (state, action) => {
-      const { goal_id } = action.payload;
-      state[goal_id] = {
-        ...state[goalId],
-        roundResponse: action.payload.roundResult
-      }
     }
   }
 );

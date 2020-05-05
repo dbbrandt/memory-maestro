@@ -16,11 +16,11 @@ import Interactions from "./components/interaction/Interactions";
 import InteractionEdit from "./components/interaction/InteractionEdit";
 import InteractionAdd from "./components/interaction/InteractionAdd";
 import Practice from "./components/Practice/Practice";
-import Rounds from "./components/Practice/Rounds";
+import RoundsList from "./components/Round/RoundsList";
+import RoundDetail from "./components/Round/RoundDetail";
 import Authenticate from "./components/login/Authenticate";
-import Round from "./components/Practice/Round";
-import RoundResult from "./components/Practice/RoundResult";
-import RoundDetail from "./components/Practice/RoundDetail";
+import PracticeRound from "./components/Practice/PracticeRound";
+import PracticeResult from "./components/Practice/PracticeResult";
 
 class App extends Component {
   render() {
@@ -50,11 +50,11 @@ class App extends Component {
                   <Route path="/interaction-add" component={InteractionAdd}/>
                   <Route path="/interaction-edit/:id" component={InteractionEdit}/>
                   <Route path="/interactions/:goalId" component={Interactions}/>
-                  <Route path="/practice" component={Practice}/>
-                  <Route path="/rounds" component={Rounds}/>
+                  <Route path="/rounds-list" component={RoundsList}/>
                   <Route path="/round-detail/:id" component={RoundDetail}/>
-                  <Route path="/round" component={Round}/>
-                  <Route path="/round-result" component={RoundResult}/>
+                  <Route path="/practice" component={Practice}/>
+                  <Route path="/practice-round" component={PracticeRound}/>
+                  <Route path="/round-result" component={PracticeResult}/>
                   <Route path="*" component={NotFound}/>
                 </Switch>
               )

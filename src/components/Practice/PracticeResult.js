@@ -4,10 +4,10 @@ import queryString from "query-string";
 import smiley from "../../assets/smileyface.png";
 import star from "../../assets/halfstar.png";
 
-class RoundResult extends Component {
+class PracticeResult extends Component {
   handleRestart = () => {
     const { history } = this.props;
-    history.push('/round?size=5');
+    history.push('/practice-round?size=5');
   };
 
   render() {
@@ -45,4 +45,4 @@ const mapStateToProps = ({ selections, goals }) => {
   };
 };
 
-export default connect(mapStateToProps)(RoundResult);
+export default connect(mapStateToProps)(PracticeResult);

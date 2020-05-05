@@ -6,12 +6,12 @@ import './Practice.css';
 class Practice extends Component {
   handleClick = () => {
     const { history } = this.props;
-    history.push('/rounds');
+    history.push('/rounds-list');
   };
 
   handleStartRound = () => {
     const { history } = this.props;
-    history.push('/round?size=5');
+    history.push('/practice-round?size=5');
   };
 
 

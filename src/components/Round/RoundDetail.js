@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { formatDateTime } from "../../utils/formatDate";
-import {handleFetchRoundResult, setRound} from "../../actions/round";
+import {handleFetchRoundResponses } from "../../actions/rounds";
+import RoundResponses from "./RoundResponses";
+import './Round.css';
 
 
 class RoundDetail extends Component {
   componentDidMount() {
     const { goal_id, round, dispatch } = this.props;
-    dispatch(handleFetchRoundResult(goal_id, round.id ));
+    dispatch(handleFetchRoundResponses(goal_id, round.id ));
   }
 
   render() {
     const { round } = this.props;
-    const { created_at, round_responses, correct, score, total } = round;
+    const { created_at, correct, score, total } = round;
     return (
       <div className="box">
         <div className="header-box">Round Detail</div>
@@ -34,6 +36,7 @@ class RoundDetail extends Component {
             <div>{formatDateTime(created_at)}</div>
           </div>
         </div>
+        <RoundResponses round={round} />
       </div>
     )
   }

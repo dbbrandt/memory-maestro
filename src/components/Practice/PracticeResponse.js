@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import "./Practice.css";
 
 const FRONT = "QUESTION";
 const BACK = "ANSWER";
 
-class RoundResponse extends Component {
+class PracticeResponse extends Component {
   state = {
     face: FRONT
   };
@@ -69,4 +70,4 @@ class RoundResponse extends Component {
   }
 }
 
-export default RoundResponse;
+export default PracticeResponse;

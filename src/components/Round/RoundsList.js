@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { handleFetchRounds } from "../../actions/rounds";
 import { formatDate, formatDateTime } from "../../utils/formatDate";
 
-class Rounds extends Component {
+class RoundsList extends Component {
   componentDidMount() {
     const { goal_id, dispatch } = this.props;
     if (goal_id) dispatch(handleFetchRounds(goal_id));
@@ -60,4 +60,4 @@ const mapStateToProps = ({ selections, rounds, loading }) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Rounds));
+export default withRouter(connect(mapStateToProps)(RoundsList));
