@@ -39,7 +39,7 @@ class Goals extends Component {
               {goals.map(goal => (
                 <tr key={goal.id}>
                   <td>
-                    <Link to={`/interactions/${goal.id}`}>{goal.title}</Link>
+                    <Link to={`/practice/${goal.id}`}>{goal.title}</Link>
                   </td>
                   <td>
                     <img

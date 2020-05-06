@@ -170,11 +170,11 @@ Api.fetchInteractions = id => {
     });
 };
 
-Api.getPresignedInteractionUrl = (goal_id, id, filename) => {
+Api.getPresignedInteractionUrl = (goalId, id, filename) => {
   return fetch(
     API_URL +
       "/goals/" +
-      goal_id +
+      goalId +
       "/interactions/" +
       id +
       "/presigned_url?filename=" +

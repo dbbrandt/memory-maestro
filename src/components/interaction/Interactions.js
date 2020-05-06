@@ -11,14 +11,13 @@ import deleteIcon from "../../assets/delete.png";
 class Interactions extends Component {
 
   componentDidMount() {
-    const { dispatch, goalId, selections } = this.props;
+    const { dispatch, goal, goalId } = this.props;
+    if (!goal) return;
     dispatch(setSection(INTERACTION_SECTION));
-    if (selections.goal !== Number(goalId)) {
-      dispatch(setGoal(goalId));
-      dispatch(showLoading());
-      dispatch(setLoading(true));
-      dispatch(handleFetchInteractions(goalId));
-    }
+    dispatch(setGoal(goalId));
+    dispatch(showLoading());
+    dispatch(setLoading(true));
+    dispatch(handleFetchInteractions(goalId));
   }
 
   handleDelete = id => {

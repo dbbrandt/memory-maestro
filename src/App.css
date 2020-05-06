@@ -109,6 +109,7 @@ table tr:nth-child(odd) td{
 .form-text {
     font-size: 16px;
     text-decoration: none;
+    padding: 5px;
 }
 
 .goal-image-input {
@@ -140,4 +141,8 @@ table tr:nth-child(odd) td{
 
 .dark-blue {
     color: #0000c0;
+}
+
+.light-blue {
+    color: cornflowerblue;
 }

@@ -8,8 +8,8 @@ import './Round.css';
 
 class RoundDetail extends Component {
   componentDidMount() {
-    const { goal_id, round, dispatch } = this.props;
-    dispatch(handleFetchRoundResponses(goal_id, round.id ));
+    const { goalId, round, dispatch } = this.props;
+    dispatch(handleFetchRoundResponses(goalId, round.id ));
   }
 
   render() {
@@ -45,7 +45,7 @@ const mapStateToProps = ({ selections, rounds }, { match }) => {
   const round_id = Number(match.params.id);
   const round = rounds.filter(r => r.id === round_id)[0];
   return {
-    goal_id: selections.goal,
+    goalId: selections.goal,
     round
   };
 };

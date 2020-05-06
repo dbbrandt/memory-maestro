@@ -6,13 +6,13 @@ import { formatDate, formatDateTime } from "../../utils/formatDate";
 
 class RoundsList extends Component {
   componentDidMount() {
-    const { goal_id, dispatch } = this.props;
-    if (goal_id) dispatch(handleFetchRounds(goal_id));
+    const { goalId, dispatch } = this.props;
+    if (goalId) dispatch(handleFetchRounds(goalId));
   }
 
   render() {
-    const { loading, goal_id, rounds, history } = this.props;
-    if (!goal_id) history.push('/');
+    const { loading, goalId, rounds, history } = this.props;
+    if (!goalId) history.push('/');
     if (loading) return null;
     return (
       !rounds || rounds.length === 0 ? <div>No Rounds Found</div>
@@ -54,7 +54,7 @@ const mapStateToProps = ({ selections, rounds, loading }) => {
   const sorted = !!rounds && rounds.length > 0 ? [...rounds].sort((a,b) => b.updated_at - a.updated_at > 0 ? 1 : -1)
     : rounds;
   return {
-    goal_id: selections.goal,
+    goalId: selections.goal,
     rounds: sorted,
     loading
   };

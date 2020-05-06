@@ -9,13 +9,13 @@ export const completeRound = createAction("COMPLETE_ROUND");
 export const initResults = createAction("INIT_RESULTS");
 
 
-export const handleStartRound = (goal_id, size) => {
+export const handleStartRound = (goalId, size) => {
   return dispatch => {
     dispatch(setLoading(true));
     dispatch(showLoading());
-    Api.startRound(goal_id, size)
+    Api.startRound(goalId, size)
       .then(interactions => {
-        dispatch(startRound({ goal_id, interactions }));
+        dispatch(startRound({ goalId, interactions }));
         dispatch(setLoading(false));
         dispatch(hideLoading());
       })
@@ -26,8 +26,8 @@ export const handleStartRound = (goal_id, size) => {
   };
 };
 
-export const handleRoundDetail = (goal_id, round, correct) => {
+export const handleRoundDetail = (goalId, round, correct) => {
   return dispatch => {
-    dispatch(submitRoundDetail({ goal_id, correct }));
+    dispatch(submitRoundDetail({ goalId, correct }));
   };
 };
