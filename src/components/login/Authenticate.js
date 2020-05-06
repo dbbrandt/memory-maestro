@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Amplify, { Analytics } from "aws-amplify";
-import awsconfig from "../../aws-exports";
+import awsconfig from "./aws-exports";
 import { withAuthenticator } from "aws-amplify-react";
 import { handleAuthenticateUser} from "../../actions/authedUser";
 import { handleInititalData } from "../../actions/shared";
