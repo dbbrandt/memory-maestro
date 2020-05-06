@@ -6,7 +6,6 @@ frontend:
         - yarn install
     build:
       commands:
-        - amplifyPush --simple
         - yarn run build
   artifacts:
     baseDirectory: build
