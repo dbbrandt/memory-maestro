@@ -6,19 +6,24 @@ import './Practice.css';
 class Practice extends Component {
   handleClick = () => {
     const { history } = this.props;
-    history.push('/rounds');
+    history.push('/rounds-list');
   };
 
+  handleStartRound = () => {
+    const { history } = this.props;
+    history.push('/practice-round?size=5');
+  };
+
+
   render() {
-    const { goal_id, history } = this.props;
+    const { goal_id, round, history } = this.props;
+    const { submitCount, correctCount, attemptCount, completionCount } = round;
+    const score = submitCount ? (100 * correctCount / submitCount).toFixed(1) : 0;
     if (!goal_id) history.push('/');
     return (
       <div className='practice-info'>
         <div>
-          <h1>UNDER CONSTRUCTION</h1>
-          <div className='btn'>
-            <button onClick={this.handleClick}>Practice Rounds</button>
-          </div>
+          <h1>Practice Your Goals</h1>
           <div>
             Practice your goals by responding to a selection of interactions. Choose the number
             of interactions to practice and a random selection will be presented. This is called a practice round.
@@ -41,12 +46,19 @@ class Practice extends Component {
             making the user experience much more streamlined and satisfying.
 
           </div>
+          <div className='btn'>
+            <button onClick={this.handleStartRound}>Start Round</button>
+          </div>
           <div>
-            See: <a alt='Short Answer Grading'
-                    href='https://github.com/dbbrandt/short_answer_granding_capstone_project/blob/master/capstone_report.pdf'
-                    target="_blank" rel="noopener noreferrer">
-            Short Answer Grading - Machine Learning Project
-          </a>
+            <h3>Cumulative Results</h3>
+            <div>Answered: {submitCount}</div>
+            <div>Correct: {correctCount}</div>
+            <div>Score: {score}%</div>
+            <div>Started: {attemptCount}</div>
+            <div>Completed: {completionCount}</div>
+          </div>
+          <div className='btn'>
+            <button onClick={this.handleClick}>Previous Rounds</button>
           </div>
         </div>
       </div>
@@ -54,8 +66,12 @@ class Practice extends Component {
   }
 };
 
-const mapStateToProps = ({ selections }) => ({
-  goal_id: selections.goal
-})
+const mapStateToProps = ({ selections, round }) => {
+  const goal_id = selections.goal;
+  return {
+    goal_id,
+    round: round[goal_id] ? round[goal_id] : {}
+  }
+};
 
 export default withRouter(connect(mapStateToProps)(Practice));

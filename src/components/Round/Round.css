@@ -1,0 +1,14 @@
+.response-totals {
+    padding: 20px;
+}
+
+.response-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.response-line div {
+    padding: 5px 10px 5px;
+}
+

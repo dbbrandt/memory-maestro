@@ -251,4 +251,34 @@ Api.fetchRounds = id => {
     });
 };
 
+Api.startRound = (id, size) => {
+  return fetch(`${API_URL}/goals/${id}/interactions?size=${size}&deep=game`, { headers })
+    .then(interactions => interactions.json())
+    .catch(error => {
+      console.log("Error starting Round: ", error);
+    });
+};
+
+Api.submitReview = (goalId, id, roundId, answerVal, scoreVal, correctVal, reviewCorrectVal) => {
+  return fetch(`${API_URL}/goals/${goalId}/interactions/${id}/submit-review`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({roundId, answerVal, scoreVal, correctVal, reviewCorrectVal})}
+    )
+    .then(response => response.json())
+    .then(json => json.round)
+    .catch(error => {
+      console.log("Error submitting round review: ", error);
+    });
+};
+
+Api.fetchRoundResponses = (goalId, roundId) => {
+  return fetch(`${API_URL}/goals/${goalId}/rounds/${roundId}/round_responses?deep=true`, { headers })
+    .then(result => result.json())
+    .catch(error => {
+      console.log("Error fetching RoundResponses: ", error);
+    });
+};
+
+
 export default Api;
