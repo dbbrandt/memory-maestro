@@ -15,18 +15,18 @@ class PracticeRound extends Component {
   state = InitialData;
 
   componentDidMount() {
-    const { goal_id, dispatch, location } = this.props;
+    const { goalId, dispatch, location } = this.props;
     const { size } = queryString.parse(location.search);
-    if (goal_id) dispatch(handleStartRound(goal_id, size));
+    if (goalId) dispatch(handleStartRound(goalId, size));
   }
 
   handleSubmit = (interaction, correct) => {
-    const { goal_id, round, dispatch, history } = this.props;
+    const { goalId, round, dispatch, history } = this.props;
     const { current, answeredCount, correctCount, answerList } = this.state;
 
-    dispatch(handleRoundDetail(goal_id, round, correct ));
+    dispatch(handleRoundDetail(goalId, round, correct ));
     if (current + 1 >= round.interactions.length) {
-      dispatch(completeRound({ goal_id }));
+      dispatch(completeRound({ goalId }));
       history.push(
         `round-result?answered=${answeredCount + 1}&correct=${correctCount +
         (correct ? 1 : 0)}`
@@ -43,9 +43,9 @@ class PracticeRound extends Component {
   };
 
   render() {
-    const { goal_id, round, loading, history } = this.props;
+    const { goalId, round, loading, history } = this.props;
     const { interactions } = round;
-    if (!goal_id) history.push("/");
+    if (!goalId) history.push("/");
     if (loading) return null;
 
     const { current } = this.state;
@@ -63,10 +63,10 @@ class PracticeRound extends Component {
 }
 
 const mapStateToProps = ({ selections, round, loading }) => {
-  const goal_id = selections.goal;
+  const goalId = selections.goal;
   return {
-    goal_id,
-    round: round[goal_id] || {},
+    goalId,
+    round: round[goalId] || {},
     loading
   };
 };

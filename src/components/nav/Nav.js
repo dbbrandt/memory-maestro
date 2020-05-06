@@ -6,6 +6,7 @@ import "./Nav.css";
 class Nav extends Component {
   render() {
     const { loginLink, goalId, section } = this.props;
+    console.log("Nav: section: ", section);
     return (
       <nav className="container-grid layout-section navigation">
         <div className="nav-bar">
@@ -16,8 +17,8 @@ class Nav extends Component {
               </NavLink>
             </div>
             <div>
-              <NavLink exact to={`/${section.toLowerCase()}-add`} activeClassName="nav-active">
-                Add
+              <NavLink to={"/practice/"+goalId} activeClassName="nav-active">
+                Practice
               </NavLink>
             </div>
             <div>
@@ -26,15 +27,12 @@ class Nav extends Component {
               </NavLink>
             </div>
             <div>
-              <NavLink to="/practice">
-                Practice
+              <NavLink exact to={`/${section.toLowerCase()}-add`} activeClassName="nav-active">
+                Add
               </NavLink>
             </div>
             <div>
-              <NavLink
-                to={"/" + loginLink.toLowerCase()}
-                activeClassName="nav-active"
-              >
+              <NavLink to={"/" + loginLink.toLowerCase()} activeClassName="nav-active">
                 {loginLink}
               </NavLink>
             </div>

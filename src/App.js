@@ -52,7 +52,7 @@ class App extends Component {
                   <Route path="/interactions/:goalId" component={Interactions}/>
                   <Route path="/rounds-list" component={RoundsList}/>
                   <Route path="/round-detail/:id" component={RoundDetail}/>
-                  <Route path="/practice" component={Practice}/>
+                  <Route path="/practice/:goalId" component={Practice}/>
                   <Route path="/practice-round" component={PracticeRound}/>
                   <Route path="/round-result" component={PracticeResult}/>
                   <Route path="*" component={NotFound}/>

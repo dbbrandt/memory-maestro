@@ -13,36 +13,36 @@ const round = createReducer(
   {},
   {
     [startRound]: (state, action) => {
-      const { goal_id, interactions } = action.payload;
-      const attemptCount = state[goal_id] ? state[goal_id].attemptCount : 0;
-      state[goal_id] = {
+      const { goalId, interactions } = action.payload;
+      const attemptCount = state[goalId] ? state[goalId].attemptCount : 0;
+      state[goalId] = {
         ...InitialResults,
-        ...state[goal_id],
+        ...state[goalId],
         attemptCount: attemptCount + 1,
         interactions
       };
     },
     [submitRoundDetail]: (state, action) => {
-      const { goal_id, correct } = action.payload;
-      const { submitCount, correctCount } = state[goal_id];
-      state[goal_id] = {
-        ...state[goal_id],
+      const { goalId, correct } = action.payload;
+      const { submitCount, correctCount } = state[goalId];
+      state[goalId] = {
+        ...state[goalId],
         submitCount: submitCount + 1,
         correctCount: correct ? correctCount + 1 : correctCount
       }
     },
     [completeRound]: (state, action) => {
-      const { goal_id } = action.payload;
-      const { completionCount } = state[goal_id];
-      state[goal_id] = {
-        ...state[goal_id],
+      const { goalId } = action.payload;
+      const { completionCount } = state[goalId];
+      state[goalId] = {
+        ...state[goalId],
         completionCount: completionCount + 1
       };
     },
     [initResults]: (state, action) => {
-      const { goal_id } = action.payload;
-      state[goal_id] = {
-        ...state[goal_id],
+      const { goalId } = action.payload;
+      state[goalId] = {
+        ...state[goalId],
         ...InitialResults
       };
     }

@@ -39,10 +39,9 @@ class PracticeResult extends Component {
   }
 }
 const mapStateToProps = ({ selections, goals }) => {
-  const goal_id = selections.goal;
-  const { title } = goals[goal_id];
+  const goalId = selections.goal;
+  const { title } = goals[goalId];
   return {
-    goal_id,
     title
   };
 };
