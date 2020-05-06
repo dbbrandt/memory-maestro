@@ -22,59 +22,116 @@
 }
 
 .detail {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    width: 400px;
+    min-height: 600px;
 }
-
 .detail-text {
+    flex: initial;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     font-size: 20px;
-    padding: 30px;
     text-align: center;
+}
+.detail-copy {
+    background-color: #2870c2;
     color: white;
+    height: 300px;
+}
+.detail-text-type {
+    flex: initial;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 30px;
 }
 
-.detail-text-type {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 30px;
-    color: darkblue;
+.detail-bottom {
+    flex: auto;
 }
 
 .detail-buttons {
+    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 }
 
-.correctButton {
+.response-button {
     width: 150px;
     height: 40px;
     padding: 10px;
     margin: 5px;
     color: white;
+    outline: none;
+}
+.correct-button {
     background-color: forestgreen;
 }
 
-.incorrectButton {
-    width: 150px;
-    height: 40px;
-    padding: 10px;
-    margin: 5px;
-    color: white;
+.incorrect-button {
     background-color: crimson;
 }
 
-.response-totals {
+.stimulus-img {
+    height: 300px;
+}
+
+.result-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.result-heading {
     padding: 20px;
 }
 
-.response-line {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.result-button {
+    margin-top: 30px;
 }
 
-.response-line div {
-    padding: 5px 10px 5px;
+.result-img {
+    height: 150px;
 }
 
+.scene {
+    height: 300px;
+    width: 200px;
+    border: 1px solid #CCC;
+    margin: 40px 0;
+    perspective: 600px;
+}
+
+
+.card {
+    width: 100%;
+    height: 100%;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    position: relative;
+}
+
+.card.is-flipped {
+    transform: rotateY(-180deg);
+}
+
+.card__face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.card__face--back {
+    transform: rotateY(180deg);
+}

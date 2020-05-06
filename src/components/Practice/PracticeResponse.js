@@ -9,6 +9,21 @@ class PracticeResponse extends Component {
     face: FRONT
   };
 
+  getStimulus = ( title, prompt ) => {
+    if (!prompt) return null;
+    if (prompt.stimulus_url === "") {
+      return <div className="detail-text detail-copy">{prompt.copy}</div>
+    } else {
+      return (
+          <img
+            alt={title}
+            src={prompt.stimulus_url}
+            className="stimulus-img"
+          />
+      );
+    }
+  };
+
   handleFlip = () => {
     const { face } = this.state;
     this.setState({face: face === FRONT ? BACK : FRONT});
@@ -22,25 +37,19 @@ class PracticeResponse extends Component {
   showContent = (interaction) => {
     const { face } = this.state;
     const { title, prompt, criterion} = interaction;
-    const { copy, stimulus_url } = prompt;
     const { descriptor } = criterion[0];
+    const backgroundColor = "cornflowerblue";
+    const backColor = face === BACK ? "white" : backgroundColor;
     return (
-      face === FRONT ? (
-      <div>
-        <div>{copy}</div>
-        {!!stimulus_url && (
-          <div>
-            <img
-              alt={title}
-              src={stimulus_url}
-              className="image-thumbnail"
-            />
-          </div>
-        )}
+      <div className={`card ${face === BACK ? "is-flipped" : ""}`}>
+        <div className="detail-text card__face">
+          {this.getStimulus(title, prompt)}
+        </div>
+           <div className="detail-text card__face card__face--back"
+                style={{color: backColor, backgroundColor: backgroundColor}}>
+          {descriptor}
+        </div>
       </div>
-      ) : (
-       <div>{descriptor}</div>
-      )
     )
   };
 
@@ -49,21 +58,34 @@ class PracticeResponse extends Component {
     const { face } = this.state;
     const toFace = face === FRONT ? BACK : FRONT;
     return (
-      <div>
-        <div>
-            {current + 1} of {totalCards}
+      <div className="detail-container">
+        <div style={{ textAlign: "left" }}>
+          {current + 1} of {totalCards}
         </div>
-        {this.showContent(interaction)}
-        <div>
-          <button onClick={this.handleFlip}>{toFace}</button>
-        </div>
-        <div>
-          <button onClick={() => this.handleSubmit(interaction, true)}>
-            Correct!
-          </button>
-          <button onClick={() => this.handleSubmit(interaction, false)}>
-            Incorrect
-          </button>
+        <div className="detail">
+          <div className="scene">
+            {this.showContent(interaction)}
+          </div>
+          <div className="detail-text-type">
+            <button className={"button-link dark-blue"} onClick={this.handleFlip}>{toFace}</button>
+          </div>
+          <div className="detail-bottom">
+            <div className="detail-bottom-spacer">
+
+            </div>
+            <div  className="detail-buttons">
+              <div>
+                <button className="response-button correct-button" onClick={() => this.handleSubmit(interaction, true)}>
+                  Correct!
+                </button>
+              </div>
+              <div>
+                <button className="response-button incorrect-button" onClick={() => this.handleSubmit(interaction, false)}>
+                  Incorrect
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

@@ -15,19 +15,21 @@ class PracticeResult extends Component {
     const { correct, answered } = queryString.parse(location.search);
     const pct_correct = ((100 * correct) / answered).toFixed(1);
     return (
-      <div>
+      <div className="result-detail">
         <div>
           {pct_correct >= 80 ? (
-            <img alt="well done" src={smiley}/>
+            <img className="result-img" alt="well done" src={smiley}/>
           ) : (
-            <img alt="nice try" src={star}/>
+            <img className="result-img" alt="nice try" src={star}/>
           )}
-          <div>{title}</div>
+          <div className="result-heading">
+            <h3>{title}</h3>
+          </div>
           <div>Score: {pct_correct}%</div>
           <div>Answered: {answered}</div>
           <div>Correct: {correct}</div>
         </div>
-        <div>
+        <div className="result-button">
           <button onClick={this.handleRestart}>
             Restart Quiz
           </button>
