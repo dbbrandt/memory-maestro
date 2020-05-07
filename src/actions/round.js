@@ -8,7 +8,6 @@ export const submitRoundDetail = createAction("SUBMIT_ROUND_DETAIL");
 export const completeRound = createAction("COMPLETE_ROUND");
 export const initResults = createAction("INIT_RESULTS");
 
-
 export const handleStartRound = (goalId, size) => {
   return dispatch => {
     dispatch(setLoading(true));
@@ -30,7 +29,8 @@ export const handleSubmitRoundDetail = (goalId, interactionId, round, answer, co
   return dispatch => {
     const score = correct ? 100 : 0;
     const review = !!correct;
-    Api.submitReview(goalId, interactionId , round.round_id, answer, score, correct, review)
+    const actualAnswer = correct ? answer : "";
+    Api.submitReview(goalId, interactionId , round.round_id, actualAnswer, score, correct, review)
       .then(roundId => {
         dispatch(submitRoundDetail({goalId, roundId, correct}));
       })

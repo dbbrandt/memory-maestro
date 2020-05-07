@@ -11,12 +11,12 @@ class PracticeResult extends Component {
   };
 
   render() {
-    const { title, location } = this.props;
+    const { title, location, history, goalId } = this.props;
     const { correct, answered } = queryString.parse(location.search);
     const pct_correct = ((100 * correct) / answered).toFixed(1);
     return (
       <div className="result-detail">
-        <div>
+        <div className="result-stats">
           {pct_correct >= 80 ? (
             <img className="result-img" alt="well done" src={smiley}/>
           ) : (
@@ -29,9 +29,14 @@ class PracticeResult extends Component {
           <div>Answered: {answered}</div>
           <div>Correct: {correct}</div>
         </div>
-        <div className="result-button">
-          <button onClick={this.handleRestart}>
+        <div>
+          <button className="result-button" onClick={this.handleRestart}>
             Restart Quiz
+          </button>
+        </div>
+        <div>
+          <button  className="result-button" onClick={() => history.push(`/practice/${goalId}`)}>
+            Practice Page
           </button>
         </div>
       </div>
@@ -42,6 +47,7 @@ const mapStateToProps = ({ selections, goals }) => {
   const goalId = selections.goal;
   const { title } = goals[goalId];
   return {
+    goalId,
     title
   };
 };

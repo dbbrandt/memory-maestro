@@ -116,12 +116,22 @@
     text-align: center;
 }
 
+.result-stats {
+    margin: 20px;
+}
+
 .result-heading {
     padding: 20px;
 }
 
 .result-button {
-    margin-top: 30px;
+    width: 150px;
+    height: 40px;
+    padding: 10px;
+    margin: 5px;
+    color: white;
+    outline: none;
+    background-color: cornflowerblue;
 }
 
 .result-img {
