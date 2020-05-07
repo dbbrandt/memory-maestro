@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PracticeResponse from "./PracticeResponse";
-import { handleStartRound, handleRoundDetail, completeRound } from "../../actions/round";
+import { handleStartRound, handleSubmitRoundDetail, completeRound } from "../../actions/round";
 import queryString from "query-string";
 
 const InitialData = {
@@ -20,11 +20,11 @@ class PracticeRound extends Component {
     if (goalId) dispatch(handleStartRound(goalId, size));
   }
 
-  handleSubmit = (interaction, correct) => {
+  handleSubmit = (interaction, answer, correct) => {
     const { goalId, round, dispatch, history } = this.props;
     const { current, answeredCount, correctCount, answerList } = this.state;
 
-    dispatch(handleRoundDetail(goalId, round, correct ));
+    dispatch(handleSubmitRoundDetail(goalId, interaction.id, round,  answer, correct ));
     if (current + 1 >= round.interactions.length) {
       dispatch(completeRound({ goalId }));
       history.push(

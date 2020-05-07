@@ -26,8 +26,18 @@ export const handleStartRound = (goalId, size) => {
   };
 };
 
-export const handleRoundDetail = (goalId, round, correct) => {
+export const handleSubmitRoundDetail = (goalId, interactionId, round, answer, correct) => {
   return dispatch => {
-    dispatch(submitRoundDetail({ goalId, correct }));
+    const score = correct ? 100 : 0;
+    const review = !!correct;
+    Api.submitReview(goalId, interactionId , round.round_id, answer, score, correct, review)
+      .then(roundId => {
+        dispatch(submitRoundDetail({goalId, roundId, correct}));
+      })
+      .catch(error => {
+        alert("Failed to submit response! Try Again.");
+        console.log("Failed to submit response! Try again.", error);
+
+      })
   };
 };

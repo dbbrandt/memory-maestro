@@ -259,11 +259,11 @@ Api.startRound = (id, size) => {
     });
 };
 
-Api.submitReview = (goalId, id, roundId, answerVal, scoreVal, correctVal, reviewCorrectVal) => {
-  return fetch(`${API_URL}/goals/${goalId}/interactions/${id}/submit-review`, {
+Api.submitReview = (goalId, id, round, answer, score, correct, review) => {
+  return fetch(`${API_URL}/goals/${goalId}/interactions/${id}/submit_review`, {
     method: "POST",
     headers,
-    body: JSON.stringify({roundId, answerVal, scoreVal, correctVal, reviewCorrectVal})}
+    body: JSON.stringify({round, answer, score, correct, review})}
     )
     .then(response => response.json())
     .then(json => json.round)

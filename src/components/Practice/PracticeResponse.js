@@ -29,15 +29,18 @@ class PracticeResponse extends Component {
     this.setState({face: face === FRONT ? BACK : FRONT});
   };
 
-  handleSubmit = (interaction, correct) => {
+  handleSubmit = (interaction, answer, correct) => {
     this.setState({face: FRONT});
-    this.props.onSubmit(interaction, correct)
+    this.props.onSubmit(interaction, answer, correct)
+  };
+
+  getDescriptor = (interaction) => {
+    return interaction.criterion[0].descriptor;
   };
 
   showContent = (interaction) => {
     const { face } = this.state;
-    const { title, prompt, criterion} = interaction;
-    const { descriptor } = criterion[0];
+    const { title, prompt } = interaction;
     const backgroundColor = "cornflowerblue";
     const backColor = face === BACK ? "white" : backgroundColor;
     return (
@@ -47,7 +50,7 @@ class PracticeResponse extends Component {
         </div>
            <div className="detail-text card__face card__face--back"
                 style={{color: backColor, backgroundColor: backgroundColor}}>
-          {descriptor}
+          {this.getDescriptor(interaction)}
         </div>
       </div>
     )
@@ -56,6 +59,7 @@ class PracticeResponse extends Component {
   render() {
     const { interaction, current, totalCards } = this.props;
     const { face } = this.state;
+    const descriptor = this.getDescriptor(interaction);
     const toFace = face === FRONT ? BACK : FRONT;
     return (
       <div className="detail-container">
@@ -75,12 +79,14 @@ class PracticeResponse extends Component {
             </div>
             <div  className="detail-buttons">
               <div>
-                <button className="response-button correct-button" onClick={() => this.handleSubmit(interaction, true)}>
+                <button className="response-button correct-button"
+                        onClick={() => this.handleSubmit(interaction, descriptor, true)}>
                   Correct!
                 </button>
               </div>
               <div>
-                <button className="response-button incorrect-button" onClick={() => this.handleSubmit(interaction, false)}>
+                <button className="response-button incorrect-button"
+                        onClick={() => this.handleSubmit(interaction, descriptor, false)}>
                   Incorrect
                 </button>
               </div>

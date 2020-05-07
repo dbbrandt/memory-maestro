@@ -23,10 +23,11 @@ const round = createReducer(
       };
     },
     [submitRoundDetail]: (state, action) => {
-      const { goalId, correct } = action.payload;
+      const { goalId, roundId, correct } = action.payload;
       const { submitCount, correctCount } = state[goalId];
       state[goalId] = {
         ...state[goalId],
+        round_id: roundId,
         submitCount: submitCount + 1,
         correctCount: correct ? correctCount + 1 : correctCount
       }
