@@ -18,6 +18,7 @@ const round = createReducer(
       state[goalId] = {
         ...InitialResults,
         ...state[goalId],
+        round_id: 0,
         attemptCount: attemptCount + 1,
         interactions
       };

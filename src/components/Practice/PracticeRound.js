@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PracticeResponse from "./PracticeResponse";
 import { handleStartRound, handleSubmitRoundDetail, completeRound } from "../../actions/round";
-import queryString from "query-string";
 
 const InitialData = {
   current: 0,
@@ -15,9 +14,8 @@ class PracticeRound extends Component {
   state = InitialData;
 
   componentDidMount() {
-    const { goalId, dispatch, location } = this.props;
-    const { size } = queryString.parse(location.search);
-    if (goalId) dispatch(handleStartRound(goalId, size));
+    const { goalId, roundSize, dispatch } = this.props;
+    if (goalId) dispatch(handleStartRound(goalId, roundSize));
   }
 
   handleSubmit = (interaction, answer, correct) => {
@@ -63,10 +61,11 @@ class PracticeRound extends Component {
 }
 
 const mapStateToProps = ({ selections, round, loading }) => {
-  const goalId = selections.goal;
+  const { goal, roundSize } = selections;
   return {
-    goalId,
-    round: round[goalId] || {},
+    goalId: goal,
+    roundSize,
+    round: round[goal] || {},
     loading
   };
 };

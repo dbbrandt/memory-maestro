@@ -2,12 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import "./Practice.css";
-import { GOAL_SECTION, setGoal, setSection } from "../../actions/selections";
+import {
+  GOAL_SECTION,
+  setGoal,
+  setRoundSize,
+  setSection
+} from "../../actions/selections";
 
 class Practice extends Component {
-  state = {
-    roundSize: 5
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      roundSize: props.roundSize
+    };
+  }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -27,9 +35,10 @@ class Practice extends Component {
   };
 
   handleStartRound = () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     const { roundSize } = this.state;
-    history.push(`/practice-round?size=${roundSize}`);
+    dispatch(setRoundSize(Number(roundSize)));
+    history.push("/practice-round");
   };
 
   render() {
@@ -111,11 +120,13 @@ class Practice extends Component {
 
 const mapStateToProps = ({ goals, selections, round }, { match }) => {
   const goalId = match.params.goalId;
+  const { roundSize } = selections;
   return {
     goalId,
     goal: goals[goalId],
     selections,
-    round: round[goalId] ? round[goalId] : {}
+    round: round[goalId] || {},
+    roundSize: roundSize || 10
   };
 };
 
