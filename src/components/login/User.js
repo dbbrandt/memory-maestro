@@ -3,25 +3,29 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import "./User.css";
 import UserForm from "./UserForm";
-import { addUser } from "../../actions/users";
+import { handleAddUser } from "../../actions/users";
 
 class User extends Component {
-
-  handleSubmit = user => {
-    const {authedUser, dispatch, history } = this.props;
-    user['id'] = authedUser;
-    dispatch(addUser(user));
+  handleSubmit = (name, avatarURL) => {
+    const { authedUser, dispatch, history } = this.props;
+    dispatch(handleAddUser(authedUser, name, avatarURL));
     history.push("/");
   };
 
   render() {
+    const { user } = this.props;
     return (
       <div className="login">
         <div className="header-box">Update User Information</div>
-        <UserForm handleSubmit={this.handleSubmit}/>
+        <UserForm user={user} handleSubmit={this.handleSubmit} />
       </div>
     );
   }
 }
 
-export default withRouter(connect(({authedUser}) => ({authedUser}))(User));
+const mapStateToProps = ({ authedUser, users }) => ({
+  authedUser,
+  user: users[authedUser]
+});
+
+export default withRouter(connect(mapStateToProps)(User));

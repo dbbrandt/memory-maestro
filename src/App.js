@@ -21,10 +21,17 @@ import RoundDetail from "./components/Round/RoundDetail";
 import Authenticate from "./components/login/Authenticate";
 import PracticeRound from "./components/Practice/PracticeRound";
 import PracticeResult from "./components/Practice/PracticeResult";
+import PrivacyPolicy from "./components/footer/PrivacyPolicy";
+
+
+const federated = {
+  google_client_id: "830910274774-gdo0bc4rne1fl7ab26gmi4ikfvpipu7t.apps.googleusercontent.com"
+};
 
 class App extends Component {
   render() {
     const { authedUser, user } = this.props;
+    console.log("App props: ", this.props);
     return (
       <Fragment>
         <LoadingBar className="loading-bar" />
@@ -34,13 +41,13 @@ class App extends Component {
             <Nav />
             <main className="container-grid layout-section main">
               {!authedUser ? (
-                <Route path="*" component={Authenticate}/>
-              ) : (
+                <Route path="*" render = {() => (<Authenticate federated={federated}/>)}/>
+                ) : (
                 <Switch>
-                  {!!user ? (
-                    <Route exact path="/" component={Goals}/>
-                  ) : (
+                  {user && !user["name"] ? (
                     <Route exact path="/" component={User}/>
+                  ) : (
+                    <Route exact path="/" component={Goals}/>
                   )
                   }
                   <Route path="/user" component={User}/>
@@ -55,6 +62,7 @@ class App extends Component {
                   <Route path="/practice/:goalId" component={Practice}/>
                   <Route path="/practice-round" component={PracticeRound}/>
                   <Route path="/round-result" component={PracticeResult}/>
+                  <Route path="/privacy-policy" component={PrivacyPolicy}/>
                   <Route path="*" component={NotFound}/>
                 </Switch>
               )

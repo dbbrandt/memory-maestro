@@ -15,13 +15,18 @@ const initState = () => ({
 class UserForm extends Component {
   constructor(props) {
     super(props);
+    const user  = props.user ? props.user : {};
+    const { name, avatarURL } = user;
     this.state = this.props.initForm;
+    this.state.name = name;
+    this.state.avatarURL = avatarURL;
     this.maxHeight = 250;
   }
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.handleSubmit(this.state);
+    const { name, avatarURL } = this.state;
+    this.props.handleSubmit( name, avatarURL );
     this.setState(initState);
   };
 
