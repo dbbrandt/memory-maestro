@@ -157,7 +157,7 @@ button[disabled]{
 
     .container-grid.main-layout {
       grid-template-areas: '. header header header .' '. navigation main main .' '. navigation main main .' '. navigation main main .' '. footer footer footer .';
-      grid-template-columns: 1fr 150px repeat(2 , 512px) 1.00fr;
+      grid-template-columns: 1fr 150px repeat(2 , 430px) 1.00fr;
       grid-template-rows: 85px 101px auto 420px 30px;
     }
 
@@ -177,7 +177,7 @@ button[disabled]{
   }
 }
 
-@media screen and (min-width: 90.625rem) {
+@media screen and (min-width: 80rem) {
   @supports (display: grid) {
     /* Layout Elements */
 
