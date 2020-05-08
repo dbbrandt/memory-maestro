@@ -21,6 +21,7 @@ import RoundDetail from "./components/Round/RoundDetail";
 import Authenticate from "./components/login/Authenticate";
 import PracticeRound from "./components/Practice/PracticeRound";
 import PracticeResult from "./components/Practice/PracticeResult";
+import PrivacyPolicy from "./components/footer/PrivacyPolicy";
 
 class App extends Component {
   render() {
@@ -55,6 +56,7 @@ class App extends Component {
                   <Route path="/practice/:goalId" component={Practice}/>
                   <Route path="/practice-round" component={PracticeRound}/>
                   <Route path="/round-result" component={PracticeResult}/>
+                  <Route path="/privacy-policy" component={PrivacyPolicy}/>
                   <Route path="*" component={NotFound}/>
                 </Switch>
               )
