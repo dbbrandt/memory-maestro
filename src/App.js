@@ -23,7 +23,6 @@ import PracticeRound from "./components/Practice/PracticeRound";
 import PracticeResult from "./components/Practice/PracticeResult";
 import PrivacyPolicy from "./components/footer/PrivacyPolicy";
 
-
 const federated = {
   google_client_id: "830910274774-gdo0bc4rne1fl7ab26gmi4ikfvpipu7t.apps.googleusercontent.com"
 };
