@@ -10,6 +10,8 @@ const getFilenamePart = filename => filename.match(/.*\/(.*)$/)[1];
 const toDataURL = url =>
   fetch(url, { headers })
     .then(response => {
+      console.log("toDataURL: url: ", url);
+      console.log("toDataURL: fetch response: ", response);
       return response.blob()
     })
     .then(
@@ -106,10 +108,12 @@ class ImageInput extends React.Component {
     this.canvas = document.createElement("canvas");
     this.fileInput.form.addEventListener("reset", this.handleFormReset);
     // Added feature to convert any URL passed in to a dataURL for preloading the canvas.
+    console.log("ImageInput props: ", this.props);
     if (!!this.props.value)
       toDataURL(this.props.value)
         .then(dataUrl => {
-          const filename = getFilenamePart(this.props.value)
+          console.log("toDataURL: dataURL: ", dataUrl);
+          const filename = getFilenamePart(this.props.value);
           this.setState({ value: dataUrl, filename: filename });
           resizeImage(dataUrl, this.canvas, this.props.maxHeight).then(
             url => {

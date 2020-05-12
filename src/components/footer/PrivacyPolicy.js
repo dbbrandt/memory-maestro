@@ -19,6 +19,7 @@ const PrivacyPolicy = () => {
         <a
           href="https://www.termsfeed.com/privacy-policy-generator/"
           target="_blank"
+          rel="noopener noreferrer"
         >
           Privacy Policy Generator
         </a>
@@ -69,7 +70,7 @@ const PrivacyPolicy = () => {
             <strong>Website</strong> refers to Memory Maestro, accessible from{" "}
             <a
               href="http://www.memorymaestro.com"
-              rel="external nofollow noopener"
+              rel="external nofollow noopener noreferrer"
               target="_blank"
             >
               http://www.memorymaestro.com
@@ -187,7 +188,7 @@ const PrivacyPolicy = () => {
         Persistent Cookies remain on your personal computer or mobile device
         when You go offline, while Session Cookies are deleted as soon as You
         close your web browser. Learn more about cookies:{" "}
-        <a href="https://www.termsfeed.com/blog/cookies/" target="_blank">
+        <a href="https://www.termsfeed.com/blog/cookies/" target="_blank" rel="noopener noreferrer">
           All About Cookies
         </a>
         .

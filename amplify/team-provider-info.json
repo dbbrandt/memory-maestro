@@ -13,7 +13,9 @@
         },
         "categories": {
             "auth": {
-                "memorymaestro1de21d5c": {}
+                "memorymaestro1de21d5c": {
+                    "hostedUIProviderCreds": "[]"
+                }
             }
         }
     }

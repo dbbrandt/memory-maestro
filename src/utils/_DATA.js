@@ -1,16 +1,4 @@
 let users = {
-  'dbbrandt@gmail.com': {
-    id: 'dbbrandt@gmail.com',
-    name: 'Daniel Brandt',
-    avatarURL: '/img/man1-avr.png',
-    answers: {
-      "8xf0y6ziyjabvozdd253nd": 'optionOne',
-      "6ni6ok3ym7mf1p33lnez": 'optionTwo',
-      "am8ehyc8byjqgar0jgpub9": 'optionTwo',
-      "loxhs1bqm25b708cmbf3g": 'optionTwo'
-    },
-    questions: ['8xf0y6ziyjabvozdd253nd', 'am8ehyc8byjqgar0jgpub9']
-  },
   tylermcginnis: {
     id: 'tylermcginnis',
     name: 'Tyler McGinnis',
