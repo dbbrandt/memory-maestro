@@ -7,7 +7,7 @@ const initState = () => ({
   id: 0,
   email: "",
   name: "",
-  avatarURL: "",
+  avatar_url: "",
   image_data_url: "",
   image_filename: ""
 });
@@ -18,15 +18,15 @@ class UserForm extends Component {
     const user  = props.user ? props.user : {};
     const { name, avatarURL } = user;
     this.state = this.props.initForm;
-    this.state.name = name;
-    this.state.avatarURL = avatarURL;
+    this.state.name = name || "";
+    this.state.avatarURL = avatarURL || "";
     this.maxHeight = 250;
   }
 
   handleSubmit = event => {
     event.preventDefault();
-    const { name, avatarURL } = this.state;
-    this.props.handleSubmit( name, avatarURL );
+    const {name, avatarURL } = this.state;
+    this.props.handleSubmit(name, avatarURL );
     this.setState(initState);
   };
 
