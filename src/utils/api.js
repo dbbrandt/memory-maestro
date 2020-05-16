@@ -77,6 +77,35 @@ Api.updateUser = user => {
     });
 };
 
+Api.getPresignedUserUrl = (id, filename) => {
+  return fetch(
+    API_URL + "/users/" + id + "/presigned_url?filename=" + filename,
+    { headers }
+  )
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error fetching User pre-signed URL: ", error);
+    });
+};
+
+Api.updateUserImage = (user, data, uploadUrl, fileUrl) => {
+  return uploadFileToAws(uploadUrl, data).then(res => {
+    if (res) {
+      console.log("Failed to upload image to AWS", uploadUrl);
+      return { message: res };
+    } else {
+      return fetch(API_URL + "/users/" + user.id, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({avatar_url: fileUrl})
+      })
+        .then(res => res.json())
+        .catch(error => {
+          console.log("Error saving user image: ", error);
+        });
+    }
+  });
+};
 Api.fetchGoals = () => {
   return fetch(API_URL + "/goals", { headers })
     .then(res => res.json())
@@ -99,21 +128,20 @@ Api.getPresignedGoalUrl = (id, filename) => {
   )
     .then(res => res.json())
     .catch(error => {
-      console.log("Error fetching Goals: ", error);
+      console.log("Error fetching Goal pre-signed URL: ", error);
     });
 };
 
-Api.updateGoalImage = (goal, data, uploadUrl, fileUrl) => {
+Api.updateGoalImage = (id, data, uploadUrl, fileUrl) => {
   return uploadFileToAws(uploadUrl, data).then(res => {
     if (res) {
       console.log("Failed to upload image to AWS", uploadUrl);
       return { message: res };
     } else {
-      goal.image_url = fileUrl;
-      return fetch(API_URL + "/goals/" + goal.id, {
+      return fetch(API_URL + "/goals/" + id, {
         method: "PUT",
         headers,
-        body: JSON.stringify(goal)
+        body: JSON.stringify({ avatar_url:  fileUrl })
       })
         .then(res => res.json())
         .catch(error => {

@@ -6,12 +6,12 @@ import UserForm from "./UserForm";
 import { handleUpdateUser } from "../../actions/authedUser";
 
 class User extends Component {
-  handleSubmit = (name, avatarURL) => {
+  handleSubmit = user => {
     // Note: user profile may be new so authedUser is always used as the source of the email
     const { authedUser,dispatch, history } = this.props;
-    let updated = { ...authedUser };
-    updated["name"] = name;
-    updated["avatar_url"] = avatarURL;
+    let updated = { ...user };
+    updated.id = authedUser.id;
+    updated.email = authedUser.email;
     dispatch(handleUpdateUser(updated));
     history.push("/");
   };

@@ -72,7 +72,7 @@ const handleUploadGoalImage = (goal, filename, data_url) => {
       .then(res => {
         const imageUrl = res.filename;
         const signedUploadUrl = res.url;
-        dispatch(updateGoalImage(goal, data_url, signedUploadUrl, imageUrl))
+        dispatch(updateGoalImage(goal.id, data_url, signedUploadUrl, imageUrl))
       })
       .catch(error => {
         alert('Unable to upload goal image');
@@ -81,9 +81,9 @@ const handleUploadGoalImage = (goal, filename, data_url) => {
   };
 };
 
-const  updateGoalImage = (goal, data_url, signedUploadUrl, imageUrl) => {
+const  updateGoalImage = (id, data_url, signedUploadUrl, imageUrl) => {
   return dispatch => {
-    Api.updateGoalImage(goal, data_url, signedUploadUrl, imageUrl)
+    Api.updateGoalImage(id, data_url, signedUploadUrl, imageUrl)
       .then((res) => {
         if (res["message"]) {
           alert(res["message"]);

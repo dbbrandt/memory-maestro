@@ -12,12 +12,8 @@ class Heading extends Component {
 
   render() {
     const { authedUser, title, buttonText } = this.props;
-    let name = "";
-    let altText = "";
-    if (!!authedUser) {
-      name  = authedUser.name ? authedUser.name : "Click to update profile";
-      altText = authedUser.avatar_url ? name : "Update avatar";
-    }
+    const  name  = authedUser ? authedUser.name : "";
+    const profileName = !!name ? `Hi ${name}!` : 'Click to update profile.';
     return (
       <header className="container-grid layout-section header">
         <div>
@@ -32,11 +28,11 @@ class Heading extends Component {
               </div>
             </div>
             <div className="user-name">
-              <div><Link to="/user">{name}</Link></div>
+              <div><Link to="/user">{profileName}</Link></div>
             </div>
             <div className="user-image">
               <Link to="/user">
-                <img alt={altText} src={authedUser.avatar_url} />
+                <img alt={authedUser.name} src={authedUser.avatar_url} />
               </Link>
             </div>
           </Fragment>
