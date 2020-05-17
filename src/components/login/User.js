@@ -18,6 +18,7 @@ class User extends Component {
 
   render() {
     const { authedUser } = this.props;
+    console.log("User authedUser:", authedUser);
     return (
       <div className="login">
         <div className="header-box">Update User Information</div>

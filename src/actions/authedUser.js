@@ -15,7 +15,7 @@ export const handleAuthenticateUser = ( email, name, picture ) => {
           Api.updateUser({
               id: user.id,
               email,
-              name,
+              name: user.name || name,
               avatar_url: user.avatar_url || picture
           })
             .then(user => dispatch(authenticateUser(user)));
