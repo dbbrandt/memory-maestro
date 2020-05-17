@@ -29,8 +29,7 @@ const federated = {
 
 class App extends Component {
   render() {
-    const { authedUser, user } = this.props;
-    console.log("App props: ", this.props);
+    const { authedUser } = this.props;
     return (
       <Fragment>
         <LoadingBar className="loading-bar" />
@@ -43,12 +42,7 @@ class App extends Component {
                 <Route path="*" render = {() => (<Authenticate federated={federated}/>)}/>
                 ) : (
                 <Switch>
-                  {user && !user["name"] ? (
-                    <Route exact path="/" component={User}/>
-                  ) : (
-                    <Route exact path="/" component={Goals}/>
-                  )
-                  }
+                  <Route exact path="/" component={Goals}/>
                   <Route path="/user" component={User}/>
                   <Route path="/logout" component={Logout}/>
                   <Route path="/goal-add" component={GoalAdd}/>
@@ -75,9 +69,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ authedUser, users}) => ({
-  authedUser,
-  user: users[authedUser]
+const mapStateToProps = ({ authedUser }) => ({
+      authedUser,
 });
 
 export default connect(mapStateToProps)(App);

@@ -1,5 +1,3 @@
-// Temporary dummy user data
-import { _getUsers } from "./_DATA.js";
 import bufferFrom from "buffer-from";
 
 const prod = {
@@ -12,9 +10,7 @@ const dev = {
   API_URL: "http://localhost/api"
 };
 
-const { BASE_URL, API_URL } =
-  process.env.NODE_ENV === "development" ? dev : prod;
-console.log("BASE_URL: ", BASE_URL);
+const { BASE_URL, API_URL } = process.env.NODE_ENV === "development" ? dev : prod;
 
 const headers = {
   Accept: "application/json",
@@ -47,20 +43,69 @@ const fixupInteractionImage = interactions => {
 
 let Api = {};
 
-// Temporary user api
-Api.getUsers = () => {
-  return _getUsers().then(users => users);
+
+Api.fetchUsers = () => {
+  return fetch(API_URL + "/users", { headers })
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error fetching Users: ", error);
+    });
 };
 
-Api.getInitialData = () => {
-  return Promise.all([_getUsers(), Api.fetchGoals()]).then(
-    ([users, goals]) => ({
-      users,
-      goals
-    })
-  );
+Api.addUser = user => {
+  user["password"] = "google";
+  return fetch(API_URL + "/users", {
+    method: "POST",
+    headers,
+    body: JSON.stringify(user)
+  })
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error saving user: ", error);
+    });
 };
 
+Api.updateUser = user => {
+  return fetch(API_URL + "/users/" + user.id, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(user)
+  })
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error saving user: ", error);
+    });
+};
+
+Api.getPresignedUserUrl = (id, filename) => {
+  return fetch(
+    API_URL + "/users/" + id + "/presigned_url?filename=" + filename,
+    { headers }
+  )
+    .then(res => res.json())
+    .catch(error => {
+      console.log("Error fetching User pre-signed URL: ", error);
+    });
+};
+
+Api.updateUserImage = (user, data, uploadUrl, fileUrl) => {
+  return uploadFileToAws(uploadUrl, data).then(res => {
+    if (res) {
+      console.log("Failed to upload image to AWS", uploadUrl);
+      return { message: res };
+    } else {
+      return fetch(API_URL + "/users/" + user.id, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({avatar_url: fileUrl})
+      })
+        .then(res => res.json())
+        .catch(error => {
+          console.log("Error saving user image: ", error);
+        });
+    }
+  });
+};
 Api.fetchGoals = () => {
   return fetch(API_URL + "/goals", { headers })
     .then(res => res.json())
@@ -83,21 +128,20 @@ Api.getPresignedGoalUrl = (id, filename) => {
   )
     .then(res => res.json())
     .catch(error => {
-      console.log("Error fetching Goals: ", error);
+      console.log("Error fetching Goal pre-signed URL: ", error);
     });
 };
 
-Api.updateGoalImage = (goal, data, uploadUrl, fileUrl) => {
+Api.updateGoalImage = (id, data, uploadUrl, fileUrl) => {
   return uploadFileToAws(uploadUrl, data).then(res => {
     if (res) {
       console.log("Failed to upload image to AWS", uploadUrl);
       return { message: res };
     } else {
-      goal.image_url = fileUrl;
-      return fetch(API_URL + "/goals/" + goal.id, {
+      return fetch(API_URL + "/goals/" + id, {
         method: "PUT",
         headers,
-        body: JSON.stringify(goal)
+        body: JSON.stringify({ avatar_url:  fileUrl })
       })
         .then(res => res.json())
         .catch(error => {

@@ -7,7 +7,7 @@ const initState = () => ({
   id: 0,
   email: "",
   name: "",
-  avatarURL: "",
+  avatar_url: "",
   image_data_url: "",
   image_filename: ""
 });
@@ -16,17 +16,16 @@ class UserForm extends Component {
   constructor(props) {
     super(props);
     const user  = props.user ? props.user : {};
-    const { name, avatarURL } = user;
+    const { name, avatar_url } = user;
     this.state = this.props.initForm;
-    this.state.name = name;
-    this.state.avatarURL = avatarURL;
+    this.state.name = name || "";
+    this.state.avatar_url = avatar_url || "";
     this.maxHeight = 250;
   }
 
   handleSubmit = event => {
     event.preventDefault();
-    const { name, avatarURL } = this.state;
-    this.props.handleSubmit( name, avatarURL );
+    this.props.handleSubmit(this.state);
     this.setState(initState);
   };
 
@@ -44,7 +43,7 @@ class UserForm extends Component {
   };
 
   render() {
-    const { name, avatarURL } = this.state;
+    const { name, avatar_url } = this.state;
     return (
       <form className="form box" onSubmit={this.handleSubmit}>
         <div>
@@ -64,7 +63,7 @@ class UserForm extends Component {
             handleImageChange={this.handleImageChange}
             className="image-input"
             maxHeight={this.maxHeight}
-            value={avatarURL}
+            value={avatar_url}
             onChange={this.handleChange}
           />
         </div>

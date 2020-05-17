@@ -40,14 +40,13 @@ const signUpConfig = {
 
 class Authenticate extends Component {
   componentDidMount() {
-    console.log("Authenticate ComponentDidMount props : ", this.props);
     const { dispatch, authData } = this.props;
     const { attributes , name, picture } = authData;
     // For Cognito pool auth, authData is stored in attributes,
     // otherwise email, name and picture are provided from 3rd party in authData directly
     const email = attributes ? attributes.email : authData.email;
-    dispatch(handleInititalData(email, name, picture));
-    dispatch(handleAuthenticateUser(email));
+    dispatch(handleInititalData());
+    dispatch(handleAuthenticateUser(email, name, picture));
   }
 
   render() {

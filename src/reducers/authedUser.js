@@ -1,9 +1,10 @@
 import { createReducer } from "@reduxjs/toolkit";
-import {authenticateUser, logoutUser} from "../actions/authedUser";
+import {authenticateUser, logoutUser, updateUser} from "../actions/authedUser";
 
 const authedUser = createReducer(null,{
   [authenticateUser]: (state, action) => action.payload,
-  [logoutUser]: (state, action) => null
+  [updateUser]: (state, action) => action.payload,
+  [logoutUser]: () => null
 });
 
 export default authedUser;

@@ -6,7 +6,6 @@ import "./Nav.css";
 class Nav extends Component {
   render() {
     const { loginLink, goalId, section } = this.props;
-    console.log("Nav: section: ", section);
     return (
       <nav className="container-grid layout-section navigation">
         <div className="nav-bar">

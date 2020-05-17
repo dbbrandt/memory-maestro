@@ -11,13 +11,15 @@ class Heading extends Component {
   };
 
   render() {
-    const { currentUser, title, buttonText } = this.props;
+    const { authedUser, title, buttonText } = this.props;
+    const  name  = authedUser ? authedUser.name : "";
+    const profileName = !!name ? `Hi ${name}!` : 'Click to update profile.';
     return (
       <header className="container-grid layout-section header">
         <div>
           <img className="lo  go" alt="Would You Rather?" src={headerImage} />
         </div>
-        {!!currentUser && (
+        {!!authedUser && (
           <Fragment>
             <div className="goal-heading">
               <div>Goal: {title}</div>
@@ -26,11 +28,11 @@ class Heading extends Component {
               </div>
             </div>
             <div className="user-name">
-              <div>Hi {currentUser.name}!</div>
+              <div><Link to="/user">{profileName}</Link></div>
             </div>
             <div className="user-image">
               <Link to="/user">
-                <img alt={currentUser.name} src={currentUser.avatarURL} />
+                <img alt={authedUser.name} src={authedUser.avatar_url} />
               </Link>
             </div>
           </Fragment>
@@ -39,12 +41,12 @@ class Heading extends Component {
     );
   }
 }
-const mapStateToProps = ({ users, authedUser, selections, goals }) => {
+const mapStateToProps = ({  authedUser, selections, goals }) => {
   const goalId = selections.goal;
   const goal = goalId ? goals[goalId] : null;
   const title = goal ? goal.title : "None Selected";
   return {
-    currentUser: !!users ? users[authedUser] : {},
+    authedUser,
     buttonText: goal ? "Edit" : "Add",
     goal,
     title
