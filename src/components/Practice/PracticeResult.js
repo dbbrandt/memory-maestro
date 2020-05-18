@@ -7,7 +7,12 @@ import star from "../../assets/halfstar.png";
 class PracticeResult extends Component {
   handleRestart = () => {
     const { history } = this.props;
-    history.push('/practice-round?size=5');
+    history.push("/practice-round?size=5");
+  };
+
+  handleDetailClick = () => {
+    const { history, round_id } = this.props;
+    history.push(`/round-detail/${round_id}`)
   };
 
   render() {
@@ -18,9 +23,9 @@ class PracticeResult extends Component {
       <div className="result-detail">
         <div className="result-stats">
           {pct_correct >= 80 ? (
-            <img className="result-img" alt="well done" src={smiley}/>
+            <img className="result-img" alt="well done" src={smiley} />
           ) : (
-            <img className="result-img" alt="nice try" src={star}/>
+            <img className="result-img" alt="nice try" src={star} />
           )}
           <div className="result-heading">
             <h3>{title}</h3>
@@ -35,20 +40,32 @@ class PracticeResult extends Component {
           </button>
         </div>
         <div>
-          <button  className="result-button" onClick={() => history.push(`/practice/${goalId}`)}>
+          <button
+            className="result-button"
+            onClick={() => history.push(`/practice/${goalId}`)}
+          >
             Practice Page
+          </button>
+        </div>
+        <div>
+          <button
+            className="result-button"
+            onClick={this.handleDetailClick}
+          >
+            Quiz Results
           </button>
         </div>
       </div>
     );
   }
 }
-const mapStateToProps = ({ selections, goals }) => {
+const mapStateToProps = ({ selections, goals, round }) => {
   const goalId = selections.goal;
   const { title } = goals[goalId];
   return {
     goalId,
-    title
+    title,
+    round_id: round[goalId].round_id
   };
 };
 

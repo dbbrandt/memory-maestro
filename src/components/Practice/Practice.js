@@ -8,6 +8,7 @@ import {
   setRoundSize,
   setSection
 } from "../../actions/selections";
+import {handleFetchRounds} from "../../actions/rounds";
 
 class Practice extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class Practice extends Component {
     if (selections.goal !== Number(goalId)) {
       dispatch(setGoal(goalId));
     }
+    dispatch(handleFetchRounds(goalId));
   };
 
   handleClick = () => {
