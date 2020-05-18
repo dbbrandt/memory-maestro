@@ -51,7 +51,7 @@ const round = createReducer(
     },
     [fetchRoundResponses]: (state, action) => {
       const { goalId, roundId, responses} = action.payload;
-      if (state[goalId].round_id === roundId) {
+      if (state[goalId] && state[goalId].round_id === roundId) {
         state[goalId]["round_responses"] = responses;
       }
     }

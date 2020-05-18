@@ -1,5 +1,7 @@
 .response-totals {
     padding: 20px;
+    max-width: 300px;
+    margin: auto;
 }
 
 .response-line {

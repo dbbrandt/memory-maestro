@@ -25,9 +25,8 @@ export const handleStartRound = (goalId, size) => {
   };
 };
 
-export const handleSubmitRoundDetail = (goalId, interactionId, round, answer, correct) => {
+export const handleSubmitRoundDetail = (goalId, interactionId, round, answer, correct, score=0) => {
   return dispatch => {
-    const score = correct ? 100 : 0;
     const review = !!correct;
     const actualAnswer = correct ? answer : "";
     Api.submitReview(goalId, interactionId , round.round_id, actualAnswer, score, correct, review)
