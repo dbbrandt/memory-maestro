@@ -6,7 +6,7 @@ const rounds = createReducer([], {
   [fetchRoundResponses]: (state, action) => {
     const {roundId, responses} = action.payload;
     const index = state.findIndex(r => r.id === roundId);
-    if (index !== -1) state[round_idx]["round_responses"] = responses;
+    if (index !== -1) state[index]["round_responses"] = responses;
   }
 });
 
