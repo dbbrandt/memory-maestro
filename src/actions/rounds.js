@@ -30,7 +30,7 @@ export const handleFetchRoundResponses = (goalId, roundId) => {
     dispatch(showLoading());
     Api.fetchRoundResponses(goalId, roundId)
       .then(responses => {
-        dispatch(fetchRoundResponses({ roundId, responses }));
+        dispatch(fetchRoundResponses({ goalId, roundId, responses }));
         dispatch(setLoading(false));
         dispatch(hideLoading());
       })
