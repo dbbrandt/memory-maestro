@@ -25,8 +25,7 @@ class PracticeRound extends Component {
     dispatch(handleSubmitRoundDetail(goalId, interaction.id, round,  answer, correct ));
     if (current + 1 >= round.interactions.length) {
       dispatch(completeRound({ goalId }));
-      history.push(
-        `round-result?answered=${answeredCount + 1}&correct=${correctCount +
+      history.push(`practice-result?answered=${answeredCount + 1}&correct=${correctCount + 
         (correct ? 1 : 0)}`
       );
       this.setState(InitialData);

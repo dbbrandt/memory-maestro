@@ -1,5 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {completeRound, startRound, initResults, submitRoundDetail } from "../actions/round";
+import {fetchRoundResponses} from "../actions/rounds";
 
 const InitialResults = {
   round_id: 0,
@@ -47,6 +48,12 @@ const round = createReducer(
         ...state[goalId],
         ...InitialResults
       };
+    },
+    [fetchRoundResponses]: (state, action) => {
+      const { goalId, roundId, responses} = action.payload;
+      if (state[goalId].round_id === roundId) {
+        state[goalId]["round_responses"] = responses;
+      }
     }
   }
 );

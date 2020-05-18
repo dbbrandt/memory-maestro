@@ -15,7 +15,8 @@ class RoundDetail extends Component {
   render() {
     const { round } = this.props;
     const { created_at, correct, score, total } = round;
-    return (
+    if (!round.id) return <h1>No round loaded.</h1>
+     return (
       <div className="box">
         <div className="header-box">Round Detail</div>
         <div className="response-totals">
@@ -43,10 +44,10 @@ class RoundDetail extends Component {
 }
 const mapStateToProps = ({ selections, rounds }, { match }) => {
   const round_id = Number(match.params.id);
-  const round = rounds.filter(r => r.id === round_id)[0];
+  const index = rounds.findIndex(r => r.id === round_id);
   return {
     goalId: selections.goal,
-    round
+    round: index === -1 ? {} : rounds[index]
   };
 };
 

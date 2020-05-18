@@ -22,6 +22,7 @@ import Authenticate from "./components/login/Authenticate";
 import PracticeRound from "./components/Practice/PracticeRound";
 import PracticeResult from "./components/Practice/PracticeResult";
 import PrivacyPolicy from "./components/footer/PrivacyPolicy";
+import PracticeDetail from "./components/Practice/PracticeDetail";
 
 const federated = {
   google_client_id: "830910274774-gdo0bc4rne1fl7ab26gmi4ikfvpipu7t.apps.googleusercontent.com"
@@ -54,7 +55,8 @@ class App extends Component {
                   <Route path="/round-detail/:id" component={RoundDetail}/>
                   <Route path="/practice/:goalId" component={Practice}/>
                   <Route path="/practice-round" component={PracticeRound}/>
-                  <Route path="/round-result" component={PracticeResult}/>
+                  <Route path="/practice-result" component={PracticeResult}/>
+                  <Route path="/practice-detail" component={PracticeDetail}/>
                   <Route path="/privacy-policy" component={PrivacyPolicy}/>
                   <Route path="*" component={NotFound}/>
                 </Switch>

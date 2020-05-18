@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 class RoundResponses extends Component {
   getStimulus = prompt => {
     if (!prompt) return null;
-    console.log("RoundResponses getStimulus: prompt: ", prompt);
     if (!prompt.stimulus_url) {
       return <span>{prompt.copy}</span>;
     } else {
