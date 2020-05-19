@@ -7,3 +7,4 @@ export const setGoal = createAction("SET_GOAL");
 export const setInteraction = createAction("SET_INTERACTION");
 export const setSection = createAction("SET_SECTION");
 export const setRoundSize = createAction("SET_ROUND_SIZE");
+export const setTextInput = createAction("SET_TEXT_INPUT");

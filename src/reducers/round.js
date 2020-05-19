@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import {completeRound, startRound, initResults, submitRoundDetail } from "../actions/round";
+import {completeRound, startRound, initResults, submitRoundDetail, submitRoundCheck} from "../actions/round";
 import {fetchRoundResponses} from "../actions/rounds";
 
 const InitialResults = {
@@ -24,15 +24,27 @@ const round = createReducer(
         interactions
       };
     },
+    [submitRoundCheck]: (state, action) => {
+      const { goalId, interactionId, answer, correct, score } = action.payload;
+      const interactions = state[goalId].interactions;
+      const interaction = interactions.filter(i => i.id === interactionId)[0];
+      interaction["answer"] = answer;
+      interaction["correct"] = correct;
+      interaction["score"] = score;
+    },
     [submitRoundDetail]: (state, action) => {
-      const { goalId, roundId, correct } = action.payload;
-      const { submitCount, correctCount } = state[goalId];
-      state[goalId] = {
-        ...state[goalId],
-        round_id: roundId,
-        submitCount: submitCount + 1,
-        correctCount: correct ? correctCount + 1 : correctCount
-      }
+      const { goalId, interactionId, roundId, answer, correct, score, review } = action.payload;
+      const round = state[goalId];
+      const { submitCount, correctCount } = round;
+      const interactions = state[goalId].interactions;
+      const interaction = interactions.filter(i => i.id === interactionId)[0];
+      round["round_id"] = roundId;
+      round["submitCount"] = submitCount + 1;
+      round["correctCount"] = review ? correctCount + 1 : correctCount;
+      interaction["answer"] = answer;
+      interaction["correct"] = correct;
+      interaction["score"] = score;
+      interaction["review"] = review;
     },
     [completeRound]: (state, action) => {
       const { goalId } = action.payload;
@@ -51,7 +63,7 @@ const round = createReducer(
     },
     [fetchRoundResponses]: (state, action) => {
       const { goalId, roundId, responses} = action.payload;
-      if (state[goalId].round_id === roundId) {
+      if (state[goalId] && state[goalId].round_id === roundId) {
         state[goalId]["round_responses"] = responses;
       }
     }

@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import {setGoal, setInteraction, setSection, setRoundSize} from "../actions/selections";
+import {setGoal, setInteraction, setSection, setRoundSize, setTextInput} from "../actions/selections";
 import {addGoal, deleteGoal, updateGoal} from "../actions/goals";
 import {addInteraction, deleteInteraction, updateInteraction} from "../actions/interactions";
 
@@ -36,6 +36,9 @@ const selections = createReducer(
     },
     [setRoundSize]: (state, action) => {
       state.roundSize = action.payload;
+    },
+    [setTextInput]: (state, action) => {
+      state.textInput = action.payload;
     }
 
   }

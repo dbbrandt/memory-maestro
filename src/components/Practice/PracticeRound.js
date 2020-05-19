@@ -18,22 +18,23 @@ class PracticeRound extends Component {
     if (goalId) dispatch(handleStartRound(goalId, roundSize));
   }
 
-  handleSubmit = (interaction, answer, correct) => {
-    const { goalId, round, dispatch, history } = this.props;
+  handleSubmit = (interaction, answer, review) => {
+    const { goalId, round, dispatch, history, textInput } = this.props;
     const { current, answeredCount, correctCount, answerList } = this.state;
-
-    dispatch(handleSubmitRoundDetail(goalId, interaction.id, round,  answer, correct ));
+    const calcCorrect = textInput ? interaction["correct"] : review;
+    const calcScore = textInput ? interaction["score"] : 0;
+    dispatch(handleSubmitRoundDetail(goalId, interaction.id, round, answer, calcCorrect, calcScore, review ));
     if (current + 1 >= round.interactions.length) {
       dispatch(completeRound({ goalId }));
       history.push(`practice-result?answered=${answeredCount + 1}&correct=${correctCount + 
-        (correct ? 1 : 0)}`
+        (review ? 1 : 0)}`
       );
       this.setState(InitialData);
     } else {
       this.setState({
         current: current + 1,
         answeredCount: answeredCount + 1,
-        correctCount: correctCount + (correct ? 1 : 0),
+        correctCount: correctCount + (review ? 1 : 0),
         questionsAnswered: answerList.push(interaction)
       });
     }
@@ -60,10 +61,11 @@ class PracticeRound extends Component {
 }
 
 const mapStateToProps = ({ selections, round, loading }) => {
-  const { goal, roundSize } = selections;
+  const { goal, roundSize, textInput } = selections;
   return {
     goalId: goal,
     roundSize,
+    textInput,
     round: round[goal] || {},
     loading
   };

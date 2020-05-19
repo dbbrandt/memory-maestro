@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import Switch from "react-switch";
 import "./Practice.css";
 import {
   GOAL_SECTION,
   setGoal,
   setRoundSize,
+  setTextInput,
   setSection
 } from "../../actions/selections";
 
@@ -13,12 +15,17 @@ class Practice extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      roundSize: props.roundSize
+      roundSize: props.roundSize,
+      textInput: props.textInput
     };
   }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleSwitchChange = (textInput) => {
+    this.setState({ textInput })
   };
 
   componentDidMount = () => {
@@ -36,14 +43,15 @@ class Practice extends Component {
 
   handleStartRound = () => {
     const { history, dispatch } = this.props;
-    const { roundSize } = this.state;
+    const { roundSize, textInput } = this.state;
     dispatch(setRoundSize(Number(roundSize)));
+    dispatch(setTextInput(textInput));
     history.push("/practice-round");
   };
 
   render() {
     const { goal, round, history } = this.props;
-    const { roundSize } = this.state;
+    const { roundSize, textInput } = this.state;
     const { submitCount, correctCount, attemptCount, completionCount } = round;
     const score = submitCount
       ? ((100 * correctCount) / submitCount).toFixed(1)
@@ -96,13 +104,24 @@ class Practice extends Component {
           <div>
             <span> of </span>
             <input
-              size={2}
-              maxLength={2}
+              size={4}
+              maxLength={4}
               className="round-size"
               name="roundSize"
               value={roundSize}
               onChange={this.handleChange}
             />
+          </div>
+          <div className="round-text-toggle">
+            <div style={{paddingRight: 10}}> Text input on: </div>
+            <div>
+              <Switch
+                onColor="#6495ed"
+                name="textInput"
+                checked={textInput}
+                onChange={this.handleSwitchChange}
+              />
+            </div>
           </div>
           <div className="btn">
             <button
@@ -120,13 +139,14 @@ class Practice extends Component {
 
 const mapStateToProps = ({ goals, selections, round }, { match }) => {
   const goalId = match.params.goalId;
-  const { roundSize } = selections;
+  const { roundSize, textInput } = selections;
   return {
     goalId,
     goal: goals[goalId],
     selections,
     round: round[goalId] || {},
-    roundSize: roundSize || 10
+    roundSize: roundSize || 10,
+    textInput: !!textInput
   };
 };
 

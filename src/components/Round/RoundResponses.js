@@ -32,7 +32,8 @@ class RoundResponses extends Component {
               <th>Prompt</th>
               <th>Answer</th>
               <th>Correct Answer</th>
-              <th>Review</th>
+              <th>Review Correct</th>
+              <th>Match</th>
             </tr>
             </thead>
             <tbody>
@@ -43,7 +44,8 @@ class RoundResponses extends Component {
                 <td>{this.getStimulus(response.interaction.prompt)}</td>
                 <td>{response.answer}</td>
                 <td>{response.interaction.criterion.descriptor}</td>
-                <td>{response.review}</td>
+                <td>{response.review_is_correct ? "Yes" : "No"}</td>
+                <td>{response.score}</td>
               </tr>
             ))}
             </tbody>
