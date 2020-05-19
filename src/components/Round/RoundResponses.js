@@ -16,6 +16,16 @@ class RoundResponses extends Component {
       );
     }
   };
+
+  getDescriptor = interaction => {
+    if (interaction.hasOwnProperty("criterion")) {
+      return interaction.criterion.descriptor;
+    } else {
+      const criterion = interaction.contents.filter(c => c.content_type === "Criterion" && c.score > 0);
+      return criterion.map(c => c.descriptor).join(" / ");
+    }
+  };
+
   render() {
     const { round, loading } = this.props;
     const { round_responses } = round;
@@ -43,7 +53,7 @@ class RoundResponses extends Component {
                 <td>{response.is_correct ? "Yes" : "No"}</td>
                 <td>{this.getStimulus(response.interaction.prompt)}</td>
                 <td>{response.answer}</td>
-                <td>{response.interaction.criterion.descriptor}</td>
+                <td>{this.getDescriptor(response.interaction)}</td>
                 <td>{response.review_is_correct ? "Yes" : "No"}</td>
                 <td>{response.score}</td>
               </tr>
