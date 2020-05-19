@@ -303,7 +303,16 @@ Api.startRound = (id, size) => {
     });
 };
 
-Api.submitReview = (goalId, id, round, answer, score, correct, review) => {
+Api.checkAnswer = (goalId, id, answer) => {
+  console.log(`API.checkAnswer goalId: ${goalId} interactionId: ${id}`);
+  return fetch(`${API_URL}/goals/${goalId}/interactions/${id}/check_answer?answer=${answer}`, { headers })
+    .then(response => response.json())
+    .catch(error => {
+      console.log("Error checking round answer: ", error);
+    });
+};
+
+Api.submitReview = (goalId, id, round, answer, correct, score, review) => {
   return fetch(`${API_URL}/goals/${goalId}/interactions/${id}/submit_review`, {
     method: "POST",
     headers,

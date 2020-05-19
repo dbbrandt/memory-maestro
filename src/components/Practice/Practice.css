@@ -188,3 +188,6 @@
     align-items: center;
 }
 
+.round-textarea {
+    border: 1px solid lightgrey;
+}
