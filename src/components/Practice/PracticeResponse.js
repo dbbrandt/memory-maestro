@@ -12,10 +12,15 @@ class PracticeResponse extends Component {
     answer: ""
   };
 
+  calcTextSize = text => {
+    return 18 - Math.floor(text.length/100)
+  };
+
   getStimulus = (title, prompt) => {
     if (!prompt) return null;
     if (prompt.stimulus_url === "") {
-      return <div className="detail-text detail-copy">{prompt.copy}</div>;
+      const fontSize = {fontSize: this.calcTextSize(prompt.copy)};
+      return <div className="detail-text detail-copy" style={fontSize}>{prompt.copy}</div>;
     } else {
       return (
         <img alt={title} src={prompt.stimulus_url} className="stimulus-img" />
@@ -42,7 +47,9 @@ class PracticeResponse extends Component {
   };
 
   getDescriptor = interaction => {
-    return interaction.criterion[0].descriptor;
+    const descriptor = interaction.criterion[0].descriptor;
+    const fontSize = {fontSize: this.calcTextSize(descriptor)};
+    return <span style={fontSize}>{descriptor}</span>
   };
 
   showContent = interaction => {
@@ -71,7 +78,7 @@ class PracticeResponse extends Component {
     const toFace = face === FRONT ? BACK : FRONT;
     return (
       <div className="detail-container">
-        <div style={{ textAlign: "left" }}>
+        <div>
           {current + 1} of {totalCards}
         </div>
         <div className="detail">
