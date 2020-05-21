@@ -192,3 +192,12 @@
 .round-textarea {
     border: 1px solid lightgrey;
 }
+
+.response-feedback {
+    display: flex;
+    flex-direction: row;
+}
+
+.response-feedback-item {
+    margin: 10px;
+}
