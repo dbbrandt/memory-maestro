@@ -51,6 +51,14 @@ class PracticeResponse extends Component {
     this.props.onSubmit(interaction, answer, review);
   };
 
+  handleKeyPress = (event, interaction) => {
+    const { face } = this.state;
+    if(event.key === 'Enter'){
+      event.preventDefault();
+      face === FRONT ?  this.handleFlip() : this.handleSubmit(interaction, interaction.correct);
+    }
+  };
+
   getDescriptor = interaction => {
     const descriptor = interaction.criterion[0].descriptor;
     const fontSize = { fontSize: this.calcTextSize(descriptor) };
@@ -99,6 +107,7 @@ class PracticeResponse extends Component {
                 name="answer"
                 value={answer}
                 onChange={this.handleChange}
+                onKeyPress={(event) => this.handleKeyPress(event, interaction)}
               />
             </div>
           )}
@@ -130,6 +139,12 @@ class PracticeResponse extends Component {
                   </button>
                 </div>
               </div>
+            </div>
+          )}
+          { textInput && showButtons && (
+            <div className="response-feedback">
+              <div className="response-feedback-item light-blue">Match: {Math.floor(interaction.score * 100)}%</div>
+              <div className="response-feedback-item light-blue">AutoCheck: {interaction.correct ? "Correct" : "Incorrect"}</div>
             </div>
           )}
         </div>
