@@ -8,9 +8,8 @@ export const logoutUser = createAction('LOGOUT_USER');
 
 export const handleAuthenticateUser = ( email, name, picture ) => {
   return (dispatch) => {
-    Api.fetchUsers()
-      .then(users => {
-        const user = users.filter(u => u.email === email)[0];
+    Api.fetchUser(email)
+      .then(user => {
         if (user) {
           Api.updateUser({
               id: user.id,

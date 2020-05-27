@@ -44,11 +44,11 @@ const fixupInteractionImage = interactions => {
 let Api = {};
 
 
-Api.fetchUsers = () => {
-  return fetch(API_URL + "/users", { headers })
+Api.fetchUser = (email) => {
+  return fetch(API_URL + `/users/${email}`, { headers })
     .then(res => res.json())
     .catch(error => {
-      console.log("Error fetching Users: ", error);
+      console.log("Error fetching User: ", error);
     });
 };
 
