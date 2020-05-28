@@ -1,5 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
 import Api from "../utils/api";
+import {handleInititalData} from "./shared";
 
 export const authenticateUser = createAction('AUTHENTICATE_USER');
 export const updateUser = createAction('UPDATE_USER');
@@ -17,7 +18,10 @@ export const handleAuthenticateUser = ( email, name, picture ) => {
               name: user.name || name,
               avatar_url: user.avatar_url || picture
           })
-            .then(user => dispatch(authenticateUser(user)));
+            .then(user => {
+              dispatch(authenticateUser(user));
+              dispatch(handleInititalData());
+            });
         } else {
           Api.addUser({ email, name, avatar_url: picture })
             .then(user => dispatch(authenticateUser(user)))

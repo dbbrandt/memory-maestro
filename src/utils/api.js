@@ -43,8 +43,13 @@ const fixupInteractionImage = interactions => {
 
 let Api = {};
 
+Api.setToken = (token) => {
+  headers["Authorization"] = `Bearer ${token}`;
+};
 
 Api.fetchUser = (email) => {
+  const TOKEN = "ab4ded14b54653efa0a619368fd9b57aa2794b5bed81a01ecee8ebc526cdc70b6d057664cc7b2f0f868fc499b57b8091a416b413e258bcf778bc54117bfcfa29";
+  Api.setToken(TOKEN);
   return fetch(API_URL + `/users/${email}`, { headers })
     .then(res => res.json())
     .catch(error => {
