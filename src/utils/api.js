@@ -10,7 +10,8 @@ const dev = {
   API_URL: "http://localhost/api"
 };
 
-const { BASE_URL, API_URL } = process.env.NODE_ENV === "development" ? dev : prod;
+const { BASE_URL, API_URL } =
+  process.env.NODE_ENV === "development" ? dev : prod;
 
 const headers = {
   Accept: "application/json",
@@ -41,16 +42,34 @@ const fixupInteractionImage = interactions => {
   return interactions;
 };
 
+const SECRET =
+  "ab4ded14b54653efa0a619368fd9b57aa2794b5bed81a01ecee8ebc526cdc70b6d057664cc7b2f0f868fc499b57b8091a416b413e258bcf778bc54117bfcfa29";
+
 let Api = {};
 
-Api.setToken = (token) => {
+Api.setToken = token => {
   headers["Authorization"] = `Bearer ${token}`;
 };
 
-Api.fetchUser = (email) => {
-  const TOKEN = "ab4ded14b54653efa0a619368fd9b57aa2794b5bed81a01ecee8ebc526cdc70b6d057664cc7b2f0f868fc499b57b8091a416b413e258bcf778bc54117bfcfa29";
-  Api.setToken(TOKEN);
-  return fetch(API_URL + `/users/${email}`, { headers })
+Api.authorize = email => {
+  Api.setToken(SECRET);
+  return fetch(API_URL + "/authorize", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ email: email })
+  })
+    .then(res => res.json())
+    .then(userdata => {
+      Api.setToken(userdata["auth_token"]);
+      return userdata["user"];
+    })
+    .catch(error => {
+      console.log("Error authorizing User: ", error);
+    });
+};
+
+Api.fetchUser = id => {
+  return fetch(API_URL + `/users/${id}`, { headers })
     .then(res => res.json())
     .catch(error => {
       console.log("Error fetching User: ", error);
@@ -58,6 +77,7 @@ Api.fetchUser = (email) => {
 };
 
 Api.addUser = user => {
+  Api.setToken(SECRET);
   user["password"] = "google";
   return fetch(API_URL + "/users", {
     method: "POST",
@@ -102,7 +122,7 @@ Api.updateUserImage = (user, data, uploadUrl, fileUrl) => {
       return fetch(API_URL + "/users/" + user.id, {
         method: "PUT",
         headers,
-        body: JSON.stringify({avatar_url: fileUrl})
+        body: JSON.stringify({ avatar_url: fileUrl })
       })
         .then(res => res.json())
         .catch(error => {
@@ -111,8 +131,8 @@ Api.updateUserImage = (user, data, uploadUrl, fileUrl) => {
     }
   });
 };
-Api.fetchGoals = () => {
-  return fetch(API_URL + "/goals", { headers })
+Api.fetchGoals = user_id => {
+  return fetch(API_URL + "/goals?user_id=" + user_id, { headers })
     .then(res => res.json())
     .then(data => {
       if (!data.message)
@@ -146,7 +166,7 @@ Api.updateGoalImage = (id, data, uploadUrl, fileUrl) => {
       return fetch(API_URL + "/goals/" + id, {
         method: "PUT",
         headers,
-        body: JSON.stringify({ avatar_url:  fileUrl })
+        body: JSON.stringify({ avatar_url: fileUrl })
       })
         .then(res => res.json())
         .catch(error => {
@@ -236,11 +256,17 @@ Api.getPresignedInteractionUrl = (goalId, id, filename) => {
     });
 };
 
-Api.updateInteractionImage = (interaction, goalId, data, uploadUrl, fileUrl) => {
+Api.updateInteractionImage = (
+  interaction,
+  goalId,
+  data,
+  uploadUrl,
+  fileUrl
+) => {
   return uploadFileToAws(uploadUrl, data).then(res => {
     if (res) {
       console.log(`Failed to upload image ${fileUrl} to AWS`, res);
-      return { message: res};
+      return { message: res };
     } else {
       interaction.prompt.stimulus_url = fileUrl;
       const { id } = interaction;
@@ -256,7 +282,6 @@ Api.updateInteractionImage = (interaction, goalId, data, uploadUrl, fileUrl) => 
     }
   });
 };
-
 
 Api.addInteraction = (interaction, goalId) => {
   return fetch(`${API_URL}/goals/${goalId}/interactions`, {
@@ -301,7 +326,9 @@ Api.fetchRounds = id => {
 };
 
 Api.startRound = (id, size) => {
-  return fetch(`${API_URL}/goals/${id}/interactions?size=${size}&deep=game`, { headers })
+  return fetch(`${API_URL}/goals/${id}/interactions?size=${size}&deep=game`, {
+    headers
+  })
     .then(interactions => interactions.json())
     .catch(error => {
       console.log("Error starting Round: ", error);
@@ -310,7 +337,10 @@ Api.startRound = (id, size) => {
 
 Api.checkAnswer = (goalId, id, answer) => {
   console.log(`API.checkAnswer goalId: ${goalId} interactionId: ${id}`);
-  return fetch(`${API_URL}/goals/${goalId}/interactions/${id}/check_answer?answer=${answer}`, { headers })
+  return fetch(
+    `${API_URL}/goals/${goalId}/interactions/${id}/check_answer?answer=${answer}`,
+    { headers }
+  )
     .then(response => response.json())
     .catch(error => {
       console.log("Error checking round answer: ", error);
@@ -321,8 +351,8 @@ Api.submitReview = (goalId, id, round, answer, correct, score, review) => {
   return fetch(`${API_URL}/goals/${goalId}/interactions/${id}/submit_review`, {
     method: "POST",
     headers,
-    body: JSON.stringify({round, answer, score, correct, review})}
-    )
+    body: JSON.stringify({ round, answer, score, correct, review })
+  })
     .then(response => response.json())
     .then(json => json.round)
     .catch(error => {
@@ -331,12 +361,14 @@ Api.submitReview = (goalId, id, round, answer, correct, score, review) => {
 };
 
 Api.fetchRoundResponses = (goalId, roundId) => {
-  return fetch(`${API_URL}/goals/${goalId}/rounds/${roundId}/round_responses?deep=true`, { headers })
+  return fetch(
+    `${API_URL}/goals/${goalId}/rounds/${roundId}/round_responses?deep=true`,
+    { headers }
+  )
     .then(result => result.json())
     .catch(error => {
       console.log("Error fetching RoundResponses: ", error);
     });
 };
-
 
 export default Api;

@@ -5,6 +5,7 @@ export const fetchGoals = createAction("FETCH_GOALS");
 export const addGoal = createAction("ADD_GOAL");
 export const updateGoal = createAction("UPDATE_GOAL");
 export const deleteGoal = createAction("DELETE_GOAL");
+export const clearGoals = createAction("CLEAR_GOALS");
 
 export const handleFetchGoals = () => {
   return dispatch => {
@@ -43,6 +44,7 @@ export const handleUpdateGoal = goal => {
           alert(res["message"]);
           } else {
           if (goal.image_data_url) {
+            console.log("handleUpdateGoal goal: ", goal);
             dispatch(handleUploadGoalImage(res, goal.image_filename, goal.image_data_url));
           } else {
             dispatch(updateGoal(res))

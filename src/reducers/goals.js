@@ -1,10 +1,11 @@
-import {addGoal, deleteGoal, fetchGoals, updateGoal} from "../actions/goals";
+import {addGoal, deleteGoal, fetchGoals, updateGoal, clearGoals} from "../actions/goals";
 import { createReducer } from "@reduxjs/toolkit";
 
 const goals = createReducer(
   {},
   {
     // convert array to map of objects keyed by id
+    [clearGoals]: () => ({}),
     [fetchGoals]: (state, action) => {
       action.payload.forEach(goal => (state[goal.id] = goal));
     },
