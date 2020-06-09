@@ -166,7 +166,7 @@ Api.updateGoalImage = (id, data, uploadUrl, fileUrl) => {
       return fetch(API_URL + "/goals/" + id, {
         method: "PUT",
         headers,
-        body: JSON.stringify({ avatar_url: fileUrl })
+        body: JSON.stringify({ image_url: fileUrl })
       })
         .then(res => res.json())
         .catch(error => {
