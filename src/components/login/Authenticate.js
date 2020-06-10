@@ -5,7 +5,6 @@ import Amplify, { Analytics } from "aws-amplify";
 import awsmobile from "../../aws-exports";
 import { withAuthenticator } from "aws-amplify-react";
 import { handleAuthenticateUser} from "../../actions/authedUser";
-import { handleInititalData } from "../../actions/shared";
 
 Amplify.configure(awsmobile);
 Analytics.disable();
@@ -45,7 +44,6 @@ class Authenticate extends Component {
     // For Cognito pool auth, authData is stored in attributes,
     // otherwise email, name and picture are provided from 3rd party in authData directly
     const email = attributes ? attributes.email : authData.email;
-    dispatch(handleInititalData());
     dispatch(handleAuthenticateUser(email, name, picture));
   }
 
