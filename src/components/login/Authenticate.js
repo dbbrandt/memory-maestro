@@ -44,6 +44,7 @@ class Authenticate extends Component {
     // For Cognito pool auth, authData is stored in attributes,
     // otherwise email, name and picture are provided from 3rd party in authData directly
     const email = attributes ? attributes.email : authData.email;
+    console.log("Authenticate componentDitMount: ", email);
     dispatch(handleAuthenticateUser(email, name, picture));
   }
 

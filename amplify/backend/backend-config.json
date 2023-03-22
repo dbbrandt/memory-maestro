@@ -1,10 +1,109 @@
 {
-    "auth": {
-        "memorymaestro1de21d5c": {
-            "service": "Cognito",
-            "providerPlugin": "awscloudformation",
-            "dependsOn": [],
-            "customAuth": false
-        }
+  "auth": {
+    "memorymaestroe7a88828": {
+      "customAuth": false,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "serviceType": "imported"
     }
+  },
+  "parameters": {
+    "AMPLIFY_auth_memorymaestroe7a88828_allowUnauthenticatedIdentities": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    },
+    "AMPLIFY_auth_memorymaestroe7a88828_authRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    },
+    "AMPLIFY_auth_memorymaestroe7a88828_authRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    },
+    "AMPLIFY_auth_memorymaestroe7a88828_googleClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    },
+    "AMPLIFY_auth_memorymaestroe7a88828_identityPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    },
+    "AMPLIFY_auth_memorymaestroe7a88828_identityPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    },
+    "AMPLIFY_auth_memorymaestroe7a88828_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    },
+    "AMPLIFY_auth_memorymaestroe7a88828_unauthRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    },
+    "AMPLIFY_auth_memorymaestroe7a88828_unauthRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    },
+    "AMPLIFY_auth_memorymaestroe7a88828_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    },
+    "AMPLIFY_auth_memorymaestroe7a88828_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    },
+    "AMPLIFY_auth_memorymaestroe7a88828_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "memorymaestroe7a88828"
+        }
+      ]
+    }
+  }
 }

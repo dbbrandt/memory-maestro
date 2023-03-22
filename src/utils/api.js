@@ -6,8 +6,8 @@ const prod = {
 };
 
 const dev = {
-  BASE_URL: "http://localhost",
-  API_URL: "http://localhost/api"
+  ç: "/",
+  API_URL: "/api"
 };
 
 const { BASE_URL, API_URL } =
