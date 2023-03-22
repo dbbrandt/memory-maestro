@@ -2,6 +2,7 @@
   "name": "memory-maestro",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@reduxjs/toolkit": "^1.1.0",
     "aws-amplify": "^2.2.5",
